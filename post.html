@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자람새</title>
+<style>
+  :root{
+    --bg: #eef1fb;
+    --card: #ffffff;
+    --blue: #6c8ef5;
+    --blue-light: #eaf0ff;
+    --text: #1f2430;
+    --text-sub: #8a8fa3;
+    --border: #edeff5;
+    --img-bg: #e4e7f0;
+  }
+  *{ box-sizing: border-box; }
+  body{
+    margin:0;
+    font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  header{
+    display:flex; align-items:center; justify-content:space-between;
+    background:#fff; padding: 14px 32px; border-bottom: 1px solid var(--border);
+    position: sticky; top:0; z-index: 10;
+  }
+  .logo{ display:flex; align-items:center; gap:10px; font-size: 1.3rem; font-weight:700; text-decoration:none; color: inherit; }
+  .logo svg{ width:30px; height:30px; }
+  .back-link{ font-size: .85rem; color: var(--text-sub); text-decoration:none; }
+  .back-link:hover{ color: var(--text); }
+  .header-right{ display:flex; align-items:center; gap:18px; }
+
+  .wrap{ max-width: 720px; margin: 28px auto; padding: 0 24px; }
+
+  .post-card{
+    background: var(--card);
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 1px 3px rgba(20,30,60,.04);
+  }
+  .cat-tag{
+    display:inline-block;
+    font-size: .74rem;
+    font-weight:700;
+    color: var(--blue);
+    background: var(--blue-light);
+    padding: 3px 10px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+  .post-card h1{ margin: 0 0 12px; font-size: 1.35rem; line-height:1.4; }
+
+  .post-meta{ display:flex; align-items:center; gap:10px; margin-bottom: 20px; }
+  .avatar{
+    width:38px; height:38px; border-radius:50%;
+    background: linear-gradient(135deg, #cfd8f6, #a9b8ea);
+    flex: 0 0 auto;
+  }
+  .post-meta .info strong{ display:block; font-size: .92rem; }
+  .post-meta .info span{ font-size: .78rem; color: var(--text-sub); }
+
+  .img-tile{
+    position:relative;
+    background: var(--img-bg);
+    border-radius: 12px;
+    overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .img-tile svg{ width:28px; height:28px; }
+  .detail-tile svg{ width:34px; height:34px; }
+
+  .gallery-detail{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:8px;
+    margin-bottom: 22px;
+  }
+  .gallery-detail .detail-tile{ aspect-ratio: 1/1; }
+
+  .post-content{
+    font-size: .96rem;
+    line-height:1.8;
+    color:#3a3f4d;
+    white-space: pre-wrap;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+  }
+  .post-content.center-aligned{
+    text-align: center;
+  }
+
+  .post-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+  }
+  .like-btn{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    background: #f5f6fa;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: .85rem;
+    font-weight:600;
+    color: var(--text-sub);
+    cursor:pointer;
+  }
+  .like-btn svg{ width:18px; height:18px; fill:none; stroke: var(--text-sub); }
+  .like-btn.liked{ background:#ffe9ec; border-color:#ffc9d1; color:#e0556c; }
+  .like-btn.liked svg{ fill:#e0556c; stroke:#e0556c; }
+  .comment-count-display{
+    display:flex; align-items:center; gap:6px;
+    font-size: .85rem; color: var(--text-sub);
+  }
+  .comment-count-display svg{ width:18px; height:18px; stroke: var(--text-sub); }
+
+  .report-btn{
+    margin-left:auto;
+    display:flex;
+    align-items:center;
+    gap:5px;
+    background:none;
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding: 8px 14px;
+    font-size:.8rem;
+    color: var(--text-sub);
+    cursor:pointer;
+  }
+  .report-btn svg{ width:15px; height:15px; stroke: var(--text-sub); }
+  .report-btn:hover{ color:#e0556c; border-color:#ffc9d1; background:#fff5f6; }
+  .report-btn:hover svg{ stroke:#e0556c; }
+  .report-btn:disabled{ cursor:default; opacity:.6; }
+  .report-panel{
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px solid var(--border);
+  }
+  .report-panel p{ margin:0 0 10px; font-size:.82rem; color: var(--text-sub); }
+  .report-reasons{ display:flex; flex-wrap:wrap; gap:8px; }
+  .report-reasons button{
+    background:#f5f6fa;
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:7px 14px;
+    font-size:.8rem;
+    color:#454b5c;
+    cursor:pointer;
+  }
+  .report-reasons button:hover{ background:#ffe9ec; border-color:#ffc9d1; color:#e0556c; }
+  .report-note{ font-size:.78rem; color: var(--text-sub); margin-top:10px; line-height:1.5; }
+
+  .expert-answer-card{
+    background: var(--card);
+    border-radius: 18px;
+    padding: 22px 26px;
+    margin-top: 16px;
+    box-shadow: 0 1px 3px rgba(20,30,60,.04);
+    border-left: 4px solid #2f9e6e;
+  }
+  .expert-answer-card.pending{ border-left-color:#e0a83f; }
+  .expert-answer-head{ display:flex; align-items:center; gap:10px; margin-bottom: 12px; }
+  .expert-avatar{
+    width:40px; height:40px; border-radius:50%;
+    background: linear-gradient(135deg, #bdeed7, #8fdcb8);
+    display:flex; align-items:center; justify-content:center;
+    flex: 0 0 auto;
+  }
+  .expert-avatar svg{ width:20px; height:20px; stroke:#1f7a52; }
+  .expert-answer-head .who strong{ display:block; font-size: .92rem; }
+  .expert-answer-head .who span{ font-size: .76rem; color: var(--text-sub); }
+  .answer-tag{
+    margin-left:auto;
+    font-size: .72rem;
+    font-weight:700;
+    color:#2f9e6e;
+    background:#e3f7ee;
+    padding: 3px 10px;
+    border-radius: 8px;
+    white-space:nowrap;
+  }
+  .expert-answer-body{
+    font-size: .92rem;
+    line-height:1.75;
+    color:#3a3f4d;
+    white-space: pre-wrap;
+  }
+  .pending-note{ font-size: .88rem; color: var(--text-sub); line-height:1.6; margin: 0 0 10px; }
+
+  .expert-cta button{
+    background:none;
+    border:none;
+    color: var(--blue);
+    font-weight:600;
+    cursor:pointer;
+    padding:0;
+    font-size:.82rem;
+    text-decoration:underline;
+  }
+  .expert-write-card{
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-top: 12px;
+  }
+  .expert-write-card h3{ margin:0 0 6px; font-size:.92rem; }
+  .expert-write-card .sub{ font-size:.78rem; color:var(--text-sub); margin:0 0 14px; }
+  .expert-profile-box{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    background:#e3f7ee;
+    border-radius:10px;
+    padding:10px 14px;
+    font-size:.84rem;
+    color:#1f7a52;
+    margin-bottom:14px;
+  }
+  .expert-profile-box svg{ width:16px; height:16px; flex: 0 0 auto; stroke:#1f7a52; }
+  .expert-write-card textarea{
+    width:100%;
+    min-height:110px;
+    padding:10px 14px;
+    border-radius:12px;
+    border:1px solid var(--border);
+    background:#f8f9fd;
+    font-size:.88rem;
+    font-family:inherit;
+    resize:vertical;
+    outline:none;
+    margin-bottom:10px;
+  }
+  .expert-write-card textarea:focus{ border-color: var(--blue); background:#fff; }
+  .submit-answer-btn{
+    background:#2f9e6e;
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    padding:10px 18px;
+    font-size:.85rem;
+    font-weight:700;
+    cursor:pointer;
+  }
+  .submit-answer-btn:hover{ background:#268057; }
+  .demo-registry-hint{
+    font-size:.74rem;
+    color: var(--text-sub);
+    margin-top:8px;
+    line-height:1.5;
+  }
+
+  .comments-card{
+    background: var(--card);
+    border-radius: 18px;
+    padding: 24px 28px;
+    margin-top: 16px;
+    box-shadow: 0 1px 3px rgba(20,30,60,.04);
+  }
+  .comments-card h2{ margin: 0 0 16px; font-size: 1.05rem; }
+  .comments-card h2 span{ color: var(--blue); }
+
+  .comment-form{ display:flex; gap:10px; margin-bottom: 20px; }
+  .comment-form textarea{
+    flex:1;
+    resize: vertical;
+    min-height: 44px;
+    max-height: 140px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: #f8f9fd;
+    font-size: .88rem;
+    font-family: inherit;
+    outline:none;
+  }
+  .comment-form textarea:focus{ border-color: var(--blue); background:#fff; }
+  .comment-form button{
+    flex: 0 0 auto;
+    background: var(--blue);
+    color:#fff;
+    border:none;
+    border-radius: 10px;
+    padding: 0 20px;
+    font-size: .85rem;
+    font-weight:700;
+    cursor:pointer;
+  }
+  .comment-form button:hover{ background:#5578e0; }
+
+  .comment-item{ padding: 12px; border-top: 1px solid var(--border); border-radius:10px; }
+  .comment-item:first-child{ border-top:none; padding-top:0; }
+  .comment-item.helpful{ background:#f3fbf7; border-top-color:transparent; }
+  .comment-head{ display:flex; align-items:baseline; flex-wrap:wrap; gap:8px; margin-bottom:4px; }
+  .comment-head strong{ font-size: .86rem; }
+  .comment-head span{ font-size: .74rem; color: var(--text-sub); }
+  .comment-item p{ margin:0; font-size: .88rem; line-height:1.5; color:#454b5c; }
+  .helpful-tag{
+    font-size:.72rem;
+    font-weight:700;
+    color:#2f9e6e !important;
+    background:#e3f7ee;
+    padding:2px 8px;
+    border-radius:8px;
+  }
+  .mark-helpful-btn{
+    margin-left:auto;
+    background:none;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:3px 10px;
+    font-size:.72rem;
+    color: var(--text-sub);
+    cursor:pointer;
+  }
+  .mark-helpful-btn:hover{ color: var(--blue); border-color: var(--blue); }
+
+  .no-comments{ font-size: .85rem; color: var(--text-sub); padding: 8px 0; }
+
+  .verify-card{
+    background:#fff8ec;
+    border:1px solid #ffe4b0;
+    border-radius:14px;
+    padding:18px 20px;
+    margin-bottom:20px;
+  }
+  .verify-head{ display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+  .verify-head svg{ width:20px; height:20px; stroke:#d99a1f; }
+  .verify-head strong{ font-size:.9rem; }
+  .verify-desc{ font-size:.8rem; color:var(--text-sub); margin:0 0 14px; line-height:1.5; }
+  .verify-row{ display:flex; gap:8px; }
+  .verify-row input{
+    flex:1;
+    padding:10px 12px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:#fff;
+    font-size:.86rem;
+    outline:none;
+    font-family:inherit;
+  }
+  .verify-row input:focus{ border-color: var(--blue); }
+  .verify-row button{
+    flex:0 0 auto;
+    background: var(--blue);
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    padding:0 16px;
+    font-size:.82rem;
+    font-weight:700;
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .verify-row button:hover{ background:#5578e0; }
+  .demo-code-box{
+    background:#eaf0ff;
+    border-radius:10px;
+    padding:10px 14px;
+    font-size:.82rem;
+    color:#3a4a86;
+    margin: 12px 0 10px;
+  }
+  .demo-code-box strong{ font-size:1rem; letter-spacing:.15em; color:#5578e0; }
+  .verify-error{ font-size:.78rem; color:#e0556c; margin-top:6px; }
+  .verify-done{ display:flex; align-items:center; gap:8px; font-size:.82rem; color:#2f9e6e; margin-bottom:14px; }
+  .verify-done svg{ width:16px; height:16px; stroke:#2f9e6e; }
+
+  .not-found{
+    text-align:center;
+    padding: 60px 20px;
+    color: var(--text-sub);
+    background: var(--card);
+    border-radius: 16px;
+  }
+
+  @media (max-width: 480px){
+    header{ padding: 12px 16px; }
+    .wrap{ padding: 0 14px; }
+    .post-card{ padding: 20px; }
+    .gallery-detail{ grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#6c8ef5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 8c0 3-2.5 4-5 4l-1 6h-3l-1-4c-3 0-6-2-6-6 0-1 .3-2 1-3 .5 1 1.5 1.5 2.5 1.5C8 4 10 3 12 3c1 0 2 .3 2.8.9C15.5 3.3 16.7 3 18 3c0 1.2-.4 2.2-1.2 3 1.4.5 2.2 1.2 3.2 2z"/>
+      <circle cx="16.5" cy="7.5" r=".6" fill="#6c8ef5"/>
+    </svg>
+    <span>자람새</span>
+  </a>
+  <div class="header-right">
+    <a class="back-link" href="profile.html">내 프로필</a>
+    <a class="back-link" id="backLink" href="index.html">← 목록으로</a>
+  </div>
+</header>
+
+<div class="wrap" id="wrap">
+</div>
+
+<script src="data.js"></script>
+<script src="auth.js"></script>
+<script>
+  const auth = requireAuth();
+
+  const params = new URLSearchParams(location.search);
+  const cat = params.get('cat');
+  const id = params.get('id');
+  const meta = CATEGORIES[cat];
+  const backHref = cat === 'story' ? 'index.html' : `board.html?cat=${cat}`;
+  document.getElementById('backLink').href = backHref;
+
+  let post = id ? getPostById(id) : null;
+  const wrap = document.getElementById('wrap');
+
+  const HEART_ICON = '<svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.35-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 5c-2.5 4.65-9.5 9-9.5 9z"/></svg>';
+  const COMMENT_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L3 20l1.1-5A8 8 0 1 1 21 12z"/></svg>';
+  const EXPERT_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 7l9 4 9-4-9-4z"/><path d="M3 7v6c0 2.5 4 4.5 9 4.5s9-2 9-4.5V7"/></svg>';
+  const FLAG_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v18"/><path d="M5 4h11l-2.5 4L16 12H5"/></svg>';
+
+  function expertAnswerHTML() {
+    if (cat !== 'expert') return '';
+    if (post.expertAnswer) {
+      const a = post.expertAnswer;
+      return `
+        <div class="expert-answer-card">
+          <div class="expert-answer-head">
+            <div class="expert-avatar">${EXPERT_ICON}</div>
+            <div class="who">
+              <strong>${escapeHTML(a.expert)}</strong>
+              <span>${escapeHTML(a.title)} · ${formatDate(a.date)}</span>
+            </div>
+            <span class="answer-tag">전문가 답변</span>
+          </div>
+          <div class="expert-answer-body">${escapeHTML(a.content)}</div>
+        </div>
+      `;
+    }
+    return `
+      <div class="expert-answer-card pending">
+        <div class="expert-answer-head">
+          <div class="expert-avatar">${EXPERT_ICON}</div>
+          <div class="who"><strong>답변 대기중</strong></div>
+          <span class="answer-tag" style="color:#b9793a;background:#fdf1e2;">확인중</span>
+        </div>
+        <p class="pending-note">해당 분야 전문가가 질문을 확인하고 있어요. 답변이 등록되면 알려드릴게요.</p>
+      </div>
+    `;
+  }
+
+  if (!post || !meta) {
+    wrap.innerHTML = `<div class="not-found">게시글을 찾을 수 없어요.</div>`;
+  } else if (post.hidden) {
+    wrap.innerHTML = `
+      <div class="not-found">
+        🚩 이웃들의 신고가 누적되어 운영팀이 검토 중인 게시글이에요.<br>
+        확인 후 다시 열리거나 처리될 예정입니다.
+      </div>
+    `;
+  } else {
+    document.title = `${post.title} · 자람새`;
+    wrap.innerHTML = `
+      <div class="post-card">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+          <span class="cat-tag">${escapeHTML(meta.label)}</span>
+          ${post.isAd ? `<span style="font-size:.74rem; background:#ffedd5; color:#c2410c; padding:3px 8px; border-radius:6px; font-weight:800; border:1px solid #fed7aa;">📢 안심 제휴·광고</span>` : ''}
+        </div>
+        <h1>${escapeHTML(post.title)}</h1>
+        <div class="post-meta">
+          <div class="avatar"></div>
+          <div class="info">
+            <strong>${escapeHTML(post.author)}${trustBadgeHTML(post.author)}</strong>
+            <span>${formatDate(post.date)}</span>
+          </div>
+        </div>
+        ${post.isAd ? `
+          <div style="background:#fff7ed; border:1px solid #fed7aa; border-radius:10px; padding:10px 14px; margin: 12px 0 16px; font-size:.82rem; color:#9a3412; display:flex; align-items:center; gap:8px;">
+            <span style="font-size:1.1rem;">📢</span>
+            <div>
+              <strong>[표시광고법 준수 고지]</strong>
+              <span style="font-size:.78rem; color:#c2410c; margin-left:4px;">본 글은 작성자의 광고·협찬·제휴 정보가 포함되어 있으며, 자람새 안심 광고 가이드라인을 확인하고 등록되었습니다.</span>
+            </div>
+          </div>
+        ` : ''}
+        ${galleryHTMLDetail(post.images, post.photos)}
+        <div class="post-content ${post.textAlign === 'center' ? 'center-aligned' : ''}">${escapeHTML(post.content)}</div>
+        <div class="post-actions">
+          <button class="like-btn" id="likeBtn">${HEART_ICON}<span id="likeCount">0</span></button>
+          <div class="comment-count-display">${COMMENT_ICON}<span id="commentCountTop">0</span></div>
+          <button class="report-btn" id="reportBtn">${FLAG_ICON}신고</button>
+        </div>
+        <div id="reportPanel"></div>
+      </div>
+
+      <div id="expertAnswerSlot">${expertAnswerHTML()}</div>
+      <div id="expertWriteArea"></div>
+
+      <div class="comments-card">
+        <h2>댓글 <span id="commentCount">0</span></h2>
+        <div id="commentWriteArea"></div>
+        <div id="commentList"></div>
+      </div>
+    `;
+
+    const likeBtn = document.getElementById('likeBtn');
+    const likeCountEl = document.getElementById('likeCount');
+    const commentCountTopEl = document.getElementById('commentCountTop');
+    const commentCountEl = document.getElementById('commentCount');
+    const commentListEl = document.getElementById('commentList');
+    const commentWriteArea = document.getElementById('commentWriteArea');
+    const reportBtn = document.getElementById('reportBtn');
+    const reportPanel = document.getElementById('reportPanel');
+    const REPORT_REASONS = ['비교·경쟁 조장', '비전문가 낙인성 진단', '특정 교사·기관 비방', '광고·스팸', '기타'];
+
+    function renderReportUI() {
+      const reports = post.reports || [];
+      const alreadyReported = auth && reports.some((r) => r.by === auth.id);
+
+      if (alreadyReported) {
+        reportBtn.textContent = '신고 접수됨';
+        reportBtn.disabled = true;
+        reportPanel.innerHTML = '';
+        return;
+      }
+
+      reportBtn.addEventListener('click', () => {
+        if (!auth) return;
+        if (!isPhoneVerified(auth.id)) {
+          reportPanel.innerHTML = `<div class="report-panel"><p>신고하려면 먼저 본인 인증이 필요해요. 댓글 작성 시 인증할 수 있어요.</p></div>`;
+          return;
+        }
+        reportPanel.innerHTML = `
+          <div class="report-panel">
+            <p>어떤 부분이 문제였나요?</p>
+            <div class="report-reasons">
+              ${REPORT_REASONS.map((r) => `<button type="button" data-reason="${r}">${r}</button>`).join('')}
+            </div>
+          </div>
+        `;
+        reportPanel.querySelectorAll('.report-reasons button').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            post = reportPost(post.id, auth.id, btn.dataset.reason);
+            if (post.hidden) {
+              location.reload();
+              return;
+            }
+            reportPanel.innerHTML = `<div class="report-panel"><p>신고가 접수됐어요. 다른 이웃 신고가 더해지면 운영팀 확인 전에도 자동으로 검토 대기 상태가 돼요.</p></div>`;
+            reportBtn.textContent = '신고 접수됨';
+            reportBtn.disabled = true;
+          });
+        });
+      }, { once: true });
+    }
+
+    let pendingExpertPhone = null;
+    let pendingExpertMatch = null;
+    let pendingExpertCode = null;
+
+    function renderExpertWriteArea() {
+      const area = document.getElementById('expertWriteArea');
+      if (cat !== 'expert' || post.expertAnswer || !auth) { area.innerHTML = ''; return; }
+
+      const expertProfile = getVerifiedExpert(auth.id);
+
+      if (expertProfile) {
+        area.innerHTML = `
+          <div class="expert-write-card">
+            <h3>전문가 답변 작성</h3>
+            <div class="expert-profile-box">${CHECK_ICON} ${escapeHTML(expertProfile.name)} · ${escapeHTML(expertProfile.title)}(으)로 인증된 계정이에요.</div>
+            <textarea id="expertAnswerInput" placeholder="답변을 자세히 작성해주세요"></textarea>
+            <button type="button" class="submit-answer-btn" id="submitAnswerBtn">답변 등록하기</button>
+            <div class="verify-error" id="answerError"></div>
+          </div>
+        `;
+        document.getElementById('submitAnswerBtn').addEventListener('click', () => {
+          const content = document.getElementById('expertAnswerInput').value.trim();
+          const err = document.getElementById('answerError');
+          if (!content) { err.textContent = '답변 내용을 입력해주세요.'; return; }
+          post = submitExpertAnswer(post.id, { expert: expertProfile.name, title: expertProfile.title, content });
+          adjustTrustScore(auth.id, 3);
+          document.getElementById('expertAnswerSlot').innerHTML = expertAnswerHTML();
+          renderExpertWriteArea();
+        });
+        return;
+      }
+
+      area.innerHTML = `<div class="expert-cta"><button type="button" id="expertCtaBtn">전문가이신가요? 답변 작성하기</button></div>`;
+
+      document.getElementById('expertCtaBtn').addEventListener('click', () => {
+        area.innerHTML = `
+          <div class="expert-write-card">
+            <h3>전문가 인증</h3>
+            <p class="sub">등록된 전문가 명단과 휴대폰 번호가 일치해야 답변을 작성할 수 있어요.</p>
+            <div class="verify-row">
+              <input type="tel" id="expertPhoneInput" placeholder="휴대폰 번호 (- 없이 입력)" maxlength="11">
+              <button type="button" id="expertSendCodeBtn">인증번호 받기</button>
+            </div>
+            <div class="verify-error" id="expertVerifyError1"></div>
+            <div id="expertVerifyStep2"></div>
+            <p class="demo-registry-hint">데모용 등록 전문가 연락처: 010-1111-2222(아동정신건강의학과 전문의) · 010-2222-3333(언어재활사) · 010-3333-4444(임상심리전문가)</p>
+          </div>
+        `;
+
+        document.getElementById('expertSendCodeBtn').addEventListener('click', () => {
+          const phone = document.getElementById('expertPhoneInput').value.replace(/[^0-9]/g, '');
+          const err1 = document.getElementById('expertVerifyError1');
+          const matched = findRegisteredExpert(phone);
+          if (!matched) {
+            err1.textContent = '등록된 전문가 명단과 일치하는 번호가 없어요.';
+            return;
+          }
+          err1.textContent = '';
+          pendingExpertPhone = phone;
+          pendingExpertMatch = matched;
+          pendingExpertCode = String(Math.floor(100000 + Math.random() * 900000));
+
+          document.getElementById('expertVerifyStep2').innerHTML = `
+            <div class="demo-code-box">데모 환경이라 실제 문자 대신 여기에 인증번호를 보여드려요 → <strong>${pendingExpertCode}</strong></div>
+            <div class="verify-row">
+              <input type="text" id="expertCodeInput" placeholder="인증번호 6자리" maxlength="6">
+              <button type="button" id="expertConfirmCodeBtn">인증하기</button>
+            </div>
+            <div class="verify-error" id="expertVerifyError2"></div>
+          `;
+
+          document.getElementById('expertConfirmCodeBtn').addEventListener('click', () => {
+            const entered = document.getElementById('expertCodeInput').value.trim();
+            const err2 = document.getElementById('expertVerifyError2');
+            if (entered !== pendingExpertCode) {
+              err2.textContent = '인증번호가 일치하지 않아요.';
+              return;
+            }
+            setVerifiedExpert(auth.id, { phone: pendingExpertPhone, name: pendingExpertMatch.name, title: pendingExpertMatch.title });
+            renderExpertWriteArea();
+          });
+        });
+      });
+    }
+
+    const PHONE_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>';
+    const CHECK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+    let pendingPhone = null;
+    let pendingCode = null;
+
+    function maskPhone(p) {
+      if (!p || p.length < 7) return p || '';
+      return `${p.slice(0, 3)}-****-${p.slice(-4)}`;
+    }
+
+    function handleCommentSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('commentInput');
+      const text = input.value.trim();
+      if (!text || !auth) return;
+      addComment(post.id, { author: auth.id, content: text });
+      post = getPostById(post.id);
+      input.value = '';
+      renderComments();
+      renderActions();
+    }
+
+    function renderCommentWriteArea() {
+      if (!auth) { commentWriteArea.innerHTML = ''; return; }
+
+      if (isPhoneVerified(auth.id)) {
+        commentWriteArea.innerHTML = `
+          <div class="verify-done">${CHECK_ICON} 휴대폰 인증 완료 (${maskPhone(getVerifiedPhone(auth.id))})</div>
+          <form class="comment-form" id="commentForm">
+            <textarea id="commentInput" placeholder="댓글을 남겨보세요"></textarea>
+            <button type="submit">등록</button>
+          </form>
+        `;
+        document.getElementById('commentForm').addEventListener('submit', handleCommentSubmit);
+        return;
+      }
+
+      commentWriteArea.innerHTML = `
+        <div class="verify-card">
+          <div class="verify-head">${PHONE_ICON}<strong>댓글을 작성하려면 본인 인증이 필요해요</strong></div>
+          <p class="verify-desc">다른 이용자를 보호하기 위한 최소한의 절차예요. 휴대폰 번호로 간단히 인증해주세요.</p>
+          <div class="verify-row">
+            <input type="tel" id="phoneInput" placeholder="휴대폰 번호 (- 없이 입력)" maxlength="11">
+            <button type="button" id="sendCodeBtn">인증번호 받기</button>
+          </div>
+          <div class="verify-error" id="verifyError1"></div>
+          <div id="verifyStep2"></div>
+        </div>
+      `;
+
+      document.getElementById('sendCodeBtn').addEventListener('click', () => {
+        const phone = document.getElementById('phoneInput').value.replace(/[^0-9]/g, '');
+        const err1 = document.getElementById('verifyError1');
+        if (phone.length < 9) {
+          err1.textContent = '휴대폰 번호를 정확히 입력해주세요.';
+          return;
+        }
+        err1.textContent = '';
+        pendingPhone = phone;
+        pendingCode = String(Math.floor(100000 + Math.random() * 900000));
+
+        document.getElementById('verifyStep2').innerHTML = `
+          <div class="demo-code-box">데모 환경이라 실제 문자 대신 여기에 인증번호를 보여드려요 → <strong>${pendingCode}</strong></div>
+          <div class="verify-row">
+            <input type="text" id="codeInput" placeholder="인증번호 6자리" maxlength="6">
+            <button type="button" id="confirmCodeBtn">인증하기</button>
+          </div>
+          <div class="verify-error" id="verifyError2"></div>
+        `;
+
+        document.getElementById('confirmCodeBtn').addEventListener('click', () => {
+          const entered = document.getElementById('codeInput').value.trim();
+          const err2 = document.getElementById('verifyError2');
+          if (entered !== pendingCode) {
+            err2.textContent = '인증번호가 일치하지 않아요. 다시 확인해주세요.';
+            return;
+          }
+          setPhoneVerified(auth.id, pendingPhone);
+          adjustTrustScore(auth.id, 5);
+          renderCommentWriteArea();
+        });
+      });
+    }
+
+    function renderActions() {
+      const likes = post.likes || [];
+      const liked = auth && likes.includes(auth.id);
+      likeBtn.classList.toggle('liked', !!liked);
+      likeCountEl.textContent = likes.length;
+      commentCountTopEl.textContent = (post.comments || []).length;
+    }
+
+    function renderComments() {
+      const comments = post.comments || [];
+      const canMarkHelpful = auth && post.author === auth.id;
+      commentCountEl.textContent = comments.length;
+      commentListEl.innerHTML = comments.length
+        ? comments.map(c => `
+          <div class="comment-item ${c.helpful ? 'helpful' : ''}">
+            <div class="comment-head">
+              <strong>${escapeHTML(c.author)}${trustBadgeHTML(c.author)}</strong>
+              <span>${formatDate(c.date)}</span>
+              ${c.helpful ? '<span class="helpful-tag">✓ 도움이 됐어요</span>' : ''}
+              ${canMarkHelpful && c.author !== auth.id ? `<button type="button" class="mark-helpful-btn" data-comment-id="${c.id}">${c.helpful ? '채택 취소' : '도움이 됐어요로 표시'}</button>` : ''}
+            </div>
+            <p>${escapeHTML(c.content)}</p>
+          </div>
+        `).join('')
+        : `<div class="no-comments">아직 댓글이 없어요. 첫 댓글을 남겨보세요!</div>`;
+
+      commentListEl.querySelectorAll('.mark-helpful-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const result = toggleCommentHelpful(post.id, btn.dataset.commentId);
+          if (!result) return;
+          post = result.post;
+          adjustTrustScore(result.comment.author, result.comment.helpful ? 2 : -2);
+          renderComments();
+        });
+      });
+    }
+
+    likeBtn.addEventListener('click', () => {
+      if (!auth) return;
+      post = toggleLike(post.id, auth.id);
+      renderActions();
+    });
+
+    renderActions();
+    renderComments();
+    renderCommentWriteArea();
+    renderExpertWriteArea();
+    renderReportUI();
+  }
+</script>
+
+</body>
+</html>

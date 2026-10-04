@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>클린 커뮤니티 & 공정 제휴 안심 서약관 · 자람새</title>
+<style>
+  :root{
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --blue: #4c6ef5;
+    --blue-dark: #364fc7;
+    --blue-light: #edf2ff;
+    --green: #10b981;
+    --green-light: #ecfdf5;
+    --amber: #f59f00;
+    --amber-light: #fffbeb;
+    --rose: #f43f5e;
+    --rose-light: #fff1f2;
+    --text: #0f172a;
+    --text-sub: #64748b;
+    --border: #e2e8f0;
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    --shadow-sm: 0 2px 8px rgba(15,23,42,0.05);
+    --shadow-md: 0 8px 24px rgba(15,23,42,0.08);
+  }
+  *{ box-sizing: border-box; }
+  body{
+    margin:0;
+    font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  header{
+    display:flex; align-items:center; justify-content:space-between;
+    background:#fff; padding: 0 28px; height: 64px;
+    border-bottom: 1px solid var(--border);
+    position: sticky; top:0; z-index: 50;
+  }
+  .logo-area{
+    display:flex; align-items:center; gap:10px;
+    text-decoration:none; color:inherit; font-weight:800; font-size:1.15rem;
+  }
+  .logo-tag{
+    font-size: .7rem; font-weight:700; background: var(--green-light); color: #059669;
+    padding: 2px 8px; border-radius: 6px;
+  }
+  .header-nav{ display:flex; align-items:center; gap:16px; }
+  .header-nav a{
+    font-size:.86rem; color: var(--text-sub); text-decoration:none; font-weight:600;
+    padding: 6px 12px; border-radius: 8px; transition: all .15s ease;
+  }
+  .header-nav a:hover{ color: var(--blue); background: var(--blue-light); }
+
+  .wrap{ max-width: 820px; margin: 36px auto 90px; padding: 0 20px; }
+
+  /* 헤더 히어로 */
+  .pledge-hero{
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    color: #fff;
+    border-radius: var(--radius-lg);
+    padding: 36px 36px;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+  }
+  .pledge-hero::after{
+    content: '';
+    position: absolute; right: -30px; bottom: -30px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(16,185,129,0.2) 0%, rgba(16,185,129,0) 70%);
+  }
+  .hero-badge{
+    display:inline-flex; align-items:center; gap:6px;
+    background: rgba(16,185,129,0.2); color: #34d399; border: 1px solid rgba(52,211,153,0.3);
+    font-size:.76rem; font-weight:700; padding: 4px 12px; border-radius: 20px; margin-bottom: 12px;
+  }
+  .pledge-hero h1{ margin:0 0 10px; font-size: 1.55rem; font-weight:800; }
+  .pledge-hero p{ margin:0; font-size:.92rem; color: #cbd5e1; max-width: 660px; line-height:1.65; }
+
+  /* 서약 대상 탭 */
+  .pledge-tabs{
+    display:flex; gap:10px; margin-bottom: 24px; flex-wrap:wrap;
+  }
+  .pledge-tab-btn{
+    flex: 1; min-width: 200px;
+    background: #fff; border: 1px solid var(--border); padding: 14px 18px;
+    border-radius: var(--radius-md); font-size:.92rem; font-weight:800; color: var(--text-sub);
+    cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;
+    box-shadow: var(--shadow-sm); transition: all .15s ease;
+  }
+  .pledge-tab-btn:hover{ border-color: var(--blue); color: var(--blue); }
+  .pledge-tab-btn.active{
+    background: var(--blue); color:#fff; border-color: var(--blue);
+    box-shadow: 0 4px 14px rgba(76,110,245,0.25);
+  }
+
+  /* 설명 카드 */
+  .intro-card{
+    background: #fff; border-radius: var(--radius-md); border: 1px solid var(--border);
+    padding: 22px 24px; margin-bottom: 22px; box-shadow: var(--shadow-sm);
+  }
+  .intro-card h3{ margin:0 0 8px; font-size: 1.05rem; font-weight:800; display:flex; align-items:center; gap:8px; }
+  .intro-card p{ margin:0; font-size:.88rem; color: #475569; }
+
+  /* 조항 리스트 */
+  .clause-card{
+    background: #fff; border-radius: var(--radius-md); border: 1px solid var(--border);
+    padding: 24px 26px; margin-bottom: 16px; box-shadow: var(--shadow-sm);
+    transition: border-color .15s ease;
+  }
+  .clause-card:hover{ border-color: #cbd5e1; }
+  .clause-header{
+    display:flex; align-items:flex-start; justify-content:space-between; gap:14px;
+  }
+  .clause-title{
+    font-size: .98rem; font-weight:800; color: #1e293b; margin-bottom: 6px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .law-tag{
+    font-size:.7rem; font-weight:700; padding: 2px 7px; border-radius: 5px;
+    background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0;
+  }
+  .clause-desc{
+    font-size: .86rem; color: #64748b; margin:0 0 10px; line-height: 1.55;
+  }
+  .clause-detail-box{
+    background: #f8fafc; border-left: 3px solid var(--blue); padding: 10px 14px;
+    border-radius: 4px; font-size:.82rem; color: #334155; line-height: 1.5; margin-top: 8px;
+  }
+
+  /* 커스텀 체크박스 */
+  .agree-label{
+    display:flex; align-items:center; gap:10px; cursor:pointer; user-select:none;
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #edf2f7;
+    font-size:.85rem; font-weight:700; color: #1e293b;
+  }
+  .agree-label input[type="checkbox"]{
+    width: 18px; height: 18px; accent-color: var(--blue); cursor:pointer;
+  }
+
+  /* 전체 동의 바 */
+  .all-agree-bar{
+    background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(--radius-md);
+    padding: 16px 20px; margin: 24px 0; display:flex; align-items:center; justify-content:space-between;
+  }
+  .all-agree-bar label{
+    display:flex; align-items:center; gap:10px; font-weight:800; color: #166534; cursor:pointer;
+  }
+  .all-agree-bar input[type="checkbox"]{
+    width: 20px; height: 20px; accent-color: #10b981; cursor:pointer;
+  }
+
+  /* 서명 영역 */
+  .signature-card{
+    background: #fff; border-radius: var(--radius-lg); border: 2px solid #e2e8f0;
+    padding: 28px; margin-top: 24px; box-shadow: var(--shadow-sm);
+  }
+  .signature-card.ready{ border-color: var(--blue); }
+  .sig-title{ font-size:1.15rem; font-weight:800; margin:0 0 6px; }
+  .sig-sub{ font-size:.86rem; color: var(--text-sub); margin:0 0 20px; }
+
+  .signer-inputs{
+    display:grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px;
+  }
+  @media (max-width: 600px){
+    .signer-inputs{ grid-template-columns: 1fr; }
+  }
+  .input-group label{
+    display:block; font-size:.8rem; font-weight:700; color: #475569; margin-bottom: 6px;
+  }
+  .input-group input{
+    width:100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px;
+    font-size:.9rem; outline:none; transition: border-color .15s;
+  }
+  .input-group input:focus{ border-color: var(--blue); }
+
+  /* 캔버스 패드 */
+  .canvas-wrapper{
+    border: 1px solid #cbd5e1; border-radius: 10px; background: #fdfdfd;
+    position: relative; overflow: hidden; margin-bottom: 12px;
+  }
+  .canvas-hint{
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-size:.88rem; color: #94a3b8; pointer-events: none; user-select:none;
+    display:flex; align-items:center; gap:6px;
+  }
+  canvas{ display:block; width:100%; height: 160px; cursor: crosshair; touch-action: none; }
+  .canvas-controls{
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .reset-btn{
+    background:none; border:none; color: var(--text-sub); font-size:.82rem; font-weight:600;
+    cursor:pointer; text-decoration:underline;
+  }
+
+  .submit-sig-btn{
+    width:100%; background: var(--blue); color:#fff; border:none; border-radius: 12px;
+    padding: 15px; font-size:1rem; font-weight:800; cursor:pointer;
+    box-shadow: 0 4px 14px rgba(76,110,245,0.3); transition: all .15s ease;
+    margin-top: 14px; display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .submit-sig-btn:hover{ background: var(--blue-dark); transform: translateY(-1px); }
+  .submit-sig-btn:disabled{
+    background: #cbd5e1; cursor: not-allowed; box-shadow:none; transform:none;
+  }
+
+  /* 인증서 결과 모달 / 카드 */
+  .certificate-box{
+    display:none; background: #fff; border-radius: var(--radius-lg); border: 2px solid #10b981;
+    padding: 32px; box-shadow: var(--shadow-md); margin-top: 24px; text-align:center;
+    animation: fadeIn .4s ease;
+  }
+  @keyframes fadeIn{ from{ opacity:0; transform: translateY(10px); } to{ opacity:1; transform: translateY(0); } }
+  .cert-badge{
+    width:64px; height:64px; background: #ecfdf5; border-radius:50%; margin: 0 auto 16px;
+    display:flex; align-items:center; justify-content:center; font-size:1.8rem;
+    box-shadow: 0 4px 12px rgba(16,185,129,0.2);
+  }
+  .cert-meta{
+    background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px;
+    padding: 16px; margin: 20px auto; max-width: 460px; text-align:left; font-size:.84rem;
+  }
+  .cert-row{ display:flex; justify-content:space-between; margin-bottom: 6px; }
+  .cert-row:last-child{ margin-bottom: 0; }
+  .cert-stamp{
+    display:inline-block; border: 2px solid #059669; color: #059669; font-weight:900;
+    padding: 4px 14px; border-radius: 6px; font-size:.85rem; letter-spacing: .08em;
+    transform: rotate(-3deg); margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo-area" href="index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#6c8ef5" stroke-width="1.8" width="28" height="28" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 8c0 3-2.5 4-5 4l-1 6h-3l-1-4c-3 0-6-2-6-6 0-1 .3-2 1-3 .5 1 1.5 1.5 2.5 1.5C8 4 10 3 12 3c1 0 2 .3 2.8.9C15.5 3.3 16.7 3 18 3c0 1.2-.4 2.2-1.2 3 1.4.5 2.2 1.2 3.2 2z"/>
+      <circle cx="16.5" cy="7.5" r=".6" fill="#6c8ef5"/>
+    </svg>
+    <span>자람새</span>
+    <span class="logo-tag">클린 안심 서약관</span>
+  </a>
+  <div class="header-nav">
+    <a href="index.html">← 메인 라운지</a>
+    <a href="signup.html" style="color:var(--blue-dark); font-weight:800; background:var(--blue-light); border:1px solid #c7d2fe;">🌱 회원가입 &amp; 서약하기</a>
+    <a href="recap-album-demo.html">학부모 리캡/앨범</a>
+    <a href="director-guide.html">원장님 가이드</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="pledge-hero">
+    <div class="hero-badge">🛡️ 투명하고 공정한 클린 커뮤니티 보호 협약</div>
+    <h1>서로를 존중하고 신뢰하는 깨끗한 공간을 만듭니다</h1>
+    <p>
+      일부 맘카페의 뒷광고, 부당한 협찬 요구, 악의적 비방으로 인한 소상공인과 학부모의 피해를 방지합니다.<br>
+      자람새는 투명한 전자서명과 반론권 보장 시스템을 통해, 누구나 안심하고 참여할 수 있는 건강한 교육·육아 생태계를 약속합니다.
+    </p>
+  </div>
+
+  <!-- 신규 회원가입 유도 배너 -->
+  <div style="background: #eef2ff; border: 1.5px solid #c7d2fe; border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;">
+    <div style="font-size: .88rem; color: #1e1b4b; line-height: 1.45;">
+      💡 <strong>신규 회원가입</strong>을 진행하시나요? 계정 생성과 동시에 클린 서약을 한 번에 완료하실 수 있습니다.
+    </div>
+    <a href="signup.html" style="background: #4f46e5; color: #fff; padding: 9px 18px; border-radius: 8px; font-size: .84rem; font-weight: 800; text-decoration: none; white-space: nowrap; box-shadow: 0 2px 6px rgba(79,70,229,0.25);">
+      회원가입 &amp; 안심 서약 화면으로 가기 →
+    </a>
+  </div>
+
+  <!-- 탭 전환 -->
+  <div class="pledge-tabs">
+    <button class="pledge-tab-btn active" id="tabPartner" onclick="switchTab('partner')">
+      🤝 광고·제휴 파트너 안심 서약
+    </button>
+    <button class="pledge-tab-btn" id="tabManager" onclick="switchTab('manager')">
+      🛡️ 커뮤니티 운영진 윤리 서약
+    </button>
+    <button class="pledge-tab-btn" id="tabMember" onclick="switchTab('member')">
+      🌱 일반 이웃 회원 클린 서약
+    </button>
+  </div>
+
+  <!-- 1. 광고 및 제휴 파트너 서약 섹션 -->
+  <div id="sectionPartner">
+    <div class="intro-card">
+      <h3>📢 동네 소상공인 &amp; 광고주 파트너 안내</h3>
+      <p>
+        자람새는 동네 상권과 학부모가 공존하는 투명한 광고를 지향합니다.
+        제휴 진행 전 아래 3개 안심 조항을 확인하시고 서명해 주시면 공식 안심 파트너로 인증됩니다.
+      </p>
+    </div>
+
+    <!-- 조항 1 -->
+    <div class="clause-card">
+      <div class="clause-header">
+        <div>
+          <div class="clause-title">
+            <span>제1조 (소재의 진실성 및 민·형사상 전적 책임)</span>
+            <span class="law-tag">표시광고법 제3조</span>
+          </div>
+          <div class="clause-desc">
+            파트너가 제공한 광고·이벤트 소재 및 안내 문구는 사실에 기반해야 하며, 허위·과장 광고나 타인의 저작권·초상권을 침해하지 않아야 합니다.
+          </div>
+          <div class="clause-detail-box">
+            💡 제공된 소재가 타인의 권리를 침해하거나 허위·과장 광고로 판명될 경우 발생하는 모든 민·형사상 법적 책임은 광고주 본인이 전적으로 부담합니다.
+          </div>
+        </div>
+      </div>
+      <label class="agree-label">
+        <input type="checkbox" class="clause-check p-check" onchange="checkAllValid()">
+        <span>위 조항의 내용을 충분히 확인하였으며 이에 동의합니다. (필수)</span>
+      </label>
+    </div>
+
+    <!-- 조항 2 -->
+    <div class="clause-card">
+      <div class="clause-header">
+        <div>
+          <div class="clause-title">
+            <span>제2조 (통신판매중개자 법적 면책 및 고지 의무)</span>
+            <span class="law-tag">전자상거래법 제20조</span>
+          </div>
+          <div class="clause-desc">
+            자람새 플랫폼은 통신판매중개자로서 거래의 당사자가 아니며, 입점 파트너와 소비자 간의 상품·서비스 거래 및 품질에 대해 보증하지 않습니다.
+          </div>
+          <div class="clause-detail-box">
+            💡 결제 및 홍보 화면 하단에 통신판매중개자 고지 문구가 자동으로 노출되며, 소비자 분쟁 발생 시 광고주가 성실히 해결해야 합니다.
+          </div>
+        </div>
+      </div>
+      <label class="agree-label">
+        <input type="checkbox" class="clause-check p-check" onchange="checkAllValid()">
+        <span>통신판매중개자 면책 고지 조항을 확인하였으며 이에 동의합니다. (필수)</span>
+      </label>
+    </div>
+
+    <!-- 조항 3 -->
+    <div class="clause-card">
+      <div class="clause-header">
+        <div>
+          <div class="clause-title">
+            <span>제3조 (업체의 정당한 반론 및 해명권 시스템 보장)</span>
+            <span class="law-tag">형법 제314조 방지</span>
+          </div>
+          <div class="clause-desc">
+            커뮤니티 내에 업체에 대한 사실과 다른 악의적 비방글이 게시될 경우, 플랫폼은 이를 임의로 은폐하지 않고 당사자(업체)가 공식 반론 및 해명을 해당 게시물 하단에 고정 게시할 수 있는 시스템적 권한을 보장합니다.
+          </div>
+          <div class="clause-detail-box">
+            💡 일방적인 마녀사냥을 차단하고, 객관적 영수증 인증에 기반한 클린 데이터로 공정한 평판 관리를 지원합니다.
+          </div>
+        </div>
+      </div>
+      <label class="agree-label">
+        <input type="checkbox" class="clause-check p-check" onchange="checkAllValid()">
+        <span>공식 반론권 보장 및 클린 평판 정책에 동의합니다. (필수)</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- 2. 운영진 윤리 서약 섹션 -->
+  <div id="sectionManager" style="display:none;">
+    <div class="intro-card" style="border-left: 4px solid var(--amber);">
+      <h3>🛡️ 지역 매니저 및 커뮤니티 관리자 윤리 서약</h3>
+      <p>
+        자람새 커뮤니티 관리자는 지위를 이용해 소상공인에게 갑질을 하거나 여론을 조작하지 않는 청렴한 운영을 엄숙히 서약합니다.
+      </p>
+    </div>
+
+    <div class="clause-card">
+      <div class="clause-header">
+        <div>
+          <div class="clause-title">
+            <span>제1조 (지위를 이용한 금품 및 협찬 요구 절대 금지)</span>
+            <span class="law-tag">형법 제350조 (공갈) 방지</span>
+          </div>
+          <div class="clause-desc">
+            관리자 권한이나 커뮤니티 내 영향력을 무기로 소상공인이나 업체에 무료 서비스(협찬), 식사 대접, 부당한 금전적 대가를 직·간접적으로 요구하지 않습니다.
+          </div>
+          <div class="clause-detail-box">
+            💡 적발 시 즉각적인 관리자 권한 영구 박탈 및 당사 차원의 형법상 공갈죄 형사 고발 조치에 사전 동의합니다.
+          </div>
+        </div>
+      </div>
+      <label class="agree-label">
+        <input type="checkbox" class="clause-check m-check" onchange="checkAllValid()">
+        <span>금품·협찬 요구 금지 및 적발 시 형사 조치에 동의합니다. (필수)</span>
+      </label>
+    </div>
+
+    <div class="clause-card">
+      <div class="clause-header">
+        <div>
+          <div class="clause-title">
+            <span>제2조 (특정 업체 영업방해 및 여론 조작 금지)</span>
+            <span class="law-tag">형법 제314조 (업무방해) 방지</span>
+          </div>
+          <div class="clause-desc">
+            특정 업체의 비판 글을 고의로 상단에 편파 노출하거나 업체의 정당한 반론 글을 임의로 삭제·차단하여 영업을 방해하는 행위를 일체 하지 않습니다.
+          </div>
+          <div class="clause-detail-box">
+            💡 위반 시 즉시 권한 박탈 및 플랫폼 업무방해죄 형사 고발에 동의합니다.
+          </div>
+        </div>
+      </div>
+      <label class="agree-label">
+        <input type="checkbox" class="clause-check m-check" onchange="checkAllValid()">
+        <span>영업방해 행위 금지 조항에 동의합니다. (필수)</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- 3. 일반 회원 클린 서약 섹션 -->
+  <div id="sectionMember" style="display:none;">
+    <div class="intro-card" style="border-left: 4px solid var(--green);">
+      <h3>🌱 따뜻하고 비교 없는 육아 커뮤니티 서약</h3>
+      <p>
+        자람새는 다른 아이와 비교하지 않고, 각자의 속도를 응원하는 공간입니다.
+      </p>
+    </div>
+
+    <div class="clause-card">
+      <div class="clause-header">
+        <div>
+          <div class="clause-title">
+            <span>제1조 (비전문가적 낙인 진단 및 비방 금지)</span>
+            <span class="law-tag">커뮤니티 이용 수칙</span>
+          </div>
+          <div class="clause-desc">
+            타인의 아이에 대해 비전문가적 판단으로 "ADHD 같다", "발달 지연이다" 등 낙인을 찍거나 비방하지 않으며, 고민은 전문가 Q&amp;A를 통해 해결합니다.
+          </div>
+        </div>
+      </div>
+      <label class="agree-label">
+        <input type="checkbox" class="clause-check u-check" onchange="checkAllValid()">
+        <span>비교와 낙인 없는 따뜻한 대화에 동의합니다. (필수)</span>
+      </label>
+    </div>
+
+    <div class="clause-card">
+      <div class="clause-header">
+        <div>
+          <div class="clause-title">
+            <span>제2조 (위장 후기 및 뒷광고 금지)</span>
+            <span class="law-tag">표시광고법 준수</span>
+          </div>
+          <div class="clause-desc">
+            경제적 대가를 받고 순수 후기로 위장하는 뒷광고 행위를 하지 않으며, 홍보가 필요한 경우 정식 파트너 등록을 거칩니다.
+          </div>
+        </div>
+      </div>
+      <label class="agree-label">
+        <input type="checkbox" class="clause-check u-check" onchange="checkAllValid()">
+        <span>진실된 후기 작성 원칙에 동의합니다. (필수)</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- 전체 동의 바 -->
+  <div class="all-agree-bar">
+    <label>
+      <input type="checkbox" id="checkAll" onchange="toggleAllCheckboxes(this)">
+      <span id="allAgreeLabel">선택된 서약의 모든 필수 조항에 일괄 동의합니다</span>
+    </label>
+    <span style="font-size:.8rem; color:#15803d; font-weight:700;">✓ 필수 3개 조항</span>
+  </div>
+
+  <!-- 전자서명 입력 폼 -->
+  <div class="signature-card" id="signatureCard">
+    <h2 class="sig-title">전자서명 작성</h2>
+    <p class="sig-sub">약관을 확인하셨다면 본인 성명 또는 상호명을 입력하고 하단 패드에 정자(正字)로 서명해 주세요.</p>
+
+    <div class="signer-inputs">
+      <div class="input-group">
+        <label id="nameLabel">서약자 성명 / 대표자명 *</label>
+        <input type="text" id="signerName" placeholder="예: 홍길동" oninput="checkAllValid()">
+      </div>
+      <div class="input-group">
+        <label id="orgLabel">업체 상호명 (개인은 '개인' 입력) *</label>
+        <input type="text" id="signerOrg" placeholder="예: 햇살유아교구 / 개인" oninput="checkAllValid()">
+      </div>
+    </div>
+
+    <!-- 터치/마우스 서명 캔버스 패드 -->
+    <label style="font-size:.8rem; font-weight:700; color:#475569; display:block; margin-bottom:6px;">
+      전자서명 패드 (손가락 또는 마우스로 서명하세요) *
+    </label>
+    <div class="canvas-wrapper">
+      <div class="canvas-hint" id="canvasHint">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        <span>이곳에 서명해 주세요</span>
+      </div>
+      <canvas id="sigCanvas"></canvas>
+    </div>
+
+    <div class="canvas-controls">
+      <button class="reset-btn" onclick="clearCanvas()">↺ 서명 다시 쓰기</button>
+      <span style="font-size:.75rem; color:#94a3b8;">본 전자서명은 전자서명법 제3조에 따라 법적 효력을 갖습니다.</span>
+    </div>
+
+    <button class="submit-sig-btn" id="submitSigBtn" disabled onclick="submitSignature()">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+      <span>위 조항을 숙지하였으며 전자서명을 완료합니다</span>
+    </button>
+  </div>
+
+  <!-- 서약 완료 인증서 카드 -->
+  <div class="certificate-box" id="certBox">
+    <div class="cert-badge">🏅</div>
+    <h2 style="margin:0 0 4px; font-size:1.4rem; font-weight:800; color:#0f172a;">클린 안심 서약이 완료되었습니다</h2>
+    <p style="margin:0 0 16px; font-size:.88rem; color:#64748b;">투명하고 공정한 자람새 커뮤니티의 소중한 동반자가 되어주셔서 감사합니다.</p>
+
+    <div class="cert-meta">
+      <div class="cert-row"><span>서약 종류:</span><strong id="certType">-</strong></div>
+      <div class="cert-row"><span>서약자 / 상호:</span><strong id="certName">-</strong></div>
+      <div class="cert-row"><span>서약 일시:</span><strong id="certDate">-</strong></div>
+      <div class="cert-row"><span>인증 고유 해시:</span><code id="certHash" style="font-size:.76rem; color:#4c6ef5;">-</code></div>
+      <div class="cert-row"><span>서명 이미지:</span><span style="color:#059669; font-weight:700;">✓ 암호화 보관 완료</span></div>
+    </div>
+
+    <div class="cert-stamp">VERIFIED &amp; SECURED</div>
+    <div style="margin-top:24px;">
+      <a href="index.html" style="background:#4c6ef5; color:#fff; text-decoration:none; padding:10px 24px; border-radius:8px; font-size:.88rem; font-weight:700; display:inline-block;">
+        ← 메인 라운지로 돌아가기
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let currentTab = 'partner';
+  let hasSigned = false;
+
+  const canvas = document.getElementById('sigCanvas');
+  const ctx = canvas.getContext('2d');
+  let isDrawing = false;
+
+  function resizeCanvas() {
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = 160;
+    ctx.lineWidth = 2.5;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = '#0f172a';
+  }
+  window.addEventListener('resize', resizeCanvas);
+  setTimeout(resizeCanvas, 50);
+
+  // 드로잉 이벤트
+  function getPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    return { x: clientX - rect.left, y: clientY - rect.top };
+  }
+
+  function startDraw(e) {
+    isDrawing = true;
+    hasSigned = true;
+    document.getElementById('canvasHint').style.display = 'none';
+    const pos = getPos(e);
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+    checkAllValid();
+  }
+  function draw(e) {
+    if (!isDrawing) return;
+    e.preventDefault();
+    const pos = getPos(e);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+  }
+  function stopDraw() { isDrawing = false; }
+
+  canvas.addEventListener('mousedown', startDraw);
+  canvas.addEventListener('mousemove', draw);
+  window.addEventListener('mouseup', stopDraw);
+
+  canvas.addEventListener('touchstart', startDraw, { passive: false });
+  canvas.addEventListener('touchmove', draw, { passive: false });
+  window.addEventListener('touchend', stopDraw);
+
+  function clearCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    hasSigned = false;
+    document.getElementById('canvasHint').style.display = 'flex';
+    checkAllValid();
+  }
+
+  function switchTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll('.pledge-tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('sectionPartner').style.display = tab === 'partner' ? 'block' : 'none';
+    document.getElementById('sectionManager').style.display = tab === 'manager' ? 'block' : 'none';
+    document.getElementById('sectionMember').style.display = tab === 'member' ? 'block' : 'none';
+
+    if (tab === 'partner') {
+      document.getElementById('tabPartner').classList.add('active');
+      document.getElementById('nameLabel').textContent = '대표자명 / 담당자 성명 *';
+      document.getElementById('orgLabel').textContent = '업체 상호명 (사업자등록증 기준) *';
+      document.getElementById('signerOrg').placeholder = '예: 햇살유아놀이연구소';
+    } else if (tab === 'manager') {
+      document.getElementById('tabManager').classList.add('active');
+      document.getElementById('nameLabel').textContent = '관리자 성명 *';
+      document.getElementById('orgLabel').textContent = '담당 지역 / 직책 *';
+      document.getElementById('signerOrg').placeholder = '예: 서울 양천구 지역 매니저';
+    } else {
+      document.getElementById('tabMember').classList.add('active');
+      document.getElementById('nameLabel').textContent = '회원 닉네임 또는 성명 *';
+      document.getElementById('orgLabel').textContent = '소속 (개인은 "일반 회원" 입력) *';
+      document.getElementById('signerOrg').placeholder = '예: 일반 회원';
+    }
+
+    // 체크박스 초기화
+    document.getElementById('checkAll').checked = false;
+    checkAllValid();
+  }
+
+  function toggleAllCheckboxes(master) {
+    const prefix = currentTab === 'partner' ? '.p-check' : (currentTab === 'manager' ? '.m-check' : '.u-check');
+    document.querySelectorAll(prefix).forEach(c => c.checked = master.checked);
+    checkAllValid();
+  }
+
+  function checkAllValid() {
+    const prefix = currentTab === 'partner' ? '.p-check' : (currentTab === 'manager' ? '.m-check' : '.u-check');
+    const checks = document.querySelectorAll(prefix);
+    const allChecked = Array.from(checks).every(c => c.checked);
+    const name = document.getElementById('signerName').value.trim();
+    const org = document.getElementById('signerOrg').value.trim();
+
+    const isValid = allChecked && name.length > 0 && org.length > 0 && hasSigned;
+    document.getElementById('submitSigBtn').disabled = !isValid;
+    if (isValid) {
+      document.getElementById('signatureCard').classList.add('ready');
+    } else {
+      document.getElementById('signatureCard').classList.remove('ready');
+    }
+  }
+
+  function submitSignature() {
+    const name = document.getElementById('signerName').value.trim();
+    const org = document.getElementById('signerOrg').value.trim();
+    const now = new Date();
+    const dateStr = now.getFullYear() + '.' + String(now.getMonth()+1).padStart(2,'0') + '.' + String(now.getDate()).padStart(2,'0') + ' ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+    const hash = 'IEUM-' + Math.random().toString(36).substring(2, 10).toUpperCase() + '-' + Date.now().toString(36).toUpperCase();
+
+    const typeLabel = currentTab === 'partner' ? '광고·제휴 파트너 안심 서약' : (currentTab === 'manager' ? '커뮤니티 운영진 윤리 서약' : '일반 이웃 회원 클린 서약');
+
+    document.getElementById('certType').textContent = typeLabel;
+    document.getElementById('certName').textContent = `${name} (${org})`;
+    document.getElementById('certDate').textContent = dateStr;
+    document.getElementById('certHash').textContent = hash;
+
+    // 로컬스토리지 보관
+    try {
+      const records = JSON.parse(localStorage.getItem('ieum_pledges') || '[]');
+      records.push({ type: currentTab, name, org, date: dateStr, hash });
+      localStorage.setItem('ieum_pledges', JSON.stringify(records));
+    } catch(e) {}
+
+    document.getElementById('signatureCard').style.display = 'none';
+    document.getElementById('certBox').style.display = 'block';
+    document.getElementById('certBox').scrollIntoView({ behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>

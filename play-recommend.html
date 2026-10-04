@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>놀이 추천 · 자람새</title>
+<style>
+  :root{
+    --bg: #eef1fb;
+    --card: #ffffff;
+    --blue: #6c8ef5;
+    --blue-dark: #5578e0;
+    --blue-light: #eaf0ff;
+    --text: #1f2430;
+    --text-sub: #8a8fa3;
+    --border: #edeff5;
+    --accent: #5ac8a8;
+    --accent-light: #e7f8f2;
+  }
+  *{ box-sizing: border-box; }
+  body{
+    margin:0;
+    font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  header{
+    display:flex; align-items:center; justify-content:space-between;
+    background:#fff; padding: 14px 32px; border-bottom: 1px solid var(--border);
+    position: sticky; top:0; z-index: 10;
+  }
+  .logo{ display:flex; align-items:center; gap:10px; font-size: 1.3rem; font-weight:700; text-decoration:none; color: inherit; }
+  .logo svg{ width:30px; height:30px; }
+  .back-link{ font-size: .85rem; color: var(--text-sub); text-decoration:none; }
+  .back-link:hover{ color: var(--text); }
+
+  .wrap{ max-width: 980px; margin: 28px auto; padding: 0 24px; }
+
+  .page-banner{
+    display:flex; align-items:center; gap:14px;
+    background: linear-gradient(135deg, var(--accent-light), #fff);
+    border: 1px solid #bfe9dc;
+    border-radius: 18px;
+    padding: 20px 24px;
+    margin-bottom: 22px;
+  }
+  .page-banner .icon{
+    width:48px; height:48px; border-radius: 12px;
+    background: var(--accent-light);
+    display:flex; align-items:center; justify-content:center; flex: 0 0 auto;
+  }
+  .page-banner .icon svg{ width:24px; height:24px; stroke: var(--accent); }
+  .page-banner h1{ margin: 0 0 4px; font-size: 1.2rem; }
+  .page-banner p{ margin:0; font-size: .84rem; color: var(--text-sub); }
+
+  .picker{
+    background: var(--card);
+    border-radius: 18px;
+    padding: 24px;
+    margin-bottom: 22px;
+    box-shadow: 0 1px 3px rgba(20,30,60,.04);
+    text-align:center;
+  }
+  .picker .picker-label{ font-size: .82rem; color: var(--text-sub); margin-bottom: 10px; }
+  .pick-result{
+    display:none;
+    background: var(--accent-light);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin: 0 auto 16px;
+    max-width: 460px;
+    text-align:left;
+  }
+  .pick-result.show{ display:block; }
+  .pick-result .name{ font-size: 1.05rem; font-weight:700; margin-bottom:4px; }
+  .pick-result .desc{ font-size: .85rem; color:#5b6072; line-height:1.5; }
+  .pick-btn{
+    background: var(--accent);
+    color:#fff;
+    border:none;
+    border-radius: 12px;
+    padding: 12px 26px;
+    font-size: .92rem;
+    font-weight:700;
+    cursor:pointer;
+  }
+  .pick-btn:hover{ background: #46b696; }
+
+  .filter-group{ margin-bottom: 14px; }
+  .filter-group .group-label{ font-size: .78rem; color: var(--text-sub); margin-bottom:6px; }
+  .filter-row{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 7px 16px;
+    font-size: .82rem;
+    color: var(--text-sub);
+    cursor:pointer;
+    user-select:none;
+  }
+  .chip.active{ background: var(--blue); border-color: var(--blue); color:#fff; }
+
+  .play-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 18px;
+  }
+  .play-card{
+    background: var(--card);
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 1px 3px rgba(20,30,60,.04);
+  }
+  .play-card .name{ font-size: .98rem; font-weight:700; margin-bottom:6px; }
+  .play-card .desc{ font-size: .82rem; color: var(--text-sub); line-height:1.5; margin-bottom:10px; }
+  .play-card .tags{ display:flex; flex-wrap:wrap; gap:6px; }
+  .tag{
+    font-size: .7rem;
+    color: var(--blue);
+    background: var(--blue-light);
+    padding: 2px 8px;
+    border-radius: 8px;
+  }
+  .tag.place{ color: var(--accent); background: var(--accent-light); }
+
+  @media (max-width: 860px){
+    .play-grid{ grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 520px){
+    header{ padding: 12px 16px; }
+    .wrap{ padding: 0 14px; }
+    .play-grid{ grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#6c8ef5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 8c0 3-2.5 4-5 4l-1 6h-3l-1-4c-3 0-6-2-6-6 0-1 .3-2 1-3 .5 1 1.5 1.5 2.5 1.5C8 4 10 3 12 3c1 0 2 .3 2.8.9C15.5 3.3 16.7 3 18 3c0 1.2-.4 2.2-1.2 3 1.4.5 2.2 1.2 3.2 2z"/>
+      <circle cx="16.5" cy="7.5" r=".6" fill="#6c8ef5"/>
+    </svg>
+    <span>자람새</span>
+  </a>
+  <a class="back-link" href="board.html?cat=edu">← 집으로 이어지는 배움으로</a>
+</header>
+
+<div class="wrap">
+  <div class="page-banner">
+    <div class="icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9h0M15 9h0"/><path d="M8 14c1.5 2 6.5 2 8 0"/></svg>
+    </div>
+    <div>
+      <h1>놀이 추천</h1>
+      <p>월령/연령대와 실내·실외에 맞는 놀이를 찾아보고, 오늘 뭐 하고 놀지 뽑아보세요.</p>
+    </div>
+  </div>
+
+  <div class="picker">
+    <div class="picker-label">뭐 하고 놀지 고민될 땐 뽑아보세요</div>
+    <div class="pick-result" id="pickResult">
+      <div class="name" id="pickName"></div>
+      <div class="desc" id="pickDesc"></div>
+    </div>
+    <button class="pick-btn" id="pickBtn">오늘의 놀이 뽑기</button>
+  </div>
+
+  <div class="filter-group">
+    <div class="group-label">연령대</div>
+    <div class="filter-row" id="ageRow"></div>
+  </div>
+  <div class="filter-group">
+    <div class="group-label">장소</div>
+    <div class="filter-row" id="placeRow"></div>
+  </div>
+
+  <div class="play-grid" id="playGrid"></div>
+</div>
+
+<script src="auth.js"></script>
+<script>
+  requireAuth();
+
+  const PLAYS = [
+    { name: '까꿍놀이', desc: '손이나 수건으로 얼굴을 가렸다 보여주며 반응을 살펴요. 애착 형성에 좋아요.', age: '0-12개월', place: '실내' },
+    { name: '촉감 매트 탐색', desc: '다양한 질감의 매트나 천을 만져보게 하며 촉각을 자극해요.', age: '0-12개월', place: '실내' },
+    { name: '딸랑이 소리 찾기', desc: '딸랑이를 흔들어 소리 나는 방향을 찾아보게 해요. 청각과 목 근육 발달에 도움돼요.', age: '0-12개월', place: '실내' },
+    { name: '블록 쌓기', desc: '큰 블록을 쌓고 무너뜨리며 소근육과 인과관계를 익혀요.', age: '12-24개월', place: '실내' },
+    { name: '색깔 공 분류하기', desc: '색깔별 바구니에 공을 나눠 담으며 색 구분과 소근육을 연습해요.', age: '12-24개월', place: '실내' },
+    { name: '비눗방울 놀이', desc: '비눗방울을 불고 손으로 터뜨리며 대근육과 눈-손 협응을 길러요.', age: '12-24개월', place: '실외' },
+    { name: '그림책 소리내어 읽기', desc: '의성어가 많은 그림책을 소리 내어 읽어주며 언어 발달을 도와요.', age: '12-24개월', place: '실내' },
+    { name: '모래놀이', desc: '모래를 퍼담고 모양틀에 찍어보며 촉감과 창의력을 자극해요.', age: '24-36개월', place: '실외' },
+    { name: '역할놀이(소꿉놀이)', desc: '장난감 주방놀이로 요리사, 손님 역할을 나눠 상상놀이를 해요.', age: '24-36개월', place: '실내' },
+    { name: '클레이 놀이', desc: '점토를 조물조물 만지며 소근육을 발달시키고 원하는 모양을 만들어봐요.', age: '24-36개월', place: '실내' },
+    { name: '보물찾기 놀이', desc: '마당이나 공원에 작은 장난감을 숨기고 찾아보게 해요. 신체 활동과 집중력에 좋아요.', age: '36개월 이상', place: '실외' },
+    { name: '종이접기', desc: '간단한 도형부터 시작해 종이를 접으며 손끝 조작 능력을 길러요.', age: '36개월 이상', place: '실내' },
+  ];
+
+  const AGES = ['전체', '0-12개월', '12-24개월', '24-36개월', '36개월 이상'];
+  const PLACES = ['전체', '실내', '실외'];
+  let activeAge = '전체';
+  let activePlace = '전체';
+
+  function renderChips() {
+    document.getElementById('ageRow').innerHTML = AGES.map(a =>
+      `<div class="chip ${a === activeAge ? 'active' : ''}" data-age="${a}">${a}</div>`
+    ).join('');
+    document.getElementById('placeRow').innerHTML = PLACES.map(p =>
+      `<div class="chip ${p === activePlace ? 'active' : ''}" data-place="${p}">${p}</div>`
+    ).join('');
+
+    document.querySelectorAll('#ageRow .chip').forEach(chip => {
+      chip.addEventListener('click', () => { activeAge = chip.dataset.age; renderChips(); renderGrid(); });
+    });
+    document.querySelectorAll('#placeRow .chip').forEach(chip => {
+      chip.addEventListener('click', () => { activePlace = chip.dataset.place; renderChips(); renderGrid(); });
+    });
+  }
+
+  function filteredPlays() {
+    return PLAYS.filter(p =>
+      (activeAge === '전체' || p.age === activeAge) &&
+      (activePlace === '전체' || p.place === activePlace)
+    );
+  }
+
+  function renderGrid() {
+    const list = filteredPlays();
+    document.getElementById('playGrid').innerHTML = list.length ? list.map(p => `
+      <div class="play-card">
+        <div class="name">${p.name}</div>
+        <div class="desc">${p.desc}</div>
+        <div class="tags">
+          <span class="tag">${p.age}</span>
+          <span class="tag place">${p.place}</span>
+        </div>
+      </div>
+    `).join('') : `<div class="play-card">조건에 맞는 놀이가 없어요.</div>`;
+  }
+
+  document.getElementById('pickBtn').addEventListener('click', () => {
+    const pool = filteredPlays();
+    if (pool.length === 0) return;
+    const pick = pool[Math.floor(Math.random() * pool.length)];
+    document.getElementById('pickName').textContent = pick.name;
+    document.getElementById('pickDesc').textContent = `${pick.desc} (${pick.age} · ${pick.place})`;
+    document.getElementById('pickResult').classList.add('show');
+  });
+
+  renderChips();
+  renderGrid();
+</script>
+
+</body>
+</html>

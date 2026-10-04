@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>학부모 월간 성장 리캡 & 24p 실물 앨범 뷰어 · 자람새</title>
+<style>
+  :root{
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --blue: #4c6ef5;
+    --blue-dark: #364fc7;
+    --blue-light: #edf2ff;
+    --green: #10b981;
+    --green-light: #ecfdf5;
+    --amber: #f59f00;
+    --amber-light: #fffbeb;
+    --text: #0f172a;
+    --text-sub: #64748b;
+    --border: #e2e8f0;
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    --shadow-sm: 0 2px 8px rgba(15,23,42,0.05);
+    --shadow-md: 0 8px 24px rgba(15,23,42,0.08);
+  }
+  *{ box-sizing: border-box; }
+  body{
+    margin:0;
+    font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  header{
+    display:flex; align-items:center; justify-content:space-between;
+    background:#fff; padding: 0 28px; height: 64px;
+    border-bottom: 1px solid var(--border);
+    position: sticky; top:0; z-index: 50;
+  }
+  .logo-area{
+    display:flex; align-items:center; gap:10px;
+    text-decoration:none; color:inherit; font-weight:800; font-size:1.15rem;
+  }
+  .logo-tag{
+    font-size: .7rem; font-weight:700; background: #ecfdf5; color: #059669;
+    padding: 2px 8px; border-radius: 6px;
+  }
+  .header-nav{ display:flex; align-items:center; gap:16px; }
+  .header-nav a{
+    font-size:.86rem; color: var(--text-sub); text-decoration:none; font-weight:600;
+    padding: 6px 12px; border-radius: 8px; transition: all .15s ease;
+  }
+  .header-nav a:hover{ color: var(--blue); background: var(--blue-light); }
+  .header-nav a.active{ color: var(--blue); background: var(--blue-light); }
+
+  .wrap{ max-width: 1040px; margin: 32px auto 80px; padding: 0 20px; }
+
+  /* 탭 네비게이션 */
+  .view-switcher{
+    display:flex; justify-content:center; gap:12px; margin-bottom: 28px;
+  }
+  .view-tab-btn{
+    background:#fff; border: 1px solid var(--border); padding: 12px 24px;
+    border-radius: 30px; font-size:.95rem; font-weight:800; color: var(--text-sub);
+    cursor:pointer; display:flex; align-items:center; gap:8px; box-shadow: var(--shadow-sm);
+    transition: all .2s ease;
+  }
+  .view-tab-btn:hover{ border-color: var(--blue); color: var(--blue); }
+  .view-tab-btn.active{
+    background: var(--blue); color:#fff; border-color: var(--blue);
+    box-shadow: 0 4px 14px rgba(76,110,245,0.3);
+  }
+
+  /* 뷰 1: 월간 성장 리캡 (카드 / 스토리 뷰어) */
+  .recap-container{
+    max-width: 680px; margin: 0 auto;
+  }
+  .recap-head{
+    text-align:center; margin-bottom: 24px;
+  }
+  .recap-head h1{ margin:0 0 6px; font-size:1.55rem; font-weight:800; }
+  .recap-head p{ margin:0; font-size:.92rem; color: var(--text-sub); }
+
+  .story-card{
+    background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--border);
+    box-shadow: var(--shadow-md); padding: 28px; margin-bottom: 20px;
+    position: relative; overflow: hidden;
+  }
+  .story-tag{
+    display:inline-block; font-size:.76rem; font-weight:800; padding: 3px 10px;
+    border-radius: 6px; margin-bottom: 12px;
+  }
+  .story-tag.blue{ background: var(--blue-light); color: var(--blue); }
+  .story-tag.green{ background: var(--green-light); color: var(--green); }
+  .story-tag.amber{ background: var(--amber-light); color: #d97706; }
+
+  .story-card h2{ margin:0 0 10px; font-size: 1.25rem; font-weight:800; }
+  .story-card p{ font-size:.92rem; color: #334155; line-height:1.65; margin:0 0 14px; }
+  
+  .metric-grid{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin: 16px 0;
+  }
+  .metric-box{
+    background: #f8fafc; border: 1px solid #edf2f7; border-radius: 12px;
+    padding: 12px; text-align:center;
+  }
+  .metric-box .num{ font-size: 1.4rem; font-weight:800; color: var(--blue); }
+  .metric-box .label{ font-size: .74rem; color: var(--text-sub); margin-top:2px; }
+
+  .source-link-box{
+    background: #f1f5f9; border-radius: 10px; padding: 10px 14px;
+    font-size:.82rem; color: #475569; display:flex; align-items:center; justify-content:space-between;
+  }
+  .source-link-box button{
+    background:none; border:none; color: var(--blue); font-weight:700; cursor:pointer; font-size:.8rem;
+  }
+
+  /* 뷰 2: 24p 실물 성장 앨범 e-Book 프리뷰 */
+  .album-section{
+    display:none;
+  }
+  .album-section.active{ display:block; }
+  .recap-section.active{ display:block; }
+  .recap-section{ display:none; }
+
+  .album-meta-card{
+    background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--border);
+    padding: 24px 28px; margin-bottom: 24px; box-shadow: var(--shadow-sm);
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
+  }
+  .album-meta-title h2{ margin:0 0 4px; font-size: 1.2rem; font-weight:800; }
+  .album-meta-title p{ margin:0; font-size:.86rem; color: var(--text-sub); }
+  .album-specs{
+    display:flex; gap: 12px; flex-wrap:wrap;
+  }
+  .spec-badge{
+    background: #f1f5f9; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 8px;
+    font-size:.78rem; font-weight:600; color: #334155;
+  }
+
+  /* 책 펼침 뷰어 */
+  .book-viewer{
+    background: #232a35; border-radius: var(--radius-lg); padding: 36px 24px;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.25); color:#fff;
+    margin-bottom: 24px; text-align:center;
+  }
+  .book-spread{
+    display:flex; justify-content:center; align-items:center; gap: 4px;
+    max-width: 820px; margin: 0 auto; perspective: 1000px; min-height: 480px;
+  }
+  .page-leaf{
+    flex: 1; height: 480px; background: #fff; color: #1e293b;
+    border-radius: 6px; padding: 28px 24px; text-align:left; box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    position: relative; display:flex; flex-direction:column; justify-content:space-between;
+  }
+  .page-left{
+    border-top-right-radius: 0; border-bottom-right-radius: 0;
+    border-right: 1px solid #e2e8f0;
+    background: linear-gradient(to right, #ffffff, #fafafa);
+  }
+  .page-right{
+    border-top-left-radius: 0; border-bottom-left-radius: 0;
+    background: linear-gradient(to left, #ffffff, #fafafa);
+  }
+  .page-num{
+    font-size:.75rem; color: #94a3b8; font-weight:600; text-align:center;
+  }
+  .page-content h3{ margin:0 0 10px; font-size:1.05rem; font-weight:800; color:#0f172a; }
+  .page-content p{ margin:0 0 12px; font-size:.85rem; color: #475569; line-height:1.6; }
+  .photo-mockup{
+    width:100%; height: 180px; background: #e2e8f0; border-radius: 8px;
+    display:flex; align-items:center; justify-content:center; font-size:.8rem; color: #64748b;
+    margin-bottom: 12px; background-size: cover; background-position: center;
+  }
+
+  .nav-controls{
+    display:flex; justify-content:center; align-items:center; gap: 16px; margin-top: 24px;
+  }
+  .nav-btn{
+    background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.2);
+    padding: 8px 18px; border-radius: 20px; font-size:.85rem; font-weight:700; cursor:pointer;
+    transition: all .15s;
+  }
+  .nav-btn:hover{ background: rgba(255,255,255,0.3); }
+
+  /* 단위 경제 안내 카드 */
+  .unit-econ-card{
+    background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--border);
+    padding: 24px 28px; box-shadow: var(--shadow-sm);
+  }
+  .unit-econ-card h3{ margin:0 0 8px; font-size:1.05rem; font-weight:800; }
+  .unit-table{
+    width:100%; border-collapse: collapse; font-size:.86rem; margin-top: 14px;
+  }
+  .unit-table th, .unit-table td{
+    padding: 10px 12px; text-align:left; border-bottom: 1px solid #f1f5f9;
+  }
+  .unit-table th{ background: #f8fafc; font-weight:700; color: #475569; }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo-area" href="index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#6c8ef5" stroke-width="1.8" width="28" height="28" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 8c0 3-2.5 4-5 4l-1 6h-3l-1-4c-3 0-6-2-6-6 0-1 .3-2 1-3 .5 1 1.5 1.5 2.5 1.5C8 4 10 3 12 3c1 0 2 .3 2.8.9C15.5 3.3 16.7 3 18 3c0 1.2-.4 2.2-1.2 3 1.4.5 2.2 1.2 3.2 2z"/>
+      <circle cx="16.5" cy="7.5" r=".6" fill="#6c8ef5"/>
+    </svg>
+    <span>자람새</span>
+    <span class="logo-tag">성장 리캡 &amp; 앨범</span>
+  </a>
+  <div class="header-nav">
+    <a href="index.html">← 메인 라운지</a>
+    <a href="recap-album-demo.html" class="active">학부모 리캡/앨범 뷰어</a>
+    <a href="director-guide.html">원장님 가이드</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- 상단 모드 전환 탭 -->
+  <div class="view-switcher">
+    <button class="view-tab-btn active" id="tabRecap" onclick="switchView('recap')">
+      📱 9월 월간 성장 리캡 (디지털)
+    </button>
+    <button class="view-tab-btn" id="tabAlbum" onclick="switchView('album')">
+      📖 월간 실물 성장 앨범 (24p 인디고 무선책자)
+    </button>
+  </div>
+
+  <!-- 1. 월간 성장 리캡 영역 -->
+  <div class="recap-section active" id="secRecap">
+    <div class="recap-container">
+      <div class="recap-head">
+        <span style="font-size:.78rem; font-weight:800; color:var(--blue); background:var(--blue-light); padding:3px 10px; border-radius:6px;">
+          2026년 9월 월간 회고
+        </span>
+        <h1 style="margin-top: 8px;">김민준 어린이의 9월 성장 이야기</h1>
+        <p>어린이집에서의 관찰과 가정의 메모가 모여 완성된 한 달의 변화입니다.</p>
+      </div>
+
+      <!-- 리캡 카드 1: 하이라이트 -->
+      <div class="story-card">
+        <span class="story-tag blue">9월의 성장 키워드</span>
+        <h2>"스스로 맛본 용기, 친구와 함께 쌓은 탑"</h2>
+        <p>
+          9월의 민준이는 낯선 경험에 대한 두려움을 극복하고 자신의 속도대로 한 뼘 더 자라났습니다.
+          식사 시간의 작은 용기와 블록 놀이에서의 협동은 민준이가 가진 따뜻한 잠재력을 보여주었습니다.
+        </p>
+
+        <div class="metric-grid">
+          <div class="metric-box">
+            <div class="num">3회</div>
+            <div class="label">새로운 채소 도전 성공</div>
+          </div>
+          <div class="metric-box">
+            <div class="num">12일</div>
+            <div class="label">친구와의 협동 놀이 관찰</div>
+          </div>
+          <div class="metric-box">
+            <div class="num">15분</div>
+            <div class="label">낮잠 입면 시간 단축</div>
+          </div>
+        </div>
+
+        <div class="source-link-box">
+          <span>기반 데이터: 9월 담임교사 관찰일지 18건 + 알림장 20건</span>
+          <button onclick="alert('교사가 작성한 9월 원본 관찰일지 18건과 사진 45장이 안전하게 연결되어 있습니다.')">원기록 열람 →</button>
+        </div>
+      </div>
+
+      <!-- 리캡 카드 2: 식습관과 건강 -->
+      <div class="story-card">
+        <span class="story-tag green">식사 & 건강 리듬</span>
+        <h2>버섯의 새로운 발견 🍄</h2>
+        <p>
+          지난달까지 버섯 반찬을 전량 거부했던 민준이가 9월 2주차 국물 적시기를 거쳐,
+          9월 29일에는 표고버섯 볶음을 스스로 한 입 먹고 씩씩하게 웃었습니다.
+          원에서의 작은 성공 경험이 가정으로 이어지도록 지도하고 있습니다.
+        </p>
+        <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:12px 16px; font-size:.84rem; color:#166534;">
+          💡 <strong>이번 주말 가정 연계 팁:</strong> 오늘 저녁에는 버섯을 잘게 썬 볶음밥을 민준이와 함께 요리해보는 건 어떨까요? (자람새 저녁 메뉴 추천과 연계)
+        </div>
+      </div>
+
+      <!-- 리캡 카드 3: 친구와 놀이 -->
+      <div class="story-card">
+        <span class="story-tag amber">놀이 & 또래 관계</span>
+        <h2>무너져도 괜찮아, 다시 쌓으면 돼 🏰</h2>
+        <p>
+          블록 성이 무너질 때 속상해 울던 모습 대신, "서아야 우리 다시 해보자!"라며 친구 손을 잡고
+          재도전하는 성숙한 모습을 보여주었습니다. 갈등을 조율하고 차례를 기다리는 힘이 눈에 띄게 자랐습니다.
+        </p>
+        <div class="source-link-box">
+          <span>관련 사진: 9월 29일 오후 블록 영역 활동 사진 (4장)</span>
+          <button onclick="alert('사진 4장은 24p 실물 성장 앨범 7페이지에 자동 배치되었습니다.')">앨범에서 보기 →</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 2. 월간 실물 성장 앨범 영역 -->
+  <div class="album-section" id="secAlbum">
+    <div class="album-meta-card">
+      <div class="album-meta-title">
+        <h2>디지털 무선책자 24p 실물 성장 앨범</h2>
+        <p>한 달 동안 모인 기록과 사진이 매달 1권의 책으로 출판되어 집으로 배송됩니다.</p>
+      </div>
+      <div class="album-specs">
+        <span class="spec-badge">규격: A5 (148 x 210mm)</span>
+        <span class="spec-badge">표지: 랑데뷰 240g 양면칼라</span>
+        <span class="spec-badge">내지: 스노우지 150g 24페이지</span>
+        <span class="spec-badge">제본: 무선 - 좌철</span>
+        <span class="spec-badge" style="background:#ecfdf5; color:#059669; font-weight:700;">인쇄 견적: 권당 3,436원 확정</span>
+      </div>
+    </div>
+
+    <!-- 책자 스프레드 뷰어 -->
+    <div class="book-viewer">
+      <div style="font-size:.82rem; color:#94a3b8; margin-bottom: 14px;">
+        📖 <strong id="spreadLabel">표지 및 시작 (COVER / 1페이지)</strong>
+      </div>
+
+      <div class="book-spread">
+        <!-- 좌측 페이지 -->
+        <div class="page-leaf page-left" id="pageLeft">
+          <div class="page-content" id="contentLeft">
+            <span style="font-size:.7rem; font-weight:800; color:#4c6ef5; text-transform:uppercase;">i-eum monthly album</span>
+            <h3 style="font-size:1.4rem; margin-top:14px;">민준이의 9월 이야기</h3>
+            <p style="color:#64748b;">햇살가득 어린이집 햇살반 · 41개월</p>
+            <div style="height:220px; background:linear-gradient(135deg, #dcfce7, #fef3c7); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:2.5rem;">
+              🌱
+            </div>
+            <p style="font-size:.78rem; color:#94a3b8; text-align:center;">2026년 9월호 · 발행처: 이음 아카이브</p>
+          </div>
+          <div class="page-num" id="numLeft">COVER</div>
+        </div>
+
+        <!-- 우측 페이지 -->
+        <div class="page-leaf page-right" id="pageRight">
+          <div class="page-content" id="contentRight">
+            <span style="font-size:.7rem; font-weight:800; color:#10b981;">TEACHER'S NOTE</span>
+            <h3>선생님이 전하는 9월의 온기</h3>
+            <p>
+              "민준이는 이번 9월 한 달 동안 낯선 음식도 용기 내어 먹어보고, 친구들과 블록으로 높은 성을 쌓으며 나누는 기쁨을 배웠습니다.
+              친구의 울음에 다가가 등을 토닥여주던 민준이의 따뜻한 손길을 오래도록 기억합니다."
+            </p>
+            <div class="photo-mockup" style="background:#e0f2fe;">
+              [담임선생님과 민준이의 웃는 하루 사진]
+            </div>
+            <p style="font-size:.78rem; color:#64748b; font-style:italic;">
+              — 햇살반 담임교사 올림 (2026.09.29)
+            </p>
+          </div>
+          <div class="page-num" id="numRight">Page 1</div>
+        </div>
+      </div>
+
+      <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSpread()">← 이전 페이지</button>
+        <span style="font-size:.85rem; font-weight:700;" id="pageIndicator">1 / 12 스프레드 (총 24면)</span>
+        <button class="nav-btn" onclick="nextSpread()">다음 페이지 →</button>
+      </div>
+    </div>
+
+    <!-- 단위 경제 및 사업계획서 검증 카드 -->
+    <div class="unit-econ-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <h3>📊 실물 앨범 단위 경제 (Unit Economics) 투명 공개</h3>
+        <a href="album_quote_printlab.png" target="_blank" style="font-size:.82rem; color:var(--blue); font-weight:700; text-decoration:none;">
+          🧾 프린트랩 100부 실측 견적서 확인 (343,640원) ↗
+        </a>
+      </div>
+      <p style="font-size:.85rem; color:var(--text-sub); margin:4px 0 14px;">
+        사업계획서 6.3~6.6에 명시된 월간 구독 모델(월 24,900원)의 실제 원가와 공헌이익 구조입니다.
+      </p>
+
+      <table class="unit-table">
+        <thead>
+          <tr>
+            <th>구분 항목</th>
+            <th>단위당 금액</th>
+            <th>산정 근거</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>부모 구독료 (매출)</strong></td>
+            <td style="color:var(--blue); font-weight:800;">24,900원 / 월</td>
+            <td>디지털 프리미엄 전체 + 실물 앨범 1권 자동 배송</td>
+          </tr>
+          <tr>
+            <td>인쇄·제본비 (원가)</td>
+            <td style="color:#e11d48;">-3,436원</td>
+            <td>프린트랩 인디고 100부 발주 기준 실측 견적 (A5 24p)</td>
+          </tr>
+          <tr>
+            <td>개별 포장 및 배송비</td>
+            <td style="color:#e11d48;">-3,200원</td>
+            <td>택배 계약 단가 (박스 완충재 포함)</td>
+          </tr>
+          <tr>
+            <td>디지털 서버·AI 운영비</td>
+            <td style="color:#e11d48;">-1,200원</td>
+            <td>사진 스토리지, AI 호출 및 리캡 생성 비용</td>
+          </tr>
+          <tr>
+            <td><strong>월 공헌이익 (Contribution Margin)</strong></td>
+            <td style="color:#10b981; font-weight:800; font-size:1rem;">+17,064원 (약 68.5%)</td>
+            <td>지속 가능한 고마진 물리 구독 비즈니스 모델 달성</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  let currentSpread = 0;
+
+  const SPREADS = [
+    {
+      label: '표지 및 시작 (COVER / 1페이지)',
+      leftNum: 'COVER',
+      leftContent: `
+        <span style="font-size:.7rem; font-weight:800; color:#4c6ef5; text-transform:uppercase;">i-eum monthly album</span>
+        <h3 style="font-size:1.4rem; margin-top:14px;">민준이의 9월 이야기</h3>
+        <p style="color:#64748b;">햇살가득 어린이집 햇살반 · 41개월</p>
+        <div style="height:220px; background:linear-gradient(135deg, #dcfce7, #fef3c7); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:2.5rem;">
+          🌱
+        </div>
+        <p style="font-size:.78rem; color:#94a3b8; text-align:center;">2026년 9월호 · 발행처: 이음 아카이브</p>
+      `,
+      rightNum: 'Page 1',
+      rightContent: `
+        <span style="font-size:.7rem; font-weight:800; color:#10b981;">TEACHER'S NOTE</span>
+        <h3>선생님이 전하는 9월의 온기</h3>
+        <p>
+          "민준이는 이번 9월 한 달 동안 낯선 음식도 용기 내어 먹어보고, 친구들과 블록으로 높은 성을 쌓으며 나누는 기쁨을 배웠습니다.
+          친구의 울음에 다가가 등을 토닥여주던 민준이의 따뜻한 손길을 오래도록 기억합니다."
+        </p>
+        <div class="photo-mockup" style="background:#e0f2fe;">
+          [담임선생님과 민준이의 웃는 하루 사진]
+        </div>
+        <p style="font-size:.78rem; color:#64748b; font-style:italic;">
+          — 햇살반 담임교사 올림 (2026.09.29)
+        </p>
+      `
+    },
+    {
+      label: '급식 도전 & 건강한 성장 (2 ~ 3페이지)',
+      leftNum: 'Page 2',
+      leftContent: `
+        <span style="font-size:.7rem; font-weight:800; color:#e11d48;">MEAL TIME</span>
+        <h3>스스로 맛보는 즐거움</h3>
+        <div class="photo-mockup" style="background:#fef2f2;">
+          [스스로 식판을 들고 앉는 민준이 사진]
+        </div>
+        <p>
+          급식 시간에 식판을 들고 바르게 앉아 숟가락으로 밥을 떠먹는 모습입니다.
+          좋아하는 맑은 콩나물국과 두부 부침은 언제나 1등으로 깨끗이 비워냅니다.
+        </p>
+      `,
+      rightNum: 'Page 3',
+      rightContent: `
+        <span style="font-size:.7rem; font-weight:800; color:#10b981;">LITTLE CHALLENGE</span>
+        <h3>버섯과 친해진 기적의 날</h3>
+        <div class="photo-mockup" style="background:#ecfdf5;">
+          [표고버섯 볶음을 맛보고 엄지 척을 올리는 사진]
+        </div>
+        <p>
+          "선생님, 버섯 향기가 고소해요!"
+          지난주까지 젓가락도 대지 않던 버섯을 스스로 맛보고 환하게 웃던 민준이의 결정적 순간입니다.
+        </p>
+      `
+    },
+    {
+      label: '블록 놀이와 또래 협동 (4 ~ 5페이지)',
+      leftNum: 'Page 4',
+      leftContent: `
+        <span style="font-size:.7rem; font-weight:800; color:#4c6ef5;">PLAY & CREATE</span>
+        <h3>우리가 만든 거대한 성</h3>
+        <div class="photo-mockup" style="background:#e0e7ff;">
+          [친구 서아와 함께 원목 블록을 높이 쌓는 사진]
+        </div>
+        <p>
+          서아와 함께 블록을 맞추며 "여기는 자동차 차고야"라고 이야기를 확장해 나갑니다.
+          친구의 아이디어를 귀담아듣고 블록을 나누는 배려심이 돋보였습니다.
+        </p>
+      `,
+      rightNum: 'Page 5',
+      rightContent: `
+        <span style="font-size:.7rem; font-weight:800; color:#f59f00;">EMOTIONAL GROWTH</span>
+        <h3>무너져도 괜찮아</h3>
+        <div class="photo-mockup" style="background:#fffbeb;">
+          [무너진 블록 앞에서 씩씩하게 웃으며 다시 정리하는 사진]
+        </div>
+        <p>
+          탑이 쓰러졌을 때 울지 않고 "다시 만들면 더 튼튼해져!"라며 친구를 위로하던 민준이.
+          좌절 속에서 유연하게 대처하는 정서 회복탄력성이 눈부시게 자라났습니다.
+        </p>
+      `
+    }
+  ];
+
+  function switchView(view) {
+    document.querySelectorAll('.view-tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.recap-section, .album-section').forEach(s => s.classList.remove('active'));
+
+    if (view === 'recap') {
+      document.getElementById('tabRecap').classList.add('active');
+      document.getElementById('secRecap').classList.add('active');
+    } else {
+      document.getElementById('tabAlbum').classList.add('active');
+      document.getElementById('secAlbum').classList.add('active');
+    }
+  }
+
+  function renderSpread() {
+    const s = SPREADS[currentSpread];
+    document.getElementById('spreadLabel').textContent = s.label;
+    document.getElementById('numLeft').textContent = s.leftNum;
+    document.getElementById('contentLeft').innerHTML = s.leftContent;
+    document.getElementById('numRight').textContent = s.rightNum;
+    document.getElementById('contentRight').innerHTML = s.rightContent;
+    document.getElementById('pageIndicator').textContent = `${currentSpread + 1} / ${SPREADS.length} 스프레드 (샘플)`;
+  }
+
+  function nextSpread() {
+    if (currentSpread < SPREADS.length - 1) {
+      currentSpread++;
+      renderSpread();
+    }
+  }
+
+  function prevSpread() {
+    if (currentSpread > 0) {
+      currentSpread--;
+      renderSpread();
+    }
+  }
+
+  renderSpread();
+</script>
+
+</body>
+</html>

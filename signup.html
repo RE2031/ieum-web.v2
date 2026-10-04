@@ -1,0 +1,946 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>회원가입 &amp; 클린 안심 서약 · 자람새</title>
+<style>
+  :root{
+    --bg: #f4f6fc;
+    --card: #ffffff;
+    --blue: #5e81f4;
+    --blue-dark: #476be2;
+    --blue-light: #eef3ff;
+    --teal: #10b981;
+    --teal-dark: #059669;
+    --teal-light: #ecfdf5;
+    --text: #1b212f;
+    --text-sub: #7b8395;
+    --border: #e6eaf3;
+  }
+  *{ box-sizing: border-box; }
+  body{
+    margin: 0;
+    font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Malgun Gothic", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 32px 16px 80px;
+  }
+
+  .top-nav-bar{
+    width: 100%;
+    max-width: 620px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    font-size: .84rem;
+  }
+  .top-nav-bar a{
+    color: var(--text-sub);
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: color .15s ease;
+  }
+  .top-nav-bar a:hover{ color: var(--blue-dark); }
+
+  .signup-card{
+    background: var(--card);
+    width: 100%;
+    max-width: 620px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(27,33,47,0.08);
+    border: 1px solid var(--border);
+    padding: 32px 28px;
+    margin: 0 auto;
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size: 1.35rem;
+    font-weight:800;
+    color: var(--text);
+    margin-bottom: 6px;
+    text-decoration:none;
+  }
+  .brand svg{ width:28px; height:28px; }
+  .brand-sub{
+    font-size: .86rem;
+    color: var(--text-sub);
+    margin: 0 0 18px;
+    line-height: 1.5;
+  }
+
+  /* 단계 인디케이터 (Step Progress) */
+  .step-indicator{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .step-item{
+    background: #f1f5f9;
+    border-radius: 10px;
+    padding: 10px 8px;
+    text-align: center;
+    transition: all .2s ease;
+    border: 1.5px solid transparent;
+  }
+  .step-item.active{
+    background: #eef3ff;
+    border-color: var(--blue);
+  }
+  .step-item.completed{
+    background: #ecfdf5;
+    border-color: #a7f3d0;
+  }
+  .step-num{
+    display: block;
+    font-size: .72rem;
+    font-weight: 800;
+    color: var(--text-sub);
+    margin-bottom: 2px;
+  }
+  .step-item.active .step-num{ color: var(--blue-dark); }
+  .step-item.completed .step-num{ color: var(--teal-dark); }
+  .step-text{
+    display: block;
+    font-size: .8rem;
+    font-weight: 700;
+    color: #475569;
+  }
+  .step-item.active .step-text{ color: var(--blue-dark); }
+  .step-item.completed .step-text{ color: #065f46; }
+
+  /* 스텝 화면 컨테이너 */
+  .step-pane{
+    display: none;
+    animation: fadeIn .2s ease forwards;
+  }
+  .step-pane.active{
+    display: block;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .step-heading{
+    font-size: 1.08rem;
+    font-weight: 800;
+    color: var(--text);
+    margin: 0 0 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .step-desc{
+    font-size: .84rem;
+    color: var(--text-sub);
+    margin: 0 0 18px;
+    line-height: 1.5;
+  }
+
+  /* 1단계: 회원 유형 선택 카드 */
+  .role-card-grid{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .role-card{
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 18px;
+    cursor: pointer;
+    transition: all .15s ease;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: #ffffff;
+    user-select: none;
+  }
+  .role-card:hover{
+    border-color: #cbd5e1;
+    background: #f8fafc;
+  }
+  .role-card.active{
+    border-color: var(--blue);
+    background: #f4f7ff;
+    box-shadow: 0 4px 14px rgba(94,129,244,0.12);
+  }
+  .role-icon-box{
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    background: #f1f5f9;
+    flex-shrink: 0;
+  }
+  .role-card.active .role-icon-box{
+    background: #e0e7ff;
+  }
+  .role-card-info{ flex: 1; }
+  .role-card-title{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: .95rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .role-badge-tag{
+    font-size: .68rem;
+    padding: 2px 7px;
+    border-radius: 6px;
+    font-weight: 700;
+  }
+  .role-card-desc{
+    font-size: .8rem;
+    color: var(--text-sub);
+    line-height: 1.45;
+  }
+
+  /* 2단계: 계정 정보 입력 */
+  .role-summary-banner{
+    background: var(--blue-light);
+    border: 1px solid #dce5f8;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: .84rem;
+    font-weight: 700;
+    color: var(--blue-dark);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .role-summary-banner button{
+    background: none;
+    border: none;
+    color: var(--blue-dark);
+    font-size: .78rem;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  label{
+    display:block;
+    font-size: .82rem;
+    font-weight: 700;
+    color: #4a5578;
+    margin: 14px 0 6px;
+  }
+  input[type="text"], input[type="password"]{
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-size: .92rem;
+    font-family: inherit;
+    transition: border-color .15s ease;
+    background: #ffffff;
+  }
+  input[type="text"]:focus, input[type="password"]:focus{
+    outline: none;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(94,129,244,0.12);
+  }
+
+  /* 3단계: 클린 서약 박스 */
+  .pledge-box{
+    background: #f8fafc;
+    border: 1.5px solid #a7f3d0;
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-top: 8px;
+  }
+  .pledge-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-size: .92rem;
+    font-weight: 800;
+    color: #065f46;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .all-check-label{
+    display:flex;
+    align-items:center;
+    gap: 8px;
+    font-weight: 800;
+    font-size: .88rem;
+    color: #047857;
+    cursor:pointer;
+    margin-bottom: 14px;
+    padding: 10px 12px;
+    background: #ecfdf5;
+    border-radius: 8px;
+    border: 1px solid #a7f3d0;
+    user-select: none;
+  }
+  .all-check-label input{ width: 17px; height: 17px; cursor: pointer; }
+  .clause-item{
+    margin-bottom: 11px;
+    padding-left: 2px;
+  }
+  .clause-label{
+    display:flex;
+    align-items:flex-start;
+    gap: 8px;
+    font-size: .82rem;
+    color: #334155;
+    cursor: pointer;
+    line-height: 1.48;
+    user-select: none;
+  }
+  .clause-label input{ margin-top: 2px; width: 16px; height: 16px; flex: 0 0 auto; cursor: pointer; }
+  .clause-tag{
+    font-size: .7rem;
+    background: #e2e8f0;
+    color: #475569;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+    margin-right: 4px;
+    white-space: nowrap;
+  }
+
+  /* 서명 캔버스 */
+  .sig-area{
+    margin-top: 16px;
+    background: #fff;
+    border: 1.5px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 14px;
+    text-align:center;
+    transition: all .2s ease;
+  }
+  .sig-area.signed{
+    border-color: var(--teal-dark);
+    background: #f0fdf4;
+    border-style: solid;
+  }
+  .canvas-wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  canvas{
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    touch-action: none;
+    cursor: crosshair;
+    width: 100%;
+    max-width: 520px;
+    height: 130px;
+    display: block;
+  }
+  .sig-actions{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top: 10px;
+    font-size: .76rem;
+    color: var(--text-sub);
+    gap: 8px;
+  }
+  .sig-status-badge{
+    font-size: .72rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: #f1f5f9;
+    color: #64748b;
+  }
+  .sig-status-badge.ok{
+    background: #dcfce7;
+    color: #166534;
+  }
+  .clear-btn{
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: .74rem;
+    font-weight: 700;
+    color: #64748b;
+    cursor: pointer;
+  }
+  .clear-btn:hover{ background: #e2e8f0; color: #334155; }
+
+  /* 이전/다음 버튼 컨트롤러 */
+  .step-actions{
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+  }
+  .btn-prev{
+    flex: 0 0 100px;
+    padding: 14px;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: .92rem;
+    font-weight: 700;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all .15s ease;
+  }
+  .btn-prev:hover{ background: #e2e8f0; }
+
+  .btn-next{
+    flex: 1;
+    padding: 14px;
+    background: var(--blue);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 800;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all .15s ease;
+    box-shadow: 0 4px 14px rgba(94,129,244,0.3);
+  }
+  .btn-next:hover{ background: var(--blue-dark); transform: translateY(-1px); }
+
+  .btn-submit{
+    flex: 1;
+    padding: 14px;
+    background: #059669;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 800;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all .15s ease;
+    box-shadow: 0 4px 14px rgba(5,150,105,0.3);
+  }
+  .btn-submit:hover{ background: #047857; transform: translateY(-1px); }
+
+  .error-box{
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #b91c1c;
+    padding: 11px 14px;
+    border-radius: 10px;
+    font-size: .84rem;
+    margin: 14px 0 0;
+    display: none;
+    line-height: 1.45;
+  }
+
+  .login-link-row{
+    text-align: center;
+    margin-top: 18px;
+    font-size: .84rem;
+    color: var(--text-sub);
+  }
+  .login-link-row a{ color: var(--blue); font-weight: 700; text-decoration: none; }
+  .login-link-row a:hover{ text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="top-nav-bar">
+  <a href="index.html">← 자람새 가정 라운지로 돌아가기</a>
+  <a href="login.html">이미 계정이 있으신가요? <strong>로그인</strong></a>
+</div>
+
+<div class="signup-card">
+  <a class="brand" href="index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#6c8ef5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 8c0 3-2.5 4-5 4l-1 6h-3l-1-4c-3 0-6-2-6-6 0-1 .3-2 1-3 .5 1 1.5 1.5 2.5 1.5C8 4 10 3 12 3c1 0 2 .3 2.8.9C15.5 3.3 16.7 3 18 3c0 1.2-.4 2.2-1.2 3 1.4.5 2.2 1.2 3.2 2z"/>
+      <circle cx="16.5" cy="7.5" r=".6" fill="#6c8ef5"/>
+    </svg>
+    <span>자람새</span>
+  </a>
+  <p class="brand-sub">
+    비교와 경쟁 없는 따뜻한 육아 커뮤니티 자람새의 안심 회원가입입니다.
+  </p>
+
+
+  <!-- 단계 인디케이터 (Step Indicator) -->
+  <div class="step-indicator">
+    <div class="step-item active" id="stepIndicator1">
+      <span class="step-num">STEP 1</span>
+      <span class="step-text">회원 유형 선택</span>
+    </div>
+    <div class="step-item" id="stepIndicator2">
+      <span class="step-num">STEP 2</span>
+      <span class="step-text">계정 정보 입력</span>
+    </div>
+    <div class="step-item" id="stepIndicator3">
+      <span class="step-num">STEP 3</span>
+      <span class="step-text">클린 서약 &amp; 서명</span>
+    </div>
+  </div>
+
+  <form id="signupForm" novalidate>
+    <!-- ==================== [STEP 1: 회원 유형 선택] ==================== -->
+    <div class="step-pane active" id="stepPane1">
+      <h2 class="step-heading">1단계. 활동하실 회원 유형을 선택해 주세요</h2>
+      <p class="step-desc">회원 유형에 맞추어 전용 메뉴(교사용 서재, 제휴 안심 반론권 등)가 제공됩니다.</p>
+
+      <div class="role-card-grid">
+        <!-- 학부모 카드 -->
+        <div class="role-card active" data-role="parent" onclick="selectRole('parent')">
+          <div class="role-icon-box">🌱</div>
+          <div class="role-card-info">
+            <div class="role-card-title">
+              <span>일반 학부모 / 이웃</span>
+              <span class="role-badge-tag" style="background:#e0f2fe; color:#0369a1;">기본</span>
+            </div>
+            <div class="role-card-desc">
+              아이의 성장 일기 기록, 전문가 Q&amp;A 질문, 동네 이웃과의 따뜻한 육아 정보 및 물품 나눔
+            </div>
+          </div>
+        </div>
+
+        <!-- 교사 카드 -->
+        <div class="role-card" data-role="teacher" onclick="selectRole('teacher')">
+          <div class="role-icon-box">👩‍🏫</div>
+          <div class="role-card-info">
+            <div class="role-card-title">
+              <span>보육·교육 교사 (인증 회원)</span>
+              <span class="role-badge-tag" style="background:#fef3c7; color:#b45309;">교사용 서재 전용</span>
+            </div>
+            <div class="role-card-desc">
+              AI 관찰기록 보조, 아동 발달 리포트 생성, CARE ONTOLOGY 기반 맞춤형 추천 놀이 계획서 활용
+            </div>
+          </div>
+        </div>
+
+        <!-- 파트너 카드 -->
+        <div class="role-card" data-role="partner" onclick="selectRole('partner')">
+          <div class="role-icon-box">🤝</div>
+          <div class="role-card-info">
+            <div class="role-card-title">
+              <span>소상공인 / 광고 파트너</span>
+              <span class="role-badge-tag" style="background:#dcfce7; color:#15803d;">안심 반론권 보장</span>
+            </div>
+            <div class="role-card-desc">
+              지역 육아 교구·체험·학원 공식 홍보, 악의적 비방 방지 및 게시글 하단 공식 해명·반론권 보장
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="error-box" id="errorBoxStep1"></div>
+
+      <div class="step-actions">
+        <button type="button" class="btn-next" onclick="goToStep(2)">다음: 계정 정보 입력 →</button>
+      </div>
+    </div>
+
+    <!-- ==================== [STEP 2: 계정 정보 입력] ==================== -->
+    <div class="step-pane" id="stepPane2">
+      <h2 class="step-heading">2단계. 로그인에 사용할 계정 정보를 입력해 주세요</h2>
+      <p class="step-desc">안전한 로그인을 위해 아이디와 비밀번호를 설정합니다.</p>
+
+      <div class="role-summary-banner">
+        <span id="roleSummaryText">선택된 유형: 🌱 일반 학부모 / 이웃</span>
+        <button type="button" onclick="goToStep(1)">유형 변경</button>
+      </div>
+
+      <label for="signupId">아이디</label>
+      <input type="text" id="signupId" placeholder="아이디를 입력하세요 (예: minjun_mom, teacher01)">
+      <div id="idRoleHint" style="font-size:.76rem; color:var(--text-sub); margin-top:4px;">
+        💡 교사 계정은 <code>teacher</code>로 시작하면 교사용 서재가 자동 활성화됩니다.
+      </div>
+
+      <label for="signupName">이름 또는 상호</label>
+      <input type="text" id="signupName" placeholder="실명 또는 사업체 상호를 입력하세요">
+
+      <label for="signupPw">비밀번호</label>
+      <input type="password" id="signupPw" placeholder="비밀번호를 입력하세요 (4자리 이상)">
+
+      <label for="signupPwConfirm">비밀번호 확인</label>
+      <input type="password" id="signupPwConfirm" placeholder="비밀번호를 한 번 더 입력하세요">
+
+      <div class="error-box" id="errorBoxStep2"></div>
+
+      <div class="step-actions">
+        <button type="button" class="btn-prev" onclick="goToStep(1)">← 이전</button>
+        <button type="button" class="btn-next" onclick="validateStep2AndProceed()">다음: 안심 서약하기 →</button>
+      </div>
+    </div>
+
+    <!-- ==================== [STEP 3: 클린 안심 서약 및 전자서명] ==================== -->
+    <div class="step-pane" id="stepPane3">
+      <h2 class="step-heading">3단계. 클린 안심 서약 및 전자서명 (필수)</h2>
+      <p class="step-desc">모두가 안심할 수 있는 문화를 위해 법적 준수 협약에 서명해 주세요.</p>
+
+      <div class="role-summary-banner" style="background:#ecfdf5; border-color:#a7f3d0; color:#065f46;">
+        <span id="accountSummaryText">서약자: 김민준 엄마 (minjun_mom)</span>
+        <button type="button" onclick="goToStep(2)" style="color:#047857;">정보 수정</button>
+      </div>
+
+      <div class="pledge-box">
+        <div class="pledge-title">
+          <span>🛡️ 자람새 클린 안심 이용 협약</span>
+          <span style="font-size:.75rem; color:#047857;">전자서명법 제3조 준수</span>
+        </div>
+
+        <label class="all-check-label">
+          <input type="checkbox" id="checkAll" onchange="toggleAllPledge(this)">
+          <span>모든 안심 준수 조항에 일괄 동의합니다 (필수)</span>
+        </label>
+
+        <div class="clause-item">
+          <label class="clause-label">
+            <input type="checkbox" class="pledge-check" onchange="checkPledgeState()">
+            <span><span class="clause-tag">형법 314조</span> <strong>업무방해 방지 및 소상공인 공식 반론권 보장:</strong> 특정 업체나 교사를 향한 악의적 허위비방을 금하며, 피해 업체에게 게시물 하단 공식 반론·해명권이 보장됨에 동의합니다. (필수)</span>
+          </label>
+        </div>
+
+        <div class="clause-item">
+          <label class="clause-label">
+            <input type="checkbox" class="pledge-check" onchange="checkPledgeState()">
+            <span><span class="clause-tag">형법 350조</span> <strong>공갈 및 부당 협찬 요구 금지:</strong> 커뮤니티 지위나 영향력을 이용해 금품, 무상 협찬을 요구하지 않으며 적발 시 영구 박탈 및 형사 고발 절차에 동의합니다. (필수)</span>
+          </label>
+        </div>
+
+        <div class="clause-item">
+          <label class="clause-label">
+            <input type="checkbox" class="pledge-check" onchange="checkPledgeState()">
+            <span><span class="clause-tag">표시광고법</span> <strong>대가성 표기 의무 및 저작권 준수:</strong> 경제적 대가(체험단, 원고료 등)를 받은 경우 본문에 명확히 표기(뒷광고 엄금)하며, 허위과장 책임은 본인이 전적으로 부담합니다. (필수)</span>
+          </label>
+        </div>
+
+        <div class="clause-item">
+          <label class="clause-label">
+            <input type="checkbox" class="pledge-check" onchange="checkPledgeState()">
+            <span><span class="clause-tag">전자상거래법 20조</span> <strong>통신판매중개자 법적 면책 확인:</strong> 자람새 플랫폼은 통신판매중개자로서 회원 상호 간 거래나 광고주의 상품 거래에 책임을 지지 않음을 확인합니다. (필수)</span>
+          </label>
+        </div>
+
+        <div class="clause-item">
+          <label class="clause-label">
+            <input type="checkbox" class="pledge-check" onchange="checkPledgeState()">
+            <span><span class="clause-tag">상생 윤리</span> <strong>비전문가적 진단·낙인 금지:</strong> 다른 아이를 비교하거나 비전문가로서 발달 지연 등을 낙인찍지 않으며 따뜻한 언어로 소통합니다. (필수)</span>
+          </label>
+        </div>
+
+        <!-- 서명 패드 -->
+        <div class="sig-area" id="sigArea">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span style="font-size:.84rem; font-weight:800; color:#1e293b;">
+              ✍️ 자필 전자서명 (터치 또는 마우스로 서명하세요)
+            </span>
+            <span class="sig-status-badge" id="sigStatusBadge">서명 미작성</span>
+          </div>
+          <div class="canvas-wrapper">
+            <canvas id="sigCanvas" width="520" height="130"></canvas>
+          </div>
+          <div class="sig-actions">
+            <span>전자서명법 제3조에 따라 본 서명은 법적 효력을 갖습니다.</span>
+            <button type="button" class="clear-btn" onclick="clearSignature()">↺ 서명 다시 쓰기</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="error-box" id="errorBoxStep3"></div>
+
+      <div class="step-actions">
+        <button type="button" class="btn-prev" onclick="goToStep(2)">← 이전</button>
+        <button type="submit" class="btn-submit" id="submitBtn">🎉 클린 서약 및 가입 완료</button>
+      </div>
+    </div>
+
+    <div class="login-link-row">
+      이미 계정이 있으신가요? <a href="login.html">로그인하기</a>
+    </div>
+  </form>
+</div>
+
+<script src="auth.js"></script>
+<script>
+  let currentStep = 1;
+  let selectedRole = 'parent';
+  let hasSigned = false;
+
+  const roleNames = {
+    parent: '🌱 일반 학부모 / 이웃',
+    teacher: '👩‍🏫 보육·교육 교사 (인증 회원)',
+    partner: '🤝 소상공인 / 광고 파트너'
+  };
+
+  function selectRole(role) {
+    selectedRole = role;
+    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
+    const card = document.querySelector(`.role-card[data-role="${role}"]`);
+    if (card) card.classList.add('active');
+
+    // 2단계 요약 배너 업데이트
+    const banner = document.getElementById('roleSummaryText');
+    if (banner) banner.textContent = `선택된 유형: ${roleNames[role] || role}`;
+
+    // 2단계 아이디 힌트
+    const idInput = document.getElementById('signupId');
+    const hint = document.getElementById('idRoleHint');
+    if (role === 'teacher') {
+      if (!idInput.value) idInput.placeholder = 'teacher01 (교사 전용 서재 자동 활성화)';
+      hint.innerHTML = '💡 교사 계정은 <code>teacher</code>로 시작하면 교사용 서재가 자동 활성화됩니다.';
+    } else if (role === 'partner') {
+      if (!idInput.value) idInput.placeholder = 'partner01 (공식 파트너)';
+      hint.innerHTML = '💡 공식 파트너 계정으로 클린 제휴 및 반론권 권한이 부여됩니다.';
+    } else {
+      if (!idInput.value) idInput.placeholder = '아이디를 입력하세요 (예: minjun_mom)';
+      hint.innerHTML = '💡 자람새 가정 라운지에서 사용할 아이디를 입력하세요.';
+    }
+  }
+
+  function goToStep(step) {
+    currentStep = step;
+
+    // 인디케이터 업데이트
+    for (let i = 1; i <= 3; i++) {
+      const ind = document.getElementById(`stepIndicator${i}`);
+      const pane = document.getElementById(`stepPane${i}`);
+      ind.classList.remove('active', 'completed');
+      pane.classList.remove('active');
+
+      if (i === step) {
+        ind.classList.add('active');
+        pane.classList.add('active');
+      } else if (i < step) {
+        ind.classList.add('completed');
+      }
+    }
+
+    // 3단계 진입 시 서약자 요약 갱신 및 캔버스 초기화
+    if (step === 3) {
+      const name = document.getElementById('signupName').value.trim() || '회원';
+      const id = document.getElementById('signupId').value.trim() || 'user';
+      document.getElementById('accountSummaryText').textContent = `서약자: ${name} (${id}) · ${roleNames[selectedRole]}`;
+      setTimeout(initCanvas, 50);
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function validateStep2AndProceed() {
+    hideError();
+    const id = document.getElementById('signupId').value.trim();
+    const name = document.getElementById('signupName').value.trim();
+    const pw = document.getElementById('signupPw').value;
+    const pwc = document.getElementById('signupPwConfirm').value;
+
+    if (!id || !name || !pw) {
+      showError(2, '아이디, 이름(상호), 비밀번호를 모두 입력해 주세요.');
+      return;
+    }
+    if (pw.length < 4) {
+      showError(2, '비밀번호는 최소 4자리 이상이어야 합니다.');
+      return;
+    }
+    if (pw !== pwc) {
+      showError(2, '비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+      return;
+    }
+
+    goToStep(3);
+  }
+
+  // 캔버스 초기화 및 포인터 이벤트
+  const canvas = document.getElementById('sigCanvas');
+  const ctx = canvas.getContext('2d');
+  let isDrawing = false;
+
+  function initCanvas() {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = (rect.width || 520) * dpr;
+    canvas.height = (rect.height || 130) * dpr;
+    ctx.scale(dpr, dpr);
+    ctx.strokeStyle = '#0f172a';
+    ctx.lineWidth = 2.5;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    selectRole('parent');
+  });
+
+  window.addEventListener('resize', () => {
+    if (!hasSigned && currentStep === 3) initCanvas();
+  });
+
+  function getCanvasPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    };
+  }
+
+  function startPointer(e) {
+    e.preventDefault();
+    canvas.setPointerCapture(e.pointerId);
+    isDrawing = true;
+    const pos = getCanvasPos(e);
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+  }
+
+  function movePointer(e) {
+    if (!isDrawing) return;
+    e.preventDefault();
+    const pos = getCanvasPos(e);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+    setSignedState(true);
+  }
+
+  function endPointer(e) {
+    if (isDrawing) {
+      ctx.closePath();
+      isDrawing = false;
+      try { canvas.releasePointerCapture(e.pointerId); } catch(err) {}
+    }
+  }
+
+  canvas.addEventListener('pointerdown', startPointer);
+  canvas.addEventListener('pointermove', movePointer);
+  canvas.addEventListener('pointerup', endPointer);
+  canvas.addEventListener('pointercancel', endPointer);
+
+  function setSignedState(signed) {
+    hasSigned = signed;
+    const sigArea = document.getElementById('sigArea');
+    const badge = document.getElementById('sigStatusBadge');
+    if (signed) {
+      sigArea.classList.add('signed');
+      badge.textContent = '서명 완료 ✓';
+      badge.classList.add('ok');
+    } else {
+      sigArea.classList.remove('signed');
+      badge.textContent = '서명 미작성';
+      badge.classList.remove('ok');
+    }
+  }
+
+  function clearSignature() {
+    initCanvas();
+    setSignedState(false);
+  }
+
+  function toggleAllPledge(master) {
+    document.querySelectorAll('.pledge-check').forEach(c => c.checked = master.checked);
+  }
+
+  function checkPledgeState() {
+    const checks = document.querySelectorAll('.pledge-check');
+    const allChecked = Array.from(checks).every(c => c.checked);
+    document.getElementById('checkAll').checked = allChecked;
+  }
+
+  function showError(stepNum, msg) {
+    const box = document.getElementById(`errorBoxStep${stepNum}`);
+    if (box) {
+      box.textContent = msg;
+      box.style.display = 'block';
+      box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  function hideError() {
+    for (let i = 1; i <= 3; i++) {
+      const box = document.getElementById(`errorBoxStep${i}`);
+      if (box) box.style.display = 'none';
+    }
+  }
+
+  // 최종 폼 제출 (3단계에서 완료 클릭)
+  document.getElementById('signupForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    hideError();
+
+    const id = document.getElementById('signupId').value.trim();
+    const name = document.getElementById('signupName').value.trim();
+    const pw = document.getElementById('signupPw').value;
+    const pwc = document.getElementById('signupPwConfirm').value;
+    const allPledgesChecked = Array.from(document.querySelectorAll('.pledge-check')).every(c => c.checked);
+
+    if (!id || !name || !pw) {
+      goToStep(2);
+      showError(2, '아이디, 이름(상호), 비밀번호를 모두 입력해 주세요.');
+      return;
+    }
+    if (pw !== pwc) {
+      goToStep(2);
+      showError(2, '비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+      return;
+    }
+    if (!allPledgesChecked) {
+      showError(3, '클린 안심 커뮤니티 필수 서약 조항 5개에 모두 동의해 주세요.');
+      return;
+    }
+    if (!hasSigned) {
+      showError(3, '전자서명 패드에 직접 서명을 입력해 주세요.');
+      return;
+    }
+
+    // 역할 결정
+    let role = selectedRole;
+    const lowerId = id.toLowerCase();
+    if (lowerId.startsWith('teacher')) role = 'teacher';
+    else if (lowerId.startsWith('admin')) role = 'admin';
+
+    const now = new Date();
+    const dateStr = now.getFullYear() + '.' + String(now.getMonth()+1).padStart(2,'0') + '.' + String(now.getDate()).padStart(2,'0') + ' ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+    const certHash = 'JARAM-' + Math.random().toString(36).substring(2, 8).toUpperCase() + '-' + Date.now().toString(36).toUpperCase();
+
+    // 1. 사용자 계정 저장
+    try {
+      const users = JSON.parse(localStorage.getItem('jaramsae_users') || '{}');
+      users[id] = { id, name, role, signupDate: dateStr };
+      localStorage.setItem('jaramsae_users', JSON.stringify(users));
+    } catch(err) {}
+
+    // 2. 전자서약 기록 보관 (localStorage)
+    try {
+      const pledges = JSON.parse(localStorage.getItem('jaramsae_pledges') || '[]');
+      const signImage = canvas.toDataURL();
+      pledges.unshift({
+        userId: id,
+        name,
+        role,
+        type: role === 'partner' ? '광고·제휴 파트너 서약' : (role === 'teacher' ? '보육 교사 윤리 서약' : '일반 이웃 클린 서약'),
+        date: dateStr,
+        hash: certHash,
+        signImage
+      });
+      localStorage.setItem('jaramsae_pledges', JSON.stringify(pledges));
+    } catch(err) {}
+
+    // 3. 자동 로그인 처리
+    setAuth(id, role);
+
+    const roleName = role === 'teacher' ? '교사' : (role === 'partner' ? '공식 파트너' : '학부모 이웃');
+    alert(`🎉 [${name}]님, 자람새 [${roleName}] 회원가입 및 클린 안심 서약이 성공적으로 완료되었습니다!\n\n• 고유 서약 인증번호: ${certHash}\n• 선택 권한: ${roleName}\n\n자람새 커뮤니티의 따뜻하고 공정한 이웃이 되어주셔서 감사합니다.`);
+    location.href = 'index.html';
+  });
+</script>
+
+</body>
+</html>

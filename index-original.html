@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자람새</title>
+<style>
+  :root{
+    --bg: #eef1fb;
+    --card: #ffffff;
+    --blue: #6c8ef5;
+    --blue-light: #eaf0ff;
+    --text: #1f2430;
+    --text-sub: #8a8fa3;
+    --border: #edeff5;
+    --img-bg: #e4e7f0;
+  }
+  *{ box-sizing: border-box; }
+  [hidden]{ display:none !important; }
+  body{
+    margin:0;
+    font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:#fff;
+    padding: 14px 32px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top:0;
+    z-index: 10;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size: 1.3rem;
+    font-weight:700;
+  }
+  .logo svg{ width:30px; height:30px; }
+
+  .header-right{ display:flex; align-items:center; gap: 28px; }
+
+  nav{ display:flex; gap: 32px; }
+  .nav-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+    font-size: .78rem;
+    color: var(--text-sub);
+    cursor:pointer;
+    text-decoration:none;
+  }
+  .nav-item svg{ width:22px; height:22px; stroke: var(--text-sub); }
+  .nav-item.active{ color: var(--blue); font-weight:600; }
+  .nav-item.active svg{ stroke: var(--blue); }
+
+  .user-area{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding-left: 22px;
+    border-left: 1px solid var(--border);
+  }
+  .profile-link{ display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit; }
+  .user-area .avatar-sm{
+    width:34px; height:34px; border-radius:50%;
+    background: linear-gradient(135deg, #cfd8f6, #a9b8ea);
+    flex: 0 0 auto;
+  }
+  .user-area .user-info{ display:flex; flex-direction:column; line-height:1.3; }
+  .user-area .user-info strong{ font-size: .85rem; }
+  .user-area .role-badge{
+    font-size: .68rem;
+    padding: 1px 7px;
+    border-radius: 8px;
+    background: var(--blue-light);
+    color: var(--blue);
+    font-weight:600;
+    width: fit-content;
+  }
+  .user-area .logout-btn{
+    background:none;
+    border:none;
+    font-size: .78rem;
+    color: var(--text-sub);
+    cursor:pointer;
+    padding: 6px 4px;
+  }
+  .user-area .logout-btn:hover{ color: var(--text); }
+
+  /* ---------- Layout ---------- */
+  .layout{
+    display:grid;
+    grid-template-columns: 280px 1fr;
+    gap: 24px;
+    max-width: 1200px;
+    margin: 24px auto;
+    padding: 0 24px;
+    align-items:start;
+  }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .menu-card{
+    background: var(--card);
+    border-radius: 16px;
+    padding: 16px 18px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    text-decoration:none;
+    color: inherit;
+    box-shadow: 0 1px 3px rgba(20,30,60,.04);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .menu-card:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(20,30,60,.08);
+  }
+  .menu-icon{
+    flex: 0 0 auto;
+    width:44px;
+    height:44px;
+    border-radius: 12px;
+    background: var(--blue-light);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .menu-icon svg{ width:22px; height:22px; stroke: var(--blue); }
+  .menu-text strong{ display:block; font-size: .95rem; margin-bottom:2px; }
+  .menu-text span{ display:block; font-size: .78rem; color: var(--text-sub); }
+
+  /* 교사 전용 메뉴 */
+  .menu-card.teacher-card{
+    background: linear-gradient(135deg, #fffaf0, #ffffff);
+    border: 1px solid #ffe4b0;
+  }
+  .menu-card.teacher-card .menu-icon{ background: #fff1d6; }
+  .menu-card.teacher-card .menu-icon svg{ stroke: #d99a1f; }
+  .menu-card.teacher-card .menu-text strong{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+  }
+  .private-tag{
+    font-size: .62rem;
+    font-weight:700;
+    letter-spacing:.03em;
+    color:#a3721a;
+    background:#ffe9bd;
+    padding: 1px 6px;
+    border-radius: 6px;
+  }
+
+  /* 관리자 전용 메뉴 */
+  .menu-card.admin-card{
+    background: linear-gradient(135deg, #fff0f2, #ffffff);
+    border: 1px solid #ffc9d1;
+  }
+  .menu-card.admin-card .menu-icon{ background: #ffe1e5; }
+  .menu-card.admin-card .menu-icon svg{ stroke: #e0556c; }
+  .menu-card.admin-card .menu-text strong{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+  }
+  .private-tag.admin-tag{ color:#c23e52; background:#ffdde1; }
+
+  /* ---------- Feed ---------- */
+  .feed-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin: 4px 0 16px;
+  }
+  .feed h1{ font-size: 1.4rem; margin:0; }
+  .write-btn{
+    background: var(--blue);
+    color:#fff;
+    border:none;
+    border-radius: 10px;
+    padding: 9px 16px;
+    font-size: .82rem;
+    font-weight:700;
+    cursor:pointer;
+    text-decoration:none;
+  }
+  .write-btn:hover{ background: #5578e0; }
+  .post{
+    display:block;
+    background: var(--card);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 18px;
+    box-shadow: 0 1px 3px rgba(20,30,60,.04);
+    text-decoration:none;
+    color: inherit;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .post:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(20,30,60,.08);
+  }
+  .post-header{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .avatar{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background: linear-gradient(135deg, #cfd8f6, #a9b8ea);
+    flex: 0 0 auto;
+  }
+  .post-header .info strong{ display:block; font-size: .95rem; }
+  .post-header .info span{ font-size: .78rem; color: var(--text-sub); }
+
+  .img-tile{
+    position:relative;
+    background: var(--img-bg);
+    border-radius: 12px;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .img-tile svg{ width:28px; height:28px; }
+  .img-tile .more-count{
+    position:absolute;
+    inset:0;
+    background: rgba(20,25,45,.5);
+    color:#fff;
+    font-weight:700;
+    font-size: 1.1rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  /* featured post: 1 large + 4 small in a 2x2 block */
+  .gallery-feature{
+    display:grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    grid-template-rows: repeat(2, 130px);
+    gap:8px;
+    margin-bottom: 14px;
+  }
+  .gallery-feature .img-tile:nth-child(1){
+    grid-row: 1 / span 2;
+    grid-column: 1;
+  }
+
+  /* strip gallery: single row of 5 */
+  .gallery-strip{
+    display:grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap:8px;
+    margin-bottom: 14px;
+  }
+  .gallery-strip .img-tile{ aspect-ratio: 1 / 1; }
+
+  .post p{
+    margin:0;
+    font-size: .92rem;
+    line-height:1.6;
+    color:#454b5c;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    white-space: pre-wrap;
+  }
+  .post-stats{
+    display:flex;
+    gap:14px;
+    margin-top:10px;
+    font-size: .78rem;
+    color: var(--text-sub);
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 860px){
+    .layout{ grid-template-columns: 1fr; }
+    .sidebar{
+      flex-direction:row;
+      overflow-x:auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 6px;
+    }
+    .menu-card{ min-width: 220px; }
+    nav{ gap:18px; }
+  }
+  @media (max-width: 480px){
+    header{ padding: 12px 16px; }
+    .layout{ padding: 0 12px; }
+    .gallery-feature{ grid-template-rows: repeat(2, 90px); }
+    .nav-item span{ display:none; }
+    .user-area{ padding-left: 10px; gap:6px; }
+    .user-area .user-info{ display:none; }
+  }
+</style>
+<body>
+
+<div style="background:#1e2433; color:#f0f3fa; padding:10px 20px; font-size:13px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; border-bottom:1px solid #363e52; z-index:9999; position:relative;">
+  <div style="display:flex; align-items:center; gap:8px;">
+    <span style="background:#ffc107; color:#1f2430; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px;">원본 백업</span>
+    <span>이 페이지는 보존된 <strong>자람새 원본 웹사이트(Original Version)</strong>입니다. 언제든 이 화면을 확인하실 수 있습니다.</span>
+  </div>
+  <a href="index.html" style="background:#6c8ef5; color:#fff; text-decoration:none; padding:5px 14px; border-radius:8px; font-size:12px; font-weight:700; display:inline-flex; align-items:center; gap:4px;">
+    ✨ 모바일 최적화 &amp; 블로그형 메인으로 가기 →
+  </a>
+</div>
+
+<header>
+  <div class="logo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#6c8ef5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 8c0 3-2.5 4-5 4l-1 6h-3l-1-4c-3 0-6-2-6-6 0-1 .3-2 1-3 .5 1 1.5 1.5 2.5 1.5C8 4 10 3 12 3c1 0 2 .3 2.8.9C15.5 3.3 16.7 3 18 3c0 1.2-.4 2.2-1.2 3 1.4.5 2.2 1.2 3.2 2z"/>
+      <circle cx="16.5" cy="7.5" r=".6" fill="#6c8ef5"/>
+    </svg>
+    <span>자람새</span>
+  </div>
+  <div class="header-right">
+    <nav>
+      <a class="nav-item active" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+        <span>홈</span>
+      </a>
+      <a class="nav-item" href="write.html?cat=story">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 3.5l4 4L8 20l-5 1 1-5z"/></svg>
+        <span>글쓰기</span>
+      </a>
+      <a class="nav-item" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L3 20l1.1-5A8 8 0 1 1 21 12z"/></svg>
+        <span>채팅</span>
+      </a>
+      <a class="nav-item" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.6V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.6 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.6 1z"/></svg>
+        <span>설정</span>
+      </a>
+    </nav>
+
+    <div class="user-area">
+      <a class="profile-link" href="profile.html">
+        <div class="avatar-sm"></div>
+        <div class="user-info">
+          <strong id="userName">-</strong>
+          <span class="role-badge" id="userRoleBadge">-</span>
+        </div>
+      </a>
+      <button class="logout-btn" onclick="logout()">로그아웃</button>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <a class="menu-card" href="board.html?cat=guide">
+      <div class="menu-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a2 2 0 0 0 2 2h1l2 5h2l-1.5-5H10l9 4V6l-9 4H6a2 2 0 0 0-2 2z"/><path d="M13 10v6"/></svg>
+      </div>
+      <div class="menu-text">
+        <strong>자람새 안내</strong>
+        <span>공지사항 및 이용 가이드</span>
+      </div>
+    </a>
+
+    <a class="menu-card" href="board.html?cat=growth">
+      <div class="menu-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="14" height="14" rx="2"/><circle cx="8" cy="9" r="1.5"/><path d="M4 15l4-4 3 3 3-4 3 4"/><rect x="7" y="7" width="14" height="14" rx="2"/></svg>
+      </div>
+      <div class="menu-text">
+        <strong>성장 기록 연구소</strong>
+        <span>아이의 소중한 순간 기록</span>
+      </div>
+    </a>
+
+    <a class="menu-card" href="board.html?cat=edu">
+      <div class="menu-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="8" height="8" rx="1.5"/><rect x="13" y="4" width="8" height="8" rx="1.5"/><path d="M7 8h0M17 8h0"/><path d="M3 16h18"/></svg>
+      </div>
+      <div class="menu-text">
+        <strong>집으로 이어지는 배움</strong>
+        <span>육아 교육 및 추천 교구</span>
+      </div>
+    </a>
+
+    <a class="menu-card" href="board.html?cat=expert">
+      <div class="menu-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.3 9a2.7 2.7 0 1 1 3.6 2.5c-.8.35-1.4 1-1.4 1.9v.3"/><circle cx="12" cy="16.8" r=".6" fill="currentColor" stroke="none"/></svg>
+      </div>
+      <div class="menu-text">
+        <strong>전문가 Q&A</strong>
+        <span>발달·심리·훈육 전문가에게 질문하기</span>
+      </div>
+    </a>
+
+    <a class="menu-card" href="board.html?cat=share">
+      <div class="menu-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+      </div>
+      <div class="menu-text">
+        <strong>지역별 나눔</strong>
+        <span>이웃과 함께하는 육아 나눔</span>
+      </div>
+    </a>
+
+    <a class="menu-card teacher-card" href="teacher-library.html" id="teacherMenuCard" hidden>
+      <div class="menu-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      </div>
+      <div class="menu-text">
+        <strong>교사용 서재 <span class="private-tag">PRIVATE</span></strong>
+        <span>교사만 접근 가능한 전용 공간</span>
+      </div>
+    </a>
+
+    <a class="menu-card admin-card" href="admin.html" id="adminMenuCard" hidden>
+      <div class="menu-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v18"/><path d="M5 4h11l-2.5 4L16 12H5"/></svg>
+      </div>
+      <div class="menu-text">
+        <strong>신고 검토 <span class="private-tag admin-tag">ADMIN</span></strong>
+        <span>자동 비공개된 신고 글 처리</span>
+      </div>
+    </a>
+  </aside>
+
+  <!-- Feed -->
+  <main class="feed">
+    <div class="feed-head">
+      <h1>최신 육아 이야기</h1>
+      <a class="write-btn" href="write.html?cat=story">글쓰기</a>
+    </div>
+
+    <div id="storyList"></div>
+  </main>
+
+</div>
+
+<script src="data.js"></script>
+<script src="auth.js"></script>
+<script>
+  const auth = requireAuth();
+  if (auth) renderAuthUI(auth);
+
+  const HEART_ICON_SM = '<svg viewBox="0 0 24 24" width="14" height="14" style="vertical-align:-2px" stroke="#b7bdd4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.35-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 5c-2.5 4.65-9.5 9-9.5 9z"/></svg>';
+  const COMMENT_ICON_SM = '<svg viewBox="0 0 24 24" width="14" height="14" style="vertical-align:-2px" fill="none" stroke="#b7bdd4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L3 20l1.1-5A8 8 0 1 1 21 12z"/></svg>';
+
+  const stories = getPostsByCategory('story');
+  const listEl = document.getElementById('storyList');
+
+  if (stories.length === 0) {
+    listEl.innerHTML = `<div class="post" style="cursor:default"><p>아직 등록된 이야기가 없어요. 첫 이야기를 남겨보세요!</p></div>`;
+  } else {
+    listEl.innerHTML = stories.map(p => `
+      <a class="post" href="post.html?cat=story&id=${p.id}">
+        <div class="post-header">
+          <div class="avatar"></div>
+          <div class="info">
+            <strong>${escapeHTML(p.title)}</strong>
+            <span>${escapeHTML(p.author)}${trustBadgeHTML(p.author)} · ${formatDate(p.date)}</span>
+          </div>
+        </div>
+        ${galleryHTML(p.images, p.photos)}
+        <p>${escapeHTML(p.content)}</p>
+        <div class="post-stats">
+          <span>${HEART_ICON_SM} ${(p.likes || []).length}</span>
+          <span>${COMMENT_ICON_SM} ${(p.comments || []).length}</span>
+        </div>
+      </a>
+    `).join('');
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,751 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>교사용 서재 · 자람새</title>
+<style>
+  :root{
+    --bg: #f4f7fc;
+    --card: #ffffff;
+    --blue: #4c6ef5;
+    --blue-dark: #364fc7;
+    --blue-light: #edf2ff;
+    --teal: #12b886;
+    --teal-light: #e6fcf5;
+    --amber: #f59f00;
+    --amber-light: #fff9db;
+    --text: #1f2d3d;
+    --text-sub: #6c7993;
+    --border: #e2e8f0;
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    --shadow-sm: 0 2px 6px rgba(15,23,42,0.06);
+    --shadow-md: 0 6px 20px rgba(15,23,42,0.08);
+  }
+  *{ box-sizing: border-box; }
+  body{
+    margin:0;
+    font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Malgun Gothic", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:#fff;
+    padding: 12px 28px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top:0;
+    z-index: 50;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size: 1.25rem;
+    font-weight:800;
+    text-decoration:none;
+    color: inherit;
+  }
+  .logo svg{ width:28px; height:28px; }
+  .logo-badge{
+    font-size: .72rem;
+    background: var(--blue-light);
+    color: var(--blue-dark);
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+
+  .header-right{ display:flex; align-items:center; gap: 16px; }
+  .back-link{
+    font-size: .88rem;
+    color: var(--text-sub);
+    text-decoration:none;
+    font-weight:600;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: all .15s ease;
+  }
+  .back-link:hover{ color: var(--text); background:#f1f5f9; }
+
+  .user-area{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding-left: 16px;
+    border-left: 1px solid var(--border);
+  }
+  .profile-link{ display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit; }
+  .user-area .avatar-sm{
+    width:34px; height:34px; border-radius:50%;
+    background: linear-gradient(135deg, #cfd8f6, #a9b8ea);
+    flex: 0 0 auto;
+  }
+  .user-area .user-info{ display:flex; flex-direction:column; line-height:1.3; }
+  .user-area .user-info strong{ font-size: .85rem; }
+  .user-area .role-badge{
+    font-size: .68rem;
+    padding: 1px 7px;
+    border-radius: 8px;
+    background: #e0e7ff;
+    color: #364fc7;
+    font-weight:700;
+    width: fit-content;
+  }
+  .user-area .logout-btn{
+    background:none; border:none;
+    font-size: .78rem; color: var(--text-sub);
+    cursor:pointer; padding: 6px 4px;
+  }
+  .user-area .logout-btn:hover{ color: #e11d48; }
+
+  .wrap{
+    max-width: 1040px;
+    margin: 28px auto 80px;
+    padding: 0 20px;
+  }
+
+  /* 상단 프라이빗 배너 */
+  .page-banner{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:16px;
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    color: #fff;
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-md);
+  }
+  .banner-left{ display:flex; align-items:center; gap:16px; }
+  .banner-icon{
+    width:52px; height:52px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.12);
+    display:flex; align-items:center; justify-content:center;
+    font-size: 1.6rem;
+    flex: 0 0 auto;
+  }
+  .page-banner h1{ margin: 0 0 4px; font-size: 1.35rem; font-weight:800; }
+  .page-banner p{ margin:0; font-size: .86rem; color: #94a3b8; line-height:1.5; }
+  .banner-badge{
+    background: #2563eb;
+    color: #fff;
+    font-size: .75rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 6px;
+  }
+  .banner-stat-grid{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .stat-pill{
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.14);
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: .82rem;
+  }
+  .stat-pill strong{ color: #60a5fa; font-size: 1.05rem; margin-right: 4px; }
+
+  /* 섹션 헤더 */
+  .section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin: 28px 0 16px;
+  }
+  .section-header h2{
+    margin:0; font-size: 1.15rem; font-weight:800; display:flex; align-items:center; gap:8px;
+  }
+  .section-header span{ font-size: .82rem; color: var(--text-sub); }
+
+  /* AI 관찰일지 도우미 카드 레이아웃 */
+  .ai-workspace{
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+
+  .demo-grid{
+    display:grid; grid-template-columns: 320px 1fr; gap: 24px;
+    align-items: start;
+  }
+  @media (max-width: 860px){
+    .demo-grid{ grid-template-columns: 1fr; }
+  }
+
+  .card-title{
+    font-size: .88rem; font-weight:700; color: var(--text-sub);
+    text-transform: uppercase; letter-spacing: .5px; margin-bottom: 12px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+
+  .child-selector{ display:flex; flex-direction:column; gap:8px; }
+  .child-btn{
+    display:flex; align-items:center; gap:12px; padding: 10px 14px;
+    background: #f8fafc; border: 1.5px solid var(--border); border-radius: var(--radius-md);
+    cursor:pointer; text-align:left; transition: all .15s ease;
+  }
+  .child-btn:hover{ border-color: var(--blue); background: #fff; }
+  .child-btn.active{
+    border-color: var(--blue); background: var(--blue-light);
+    box-shadow: 0 0 0 2px rgba(76,110,245,0.15);
+  }
+  .child-avatar{
+    width: 36px; height: 36px; border-radius: 50%;
+    background: #e0e7ff; color: var(--blue-dark);
+    font-weight:800; font-size:.82rem; display:flex; align-items:center; justify-content:center;
+  }
+  .child-meta strong{ display:block; font-size:.88rem; color: var(--text); }
+  .child-meta span{ font-size:.74rem; color: var(--text-sub); }
+
+  /* 온톨로지 박스 */
+  .ontology-box{
+    background: #f8fafc; border-radius: var(--radius-sm); padding: 12px;
+    border: 1px dashed var(--border); font-size: .78rem;
+  }
+  .ontology-row{ display:flex; margin-bottom: 6px; }
+  .ontology-row:last-child{ margin-bottom:0; }
+  .ontology-label{ font-weight:700; color: var(--text-sub); width: 85px; flex: 0 0 auto; }
+  .ontology-val{ color: var(--text); }
+
+  /* 우측 인터랙티브 */
+  .doc-tabs{ display:flex; gap:8px; margin: 12px 0 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  .doc-tab{
+    background:none; border:none; padding: 6px 12px; font-size: .84rem; font-weight:700;
+    color: var(--text-sub); cursor:pointer; border-radius: var(--radius-sm); transition: all .15s ease;
+  }
+  .doc-tab.active{ background: var(--blue-light); color: var(--blue-dark); }
+
+  .ai-prompt-box{
+    background: #f0f4ff; border: 1.5px solid #c7d2fe; border-radius: var(--radius-md);
+    padding: 16px; margin-bottom: 16px;
+  }
+  .ai-prompt-title{
+    display:flex; align-items:center; gap:8px; font-weight:800; font-size: .92rem;
+    color: var(--blue-dark); margin-bottom: 12px;
+  }
+  .q-item{ margin-bottom: 14px; }
+  .q-item:last-child{ margin-bottom: 0; }
+  .q-text{ font-size: .85rem; font-weight:700; margin-bottom: 8px; color: #1e293b; }
+  .q-options{ display:flex; flex-wrap:wrap; gap: 6px; }
+  .q-chip{
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 20px;
+    padding: 5px 12px; font-size: .78rem; font-weight:600; cursor:pointer;
+    transition: all .15s ease;
+  }
+  .q-chip:hover{ border-color: var(--blue); color: var(--blue); }
+  .q-chip.selected{
+    background: var(--blue); border-color: var(--blue); color: #fff;
+  }
+
+  .generate-btn{
+    background: var(--blue); color: #fff; border:none; border-radius: var(--radius-sm);
+    padding: 10px 18px; font-size: .86rem; font-weight:700; cursor:pointer;
+    display:inline-flex; align-items:center; gap:6px; box-shadow: var(--shadow-sm);
+    transition: all .15s ease;
+  }
+  .generate-btn:hover{ background: var(--blue-dark); }
+
+  .result-box{
+    margin-top: 16px; border: 1.5px solid #cbd5e1; border-radius: var(--radius-md);
+    background: #fafbfc; overflow: hidden;
+  }
+  .result-header{
+    display:flex; justify-content:space-between; align-items:center;
+    background: #f1f5f9; padding: 8px 14px; border-bottom: 1px solid #e2e8f0;
+    font-size: .8rem; font-weight:700; color: #475569;
+  }
+  .result-textarea{
+    width: 100%; height: 130px; border: none; padding: 12px 14px; font-size: .88rem;
+    font-family: inherit; line-height: 1.6; background: #fff; resize: vertical; outline: none;
+  }
+
+  .action-row{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-top: 14px; flex-wrap:wrap; gap: 10px;
+  }
+  .copy-btn{
+    background: #10b981; color: #fff; border:none; border-radius: var(--radius-sm);
+    padding: 10px 20px; font-size: .9rem; font-weight:800; cursor:pointer;
+    display:inline-flex; align-items:center; gap:8px; box-shadow: 0 2px 8px rgba(16,185,129,0.25);
+    transition: all .15s ease;
+  }
+  .copy-btn:hover{ background: #059669; }
+
+  /* 하단 학급 관리 서재 그리드 */
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 700px){
+    .grid{ grid-template-columns: 1fr; }
+    header{ padding: 12px 16px; }
+    .wrap{ padding: 0 14px; }
+  }
+  .lib-card{
+    background: var(--card);
+    border-radius: var(--radius-md);
+    padding: 22px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    display:flex;
+    gap: 16px;
+    align-items: flex-start;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .lib-card:hover{
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  .lib-icon{
+    width:46px; height:46px;
+    border-radius: 12px;
+    display:flex; align-items:center; justify-content:center;
+    flex: 0 0 auto;
+    font-size: 1.3rem;
+  }
+  .lib-info h3{ margin: 0 0 6px; font-size: 1rem; font-weight:800; }
+  .lib-info p{ margin:0 0 10px; font-size: .84rem; color: var(--text-sub); line-height:1.5; }
+  .lib-info .badge-tag{
+    font-size: .72rem; padding: 2px 8px; border-radius: 6px; font-weight:700;
+  }
+
+  /* 복사 완료 토스트 */
+  .toast{
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
+    background: #1e293b; color: #fff; padding: 12px 24px; border-radius: 30px;
+    font-size: .88rem; font-weight:700; display:flex; align-items:center; gap:8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2); opacity: 0; pointer-events: none;
+    transition: all .25s cubic-bezier(0.16, 1, 0.3, 1); z-index: 1000;
+  }
+  .toast.show{ transform: translateX(-50%) translateY(0); opacity: 1; }
+  .toast svg{ stroke: #34d399; width: 20px; height: 20px; }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#6c8ef5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 8c0 3-2.5 4-5 4l-1 6h-3l-1-4c-3 0-6-2-6-6 0-1 .3-2 1-3 .5 1 1.5 1.5 2.5 1.5C8 4 10 3 12 3c1 0 2 .3 2.8.9C15.5 3.3 16.7 3 18 3c0 1.2-.4 2.2-1.2 3 1.4.5 2.2 1.2 3.2 2z"/>
+      <circle cx="16.5" cy="7.5" r=".6" fill="#6c8ef5"/>
+    </svg>
+    <span>자람새</span>
+    <span class="logo-badge">교사용 서재</span>
+  </a>
+
+  <div class="header-right">
+    <a class="back-link" href="index.html">← 자람새 홈으로</a>
+    <div class="user-area">
+      <a class="profile-link" href="profile.html">
+        <div class="avatar-sm"></div>
+        <div class="user-info">
+          <strong id="userName">-</strong>
+          <span class="role-badge" id="userRoleBadge">교사</span>
+        </div>
+      </a>
+      <button class="logout-btn" onclick="logout()">로그아웃</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <!-- 상단 프라이빗 배너 -->
+  <div class="page-banner">
+    <div class="banner-left">
+      <div class="banner-icon">📚</div>
+      <div>
+        <span class="banner-badge">TEACHER ONLY · 비공개 전용 공간</span>
+        <h1>교사용 서재 &amp; 업무 지원 데스크</h1>
+        <p>이 공간은 교사 계정으로 로그인했을 때만 접근 가능한 private한 서재입니다. 학부모에게는 노출되지 않습니다.</p>
+      </div>
+    </div>
+    <div class="banner-stat-grid">
+      <div class="stat-pill">
+        <span>담당 학급</span><br>
+        <strong>햇살반</strong> (만 3세)
+      </div>
+      <div class="stat-pill">
+        <span>일지 작성</span><br>
+        <strong>11 / 14</strong>명 완료
+      </div>
+      <div class="stat-pill">
+        <span>상담 요청</span><br>
+        <strong>2</strong>건 대기
+      </div>
+    </div>
+  </div>
+
+  <!-- 섹션 1: AI 일지 작성 지원 데스크 -->
+  <div class="section-header">
+    <h2>
+      <span>⚡</span>
+      <span>AI 관찰일지 &amp; 알림장 작성 도우미</span>
+      <span style="font-size:.74rem; background:#e0e7ff; color:#364fc7; padding:2px 8px; border-radius:6px; font-weight:700;">키즈노트 1초 복사 연동</span>
+    </h2>
+    <span>작성 시간 30분 → 3분 단축</span>
+  </div>
+
+  <div class="ai-workspace">
+    <div class="demo-grid">
+      
+      <!-- 좌측: 관찰 아동 선택 및 맥락 -->
+      <div>
+        <div class="card-title">
+          <span>1. 관찰 아동 선택</span>
+          <span style="font-size:.74rem; color:var(--blue); font-weight:700;">햇살반 (총 14명)</span>
+        </div>
+        <div class="child-selector">
+          <button class="child-btn active" onclick="selectChild('minjun')">
+            <div class="child-avatar">민준</div>
+            <div class="child-meta">
+              <strong>김민준 (만 3세)</strong>
+              <span>식습관 지도 중 · 블록 놀이 선호</span>
+            </div>
+          </button>
+          <button class="child-btn" onclick="selectChild('seoa')">
+            <div class="child-avatar" style="background:#fce7f3; color:#ec4899;">서아</div>
+            <div class="child-meta">
+              <strong>박서아 (만 4세)</strong>
+              <span>친구 관계 관찰 · 언어 표현 풍부</span>
+            </div>
+          </button>
+          <button class="child-btn" onclick="selectChild('doyoon')">
+            <div class="child-avatar" style="background:#e0f2fe; color:#0284c7;">도윤</div>
+            <div class="child-meta">
+              <strong>이도윤 (만 1세)</strong>
+              <span>배변 훈련 진행 중 · 낮잠 리듬</span>
+            </div>
+          </button>
+        </div>
+
+        <div class="card-title" style="margin-top: 20px;">
+          <span>2. 기록 맥락 (CARE ONTOLOGY)</span>
+        </div>
+        <div class="ontology-box" id="ontologyBox">
+          <div class="ontology-row"><span class="ontology-label">CHILD</span><span class="ontology-val">김민준 (41개월)</span></div>
+          <div class="ontology-row"><span class="ontology-label">TIME</span><span class="ontology-val">오늘 급식 &amp; 오후놀이</span></div>
+          <div class="ontology-row"><span class="ontology-label">PAST_NOTE</span><span class="ontology-val">지난주 버섯 전량 거부, 블록 쓰러지면 울음</span></div>
+          <div class="ontology-row"><span class="ontology-label">AUTHOR</span><span class="ontology-val">햇살반 담임교사</span></div>
+          <div class="ontology-row"><span class="ontology-label">SCOPE</span><span class="ontology-val">교사 최종 확인 후 학부모 공개</span></div>
+        </div>
+      </div>
+
+      <!-- 우측: AI 기억 질문 & 빠른 생성 -->
+      <div>
+        <div class="card-title">
+          <span>3. AI 기억 질문 &amp; 초안 생성</span>
+          <span style="font-size:.76rem; color:var(--text-sub);">작성일: 2026.09.29 (화)</span>
+        </div>
+
+        <div class="doc-tabs">
+          <button class="doc-tab active" onclick="setDocType('알림장')">💌 가정 소통 알림장</button>
+          <button class="doc-tab" onclick="setDocType('보육일지')">📝 보육·관찰일지</button>
+          <button class="doc-tab" onclick="setDocType('발달평가')">📊 학기별 발달평가</button>
+        </div>
+
+        <div class="ai-prompt-box">
+          <div class="ai-prompt-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="18" height="18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+            </svg>
+            <span id="aiPromptTitle">선생님, 오늘 민준이의 이 장면을 기억하시나요?</span>
+          </div>
+
+          <div class="q-item">
+            <div class="q-text" id="q1Text">Q1. 지난주 버섯을 전혀 안 먹었던 민준이, 오늘 표고버섯 볶음은 어땠나요?</div>
+            <div class="q-options" id="q1Options">
+              <div class="q-chip selected" onclick="pickChip(this, 1, '스스로 작게 한 입 먹어보고 씩씩하게 웃음')">🌱 스스로 한 입 먹고 웃음</div>
+              <div class="q-chip" onclick="pickChip(this, 1, '선생님이 밥 위에 올려주니 용기 내어 먹음')">🥄 밥과 함께 한 입 성공</div>
+              <div class="q-chip" onclick="pickChip(this, 1, '냄새만 맡아보고 아직은 밥만 먹음')">👀 탐색만 하고 다음을 기약</div>
+              <div class="q-chip" onclick="pickChip(this, 1, '국물에 살짝 담가 시도함')">🥣 국물과 함께 도전</div>
+            </div>
+          </div>
+
+          <div class="q-item" style="margin-top:14px;">
+            <div class="q-text" id="q2Text">Q2. 오후 블록 놀이에서 친구들과 어떻게 상호작용했나요?</div>
+            <div class="q-options" id="q2Options">
+              <div class="q-chip selected" onclick="pickChip(this, 2, '높은 성이 무너졌지만 울지 않고 친구와 다시 쌓음')">🏰 무너져도 울지 않고 재도전</div>
+              <div class="q-chip" onclick="pickChip(this, 2, '친구에게 긴 블록을 양보하며 함께 자동차 만듦')">🤝 친구에게 블록 양보하며 협동</div>
+              <div class="q-chip" onclick="pickChip(this, 2, '혼자 집중해서 5단 탑을 완성하고 자랑함')">⭐ 혼자 5단 탑 완성 후 성취감</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align:right;">
+          <button class="generate-btn" onclick="generateDraft()">
+            <span>✨ 선택한 답변으로 문장 다듬기</span>
+          </button>
+        </div>
+
+        <!-- 결과 에디터 -->
+        <div class="result-box">
+          <div class="result-header">
+            <span id="resultLabel">교사 최종 확인 및 수정 (알림장 초안)</span>
+            <span style="color:#10b981; font-weight:700;">✓ 사실 근거 검증 완료</span>
+          </div>
+          <textarea id="resultText" class="result-textarea" spellcheck="false"></textarea>
+        </div>
+
+        <div class="action-row">
+          <div style="font-size:.82rem; color:var(--text-sub);">
+            💡 <strong>키즈노트 호환:</strong> 복사 후 기존 키즈노트 알림장 창에 <code>Ctrl+V</code> 하시면 바로 입력됩니다.
+          </div>
+          <button class="copy-btn" onclick="copyToClipboard()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="18" height="18" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            <span>📋 키즈노트로 1초 복사하기</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 섹션 2: 학급 관리 및 교육자료 서재 -->
+  <div class="section-header">
+    <h2>
+      <span>📂</span>
+      <span>학급 관리 및 서재 아카이브</span>
+    </h2>
+    <span>우리 반 전용 보관함</span>
+  </div>
+
+  <div class="grid">
+    <div class="lib-card">
+      <div class="lib-icon" style="background:#e0f2fe; color:#0284c7;">👦</div>
+      <div class="lib-info">
+        <h3>우리 반 성장 아카이브</h3>
+        <p>담당 학급 아이들 14명의 월별 관찰 기록과 활동 사진을 모아보고 학부모 발송본을 관리합니다.</p>
+        <span class="badge-tag" style="background:#e0f2fe; color:#0369a1;">14명 등록 중</span>
+      </div>
+    </div>
+
+    <div class="lib-card">
+      <div class="lib-icon" style="background:#fef3c7; color:#d97706;">📅</div>
+      <div class="lib-info">
+        <h3>학부모 상담 예약 관리</h3>
+        <p>학부모가 신청한 대면/전화 상담 요청 일정을 확인하고 상담 일지를 기록합니다.</p>
+        <span class="badge-tag" style="background:#fef3c7; color:#b45309;">대기 2건</span>
+      </div>
+    </div>
+
+    <div class="lib-card">
+      <div class="lib-icon" style="background:#dcfce7; color:#15803d;">📑</div>
+      <div class="lib-info">
+        <h3>수업 및 놀이 교육자료실</h3>
+        <p>개정 누리과정 및 표준보육과정 기반 연령별 놀이 지도안과 유아 교육 자료를 공유합니다.</p>
+        <span class="badge-tag" style="background:#dcfce7; color:#15803d;">자료 48건</span>
+      </div>
+    </div>
+
+    <div class="lib-card">
+      <div class="lib-icon" style="background:#ede9fe; color:#7c3aed;">📢</div>
+      <div class="lib-info">
+        <h3>가정통신문 및 공지 보관함</h3>
+        <p>학부모 전체에게 발송된 주간/월간 안내문 및 원장님 결재 완료된 공지를 확인합니다.</p>
+        <span class="badge-tag" style="background:#ede9fe; color:#6d28d9;">이번 주 1건 발행</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 복사 토스트 -->
+<div id="toast" class="toast">
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="20 6 9 17 4 12"/>
+  </svg>
+  <span id="toastMsg">클립보드에 복사되었습니다! 키즈노트에 붙여넣으세요.</span>
+</div>
+
+<script src="auth.js"></script>
+<script>
+  // 1. 교사 인증 보호
+  const auth = requireTeacher();
+  if (auth) {
+    const nameEl = document.getElementById('userName');
+    if (nameEl) nameEl.textContent = auth.id;
+  }
+
+  // 2. AI 일지 데이터 및 인터랙션
+  let currentChild = 'minjun';
+  let currentDoc = '알림장';
+  let selectedQ1 = '스스로 작게 한 입 먹어보고 씩씩하게 웃음';
+  let selectedQ2 = '높은 성이 무너졌지만 울지 않고 친구와 다시 쌓음';
+
+  const CHILD_DATA = {
+    minjun: {
+      name: '김민준 (41개월)',
+      note: '지난주 버섯 전량 거부, 블록 쓰러지면 울음',
+      prompt: '선생님, 오늘 민준이의 이 장면을 기억하시나요?',
+      q1: 'Q1. 지난주 버섯을 전혀 안 먹었던 민준이, 오늘 표고버섯 볶음은 어땠나요?',
+      q1Opts: [
+        '스스로 작게 한 입 먹어보고 씩씩하게 웃음',
+        '선생님이 밥 위에 올려주니 용기 내어 먹음',
+        '냄새만 맡아보고 아직은 밥만 먹음',
+        '국물에 살짝 담가 시도함'
+      ],
+      q2: 'Q2. 오후 블록 놀이에서 친구들과 어떻게 상호작용했나요?',
+      q2Opts: [
+        '높은 성이 무너졌지만 울지 않고 친구와 다시 쌓음',
+        '친구에게 긴 블록을 양보하며 함께 자동차 만듦',
+        '혼자 집중해서 5단 탑을 완성하고 자랑함'
+      ]
+    },
+    seoa: {
+      name: '박서아 (52개월)',
+      note: '친구와 장난감 독점 갈등 있었음, 이야기 표현 풍부',
+      prompt: '선생님, 오늘 서아의 사회성 발달 장면입니다.',
+      q1: 'Q1. 역할놀이 영역에서 서아가 친구와 어떻게 대화를 나누었나요?',
+      q1Opts: [
+        '친구에게 "내가 병원 의사 할게, 너는 간호사 해"라며 역할을 제안함',
+        '순서를 정해 번갈아 청진기를 사용함',
+        '갈등이 생기자 선생님을 찾아와 조율을 요청함'
+      ],
+      q2: 'Q2. 미술 시간 자유 그림 그리기는 어땠나요?',
+      q2Opts: [
+        '가족 여행 갔던 기억을 설명하며 무지개와 바다를 그림',
+        '친구의 그림을 칭찬하며 크레파스를 나누어 씀'
+      ]
+    },
+    doyoon: {
+      name: '이도윤 (22개월)',
+      note: '기저귀 떼기 시도 중, 낮잠 전 보챔',
+      prompt: '선생님, 도윤이의 오늘 기본 생활 습관 체크입니다.',
+      q1: 'Q1. 오늘 유아용 변기 배변 훈련은 성공했나요?',
+      q1Opts: [
+        '오전 놀이 후 변기에 앉아 배변에 성공함',
+        '변기에 호기심을 보이며 1분간 편안히 앉아봄',
+        '기저귀를 가리키며 쉬 신호를 보냄'
+      ],
+      q2: 'Q2. 낮잠 시간 입면 과정은 어땠나요?',
+      q2Opts: [
+        '좋아하는 애착 인형을 안고 10분 만에 편안히 잠듦',
+        '등을 토닥여주자 뒤척이다가 스스로 잠듦'
+      ]
+    }
+  };
+
+  function selectChild(id) {
+    currentChild = id;
+    document.querySelectorAll('.child-btn').forEach(b => b.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+
+    const data = CHILD_DATA[id];
+    document.getElementById('ontologyBox').innerHTML = `
+      <div class="ontology-row"><span class="ontology-label">CHILD</span><span class="ontology-val">${data.name}</span></div>
+      <div class="ontology-row"><span class="ontology-label">TIME</span><span class="ontology-val">오늘 급식 & 오후놀이</span></div>
+      <div class="ontology-row"><span class="ontology-label">PAST_NOTE</span><span class="ontology-val">${data.note}</span></div>
+      <div class="ontology-row"><span class="ontology-label">AUTHOR</span><span class="ontology-val">햇살반 담임교사</span></div>
+      <div class="ontology-row"><span class="ontology-label">SCOPE</span><span class="ontology-val">교사 최종 확인 후 학부모 공개</span></div>
+    `;
+
+    document.getElementById('aiPromptTitle').textContent = data.prompt;
+    document.getElementById('q1Text').textContent = data.q1;
+    document.getElementById('q2Text').textContent = data.q2;
+
+    renderOptions('q1Options', data.q1Opts, 1);
+    renderOptions('q2Options', data.q2Opts, 2);
+
+    selectedQ1 = data.q1Opts[0];
+    selectedQ2 = data.q2Opts[0];
+    generateDraft();
+  }
+
+  function renderOptions(containerId, opts, qNum) {
+    const el = document.getElementById(containerId);
+    el.innerHTML = opts.map((opt, i) => `
+      <div class="q-chip ${i === 0 ? 'selected' : ''}" onclick="pickChip(this, ${qNum}, '${opt}')">
+        ${opt}
+      </div>
+    `).join('');
+  }
+
+  function pickChip(chipEl, qNum, val) {
+    const parent = chipEl.parentElement;
+    parent.querySelectorAll('.q-chip').forEach(c => c.classList.remove('selected'));
+    chipEl.classList.add('selected');
+    if (qNum === 1) selectedQ1 = val;
+    if (qNum === 2) selectedQ2 = val;
+    generateDraft();
+  }
+
+  function setDocType(type) {
+    currentDoc = type;
+    document.querySelectorAll('.doc-tab').forEach(b => b.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    document.getElementById('resultLabel').textContent = `교사 최종 확인 및 수정 (${type} 초안)`;
+    generateDraft();
+  }
+
+  function generateDraft() {
+    const data = CHILD_DATA[currentChild];
+    const nameOnly = data.name.split(' ')[0];
+    let draft = '';
+
+    if (currentDoc === '알림장') {
+      draft = `[햇살반 ${nameOnly}의 오늘 하루 🌱]\n` +
+              `어머니, 오늘 ${nameOnly}이는 점심 급식 시간 때 ${selectedQ1}. 지난주보다 훨씬 씩씩하고 편안하게 식사에 참여하는 모습이 대견했습니다.\n\n` +
+              `오후 놀이 시간 블록 영역에서는 ${selectedQ2}. 놀이에 몰입하며 친구들과의 긍정적인 상호작용이 눈에 띄게 늘어나고 있습니다. 가정에서도 칭찬 많이 해주세요! 😊`;
+    } else if (currentDoc === '보육일지') {
+      draft = `[관찰 영역: 신체·식습관 및 사회관계]\n` +
+              `- 식사 상황: ${selectedQ1}. 새로운 식재료에 대한 거부감이 현저히 완화되었으며 스스로 시도하려는 의지를 보임.\n` +
+              `- 놀이 상황: 블록 구성 놀이 중 ${selectedQ2}. 문제 상황 발생 시 좌절하지 않고 조절 및 협력하는 태도를 보임.`;
+    } else {
+      draft = `[학기 발달종합의견 (신체운동/사회관계)]\n` +
+              `${nameOnly}이는 일상생활에서 ${selectedQ1} 등 편식 완화 및 자율적 기본생활습관이 안정적으로 형성되고 있음. 또래와의 놀이에서는 ${selectedQ2} 등 협력과 정서 조절 능력이 고르게 발달하고 있음.`;
+    }
+
+    document.getElementById('resultText').value = draft;
+  }
+
+  function copyToClipboard() {
+    const text = document.getElementById('resultText').value;
+    navigator.clipboard.writeText(text).then(() => {
+      showToast('클립보드에 복사되었습니다! 키즈노트에 붙여넣으세요.');
+    }).catch(() => {
+      const textarea = document.getElementById('resultText');
+      textarea.select();
+      document.execCommand('copy');
+      showToast('클립보드에 복사되었습니다! 키즈노트에 붙여넣으세요.');
+    });
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 2800);
+  }
+
+  // 초기 렌더링
+  generateDraft();
+</script>
+
+</body>
+</html>

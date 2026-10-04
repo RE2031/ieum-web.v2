@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>저녁 메뉴 추천 · 자람새</title>
+<style>
+  :root{
+    --bg: #eef1fb;
+    --card: #ffffff;
+    --blue: #6c8ef5;
+    --blue-dark: #5578e0;
+    --blue-light: #eaf0ff;
+    --text: #1f2430;
+    --text-sub: #8a8fa3;
+    --border: #edeff5;
+    --accent: #ff9f5a;
+    --accent-light: #fff1e4;
+  }
+  *{ box-sizing: border-box; }
+  body{
+    margin:0;
+    font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  header{
+    display:flex; align-items:center; justify-content:space-between;
+    background:#fff; padding: 14px 32px; border-bottom: 1px solid var(--border);
+    position: sticky; top:0; z-index: 10;
+  }
+  .logo{ display:flex; align-items:center; gap:10px; font-size: 1.3rem; font-weight:700; text-decoration:none; color: inherit; }
+  .logo svg{ width:30px; height:30px; }
+  .back-link{ font-size: .85rem; color: var(--text-sub); text-decoration:none; }
+  .back-link:hover{ color: var(--text); }
+
+  .wrap{ max-width: 980px; margin: 28px auto; padding: 0 24px; }
+
+  .page-banner{
+    display:flex; align-items:center; gap:14px;
+    background: linear-gradient(135deg, var(--accent-light), #fff);
+    border: 1px solid #ffdcb8;
+    border-radius: 18px;
+    padding: 20px 24px;
+    margin-bottom: 22px;
+  }
+  .page-banner .icon{
+    width:48px; height:48px; border-radius: 12px;
+    background: var(--accent-light);
+    display:flex; align-items:center; justify-content:center; flex: 0 0 auto;
+  }
+  .page-banner .icon svg{ width:24px; height:24px; stroke: var(--accent); }
+  .page-banner h1{ margin: 0 0 4px; font-size: 1.2rem; }
+  .page-banner p{ margin:0; font-size: .84rem; color: var(--text-sub); }
+
+  .picker{
+    background: var(--card);
+    border-radius: 18px;
+    padding: 24px;
+    margin-bottom: 22px;
+    box-shadow: 0 1px 3px rgba(20,30,60,.04);
+    text-align:center;
+  }
+  .picker .picker-label{ font-size: .82rem; color: var(--text-sub); margin-bottom: 10px; }
+  .pick-result{
+    display:none;
+    background: var(--accent-light);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin: 0 auto 16px;
+    max-width: 460px;
+    text-align:left;
+  }
+  .pick-result.show{ display:block; }
+  .pick-result .name{ font-size: 1.05rem; font-weight:700; margin-bottom:4px; }
+  .pick-result .desc{ font-size: .85rem; color:#5b6072; line-height:1.5; }
+  .pick-btn{
+    background: var(--accent);
+    color:#fff;
+    border:none;
+    border-radius: 12px;
+    padding: 12px 26px;
+    font-size: .92rem;
+    font-weight:700;
+    cursor:pointer;
+  }
+  .pick-btn:hover{ background: #f28a3e; }
+
+  .filter-row{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom: 18px; }
+  .chip{
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 7px 16px;
+    font-size: .82rem;
+    color: var(--text-sub);
+    cursor:pointer;
+    user-select:none;
+  }
+  .chip.active{ background: var(--blue); border-color: var(--blue); color:#fff; }
+
+  .menu-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .menu-card{
+    background: var(--card);
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 1px 3px rgba(20,30,60,.04);
+  }
+  .menu-card .name{ font-size: .98rem; font-weight:700; margin-bottom:6px; }
+  .menu-card .desc{ font-size: .82rem; color: var(--text-sub); line-height:1.5; margin-bottom:10px; }
+  .menu-card .tags{ display:flex; flex-wrap:wrap; gap:6px; }
+  .tag{
+    font-size: .7rem;
+    color: var(--blue);
+    background: var(--blue-light);
+    padding: 2px 8px;
+    border-radius: 8px;
+  }
+
+  @media (max-width: 860px){
+    .menu-grid{ grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 520px){
+    header{ padding: 12px 16px; }
+    .wrap{ padding: 0 14px; }
+    .menu-grid{ grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#6c8ef5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 8c0 3-2.5 4-5 4l-1 6h-3l-1-4c-3 0-6-2-6-6 0-1 .3-2 1-3 .5 1 1.5 1.5 2.5 1.5C8 4 10 3 12 3c1 0 2 .3 2.8.9C15.5 3.3 16.7 3 18 3c0 1.2-.4 2.2-1.2 3 1.4.5 2.2 1.2 3.2 2z"/>
+      <circle cx="16.5" cy="7.5" r=".6" fill="#6c8ef5"/>
+    </svg>
+    <span>자람새</span>
+  </a>
+  <a class="back-link" href="board.html?cat=edu">← 집으로 이어지는 배움으로</a>
+</header>
+
+<div class="wrap">
+  <div class="page-banner">
+    <div class="icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><path d="M4 13h16v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M9 13V9a1 1 0 0 1 2 0v4"/><path d="M13 13V7a1 1 0 0 1 2 0v6"/></svg>
+    </div>
+    <div>
+      <h1>저녁 메뉴 추천</h1>
+      <p>오늘 저녁 뭐 해줄지 고민될 때, 월령/연령대에 맞는 메뉴를 골라보세요.</p>
+    </div>
+  </div>
+
+  <div class="picker">
+    <div class="picker-label">고민될 땐 그냥 뽑아보세요</div>
+    <div class="pick-result" id="pickResult">
+      <div class="name" id="pickName"></div>
+      <div class="desc" id="pickDesc"></div>
+    </div>
+    <button class="pick-btn" id="pickBtn">오늘 메뉴 뽑기</button>
+  </div>
+
+  <div class="filter-row" id="filterRow"></div>
+  <div class="menu-grid" id="menuGrid"></div>
+</div>
+
+<script src="auth.js"></script>
+<script>
+  requireAuth();
+
+  const MENUS = [
+    { name: '소고기 채소죽', desc: '소고기와 당근, 양파를 잘게 다져 끓인 부드러운 죽. 소화가 잘 돼요.', tags: ['이유식'] },
+    { name: '두부 계란찜', desc: '으깬 두부와 계란을 섞어 찐 부드러운 찜. 알레르기 반응 살피며 시작하세요.', tags: ['이유식', '유아식'] },
+    { name: '단호박 수프', desc: '단호박을 삶아 갈아낸 고소한 수프. 달큰해서 아이들이 잘 먹어요.', tags: ['이유식', '유아식'] },
+    { name: '닭안심 야채볶음밥', desc: '잘게 썬 닭안심과 당근, 애호박을 넣고 볶은 밥. 한 그릇 식사로 좋아요.', tags: ['유아식'] },
+    { name: '시금치 계란말이', desc: '데친 시금치를 넣어 만든 계란말이. 색이 예뻐서 편식 심한 아이도 잘 먹어요.', tags: ['유아식', '온가족'] },
+    { name: '감자채전', desc: '채썬 감자를 얇게 부친 전. 쫄깃한 식감이라 간식 겸 반찬으로도 좋아요.', tags: ['유아식', '온가족'] },
+    { name: '소고기뭇국', desc: '무와 소고기를 넣고 끓인 담백한 국. 온 가족이 함께 먹기 좋아요.', tags: ['온가족'] },
+    { name: '콩나물밥', desc: '콩나물을 넣고 지은 밥에 양념장을 곁들이면 아이도 어른도 좋아해요.', tags: ['온가족'] },
+    { name: '어묵볶음', desc: '야채와 함께 볶은 어묵 반찬. 짜지 않게 양념을 조절해주세요.', tags: ['유아식', '온가족'] },
+    { name: '브로콜리 크림파스타', desc: '데친 브로콜리와 우유 베이스 크림소스를 곁들인 파스타. 짧게 잘라주면 먹기 편해요.', tags: ['유아식', '온가족'] },
+    { name: '새우완자탕', desc: '다진 새우와 두부로 만든 완자를 넣은 맑은 탕. 부드러워서 씹기 편해요.', tags: ['유아식', '온가족'] },
+    { name: '잡채', desc: '당면과 각종 야채, 고기를 볶아 만든 명절 단골 메뉴. 온 가족이 함께 즐기기 좋아요.', tags: ['온가족'] },
+  ];
+
+  const TAGS = ['전체', '이유식', '유아식', '온가족'];
+  let activeTag = '전체';
+
+  function renderChips() {
+    document.getElementById('filterRow').innerHTML = TAGS.map(t =>
+      `<div class="chip ${t === activeTag ? 'active' : ''}" data-tag="${t}">${t}</div>`
+    ).join('');
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        activeTag = chip.dataset.tag;
+        renderChips();
+        renderGrid();
+      });
+    });
+  }
+
+  function renderGrid() {
+    const list = activeTag === '전체' ? MENUS : MENUS.filter(m => m.tags.includes(activeTag));
+    document.getElementById('menuGrid').innerHTML = list.map(m => `
+      <div class="menu-card">
+        <div class="name">${m.name}</div>
+        <div class="desc">${m.desc}</div>
+        <div class="tags">${m.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      </div>
+    `).join('');
+  }
+
+  document.getElementById('pickBtn').addEventListener('click', () => {
+    const pool = activeTag === '전체' ? MENUS : MENUS.filter(m => m.tags.includes(activeTag));
+    const pick = pool[Math.floor(Math.random() * pool.length)];
+    document.getElementById('pickName').textContent = pick.name;
+    document.getElementById('pickDesc').textContent = pick.desc;
+    document.getElementById('pickResult').classList.add('show');
+  });
+
+  renderChips();
+  renderGrid();
+</script>
+
+</body>
+</html>
