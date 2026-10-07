@@ -194,9 +194,50 @@
   .desktop-sidebar{
     display:flex;
     flex-direction:column;
-    gap: 16px;
+    gap: 10px;
     position: sticky;
     top: 84px;
+  }
+  .desktop-sidebar #sidebarPledgeCard{ order: 7; }
+  .desktop-sidebar #sidebarWriteBtn{ order: 1; }
+  .desktop-sidebar #teacherSidebarSection{ order: 2; }
+  .desktop-sidebar .community-section-title{ order: 3; }
+  .desktop-sidebar .community-menu-card,
+  .desktop-sidebar #adminMenuCard{ order: 4; }
+  .desktop-sidebar .service-section-title{ order: 5; }
+  .desktop-sidebar .sidebar-utility-card{ order: 6; }
+  .desktop-sidebar .pledge-status-card{ order: 7; }
+  .desktop-sidebar .menu-card:not(.teacher-card):not(.admin-card){
+    padding: 9px 10px;
+    gap: 10px;
+    background: transparent;
+    box-shadow: none;
+    border-color: transparent;
+  }
+  .desktop-sidebar .menu-card:not(.teacher-card):not(.admin-card):hover{
+    background: #fff;
+    box-shadow: var(--shadow-sm);
+  }
+  .desktop-sidebar .community-menu-card .menu-text span{ display:none; }
+  .desktop-sidebar .community-menu-card .menu-text strong{ margin:0; }
+  .desktop-sidebar .menu-card:not(.teacher-card):not(.admin-card) .menu-icon{
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+  }
+  .desktop-sidebar .menu-card:not(.teacher-card):not(.admin-card) .menu-text span{
+    font-size: .73rem;
+  }
+  .pledge-status-card{
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 8px 12px;
+  }
+  .desktop-sidebar .sidebar-utility-card{
+    background: #fbfcfe;
+    border: 1px solid var(--border);
+    padding: 10px 12px;
   }
 
   .sidebar-section-title{
@@ -436,11 +477,11 @@
 
   /* 자람새 히어로 배너 (모토 & 감성 비주얼 UI) */
   .blog-hero{
-    background: linear-gradient(135deg, #ffffff 0%, #fdfbf7 50%, #fef8ee 100%);
-    border: 1.5px solid #f2e6d6;
+    background: #fff;
+    border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     padding: 28px 32px;
-    box-shadow: 0 4px 20px rgba(180, 140, 90, 0.07);
+    box-shadow: var(--shadow-sm);
     position: relative;
     overflow: hidden;
   }
@@ -523,10 +564,9 @@
     position: relative;
     width: min(100%, 360px);
     justify-self: end;
-    border-radius: 16px;
+    border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 8px 24px rgba(60, 40, 20, 0.12);
-    border: 3px solid #fff;
+    box-shadow: var(--shadow-md);
     aspect-ratio: 16 / 9;
     max-height: 200px;
   }
@@ -539,23 +579,6 @@
   }
   .blog-hero-visual:hover img{
     transform: scale(1.02);
-  }
-  .hero-img-caption{
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    right: 10px;
-    background: rgba(255, 255, 255, 0.94);
-    backdrop-filter: blur(8px);
-    border-radius: 10px;
-    padding: 6px 12px;
-    font-size: .74rem;
-    font-weight: 700;
-    color: #292524;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   }
   @media (max-width: 900px){
     .blog-hero-visual{ justify-self: center; }
@@ -704,7 +727,7 @@
     display:block;
     background: var(--card);
     border-radius: var(--radius-lg);
-    padding: 22px 24px;
+    padding: 18px 20px;
     box-shadow: var(--shadow-sm);
     text-decoration:none;
     color: inherit;
@@ -721,7 +744,7 @@
     display:flex;
     align-items:center;
     justify-content:space-between;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     flex-wrap: wrap;
     gap: 8px;
   }
@@ -794,22 +817,21 @@
   /* 갤러리 피처 */
   .gallery-feature{
     display:grid;
-    grid-template-columns: 1.35fr 1fr 1fr;
-    grid-template-rows: repeat(2, 110px);
-    gap:8px;
-    margin-bottom: 16px;
-  }
-  .gallery-feature .img-tile:nth-child(1){
-    grid-row: 1 / span 2;
-    grid-column: 1;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-rows: 82px;
+    gap:6px;
+    margin-bottom: 10px;
   }
   .gallery-strip{
-    display:grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap:8px;
-    margin-bottom: 16px;
+    display:flex;
+    gap:6px;
+    margin-bottom: 10px;
   }
-  .gallery-strip .img-tile{ aspect-ratio: 1 / 1; }
+  .gallery-strip .img-tile{
+    width:76px;
+    height:76px;
+    flex:0 0 auto;
+  }
 
   /* 블로그 카드 푸터 */
   .blog-card-footer{
@@ -909,26 +931,23 @@
     .user-info{
       display: none;
     }
-    .gallery-feature{
-      grid-template-rows: repeat(2, 90px);
-    }
+
   }
 
+  @media (max-width: 600px){
+    .blog-hero{ padding: 22px 20px; }
+    .blog-hero-content{ gap: 14px; }
+    .blog-hero-visual{ display:none; }
+  }
   @media (max-width: 480px){
     header{ height: 58px; padding: 0 12px; }
     .layout{ padding: 0 12px; }
     .blog-hero{ padding: 18px 16px; }
     .blog-hero h1{ font-size: 1.25rem; }
-    .blog-card{ padding: 18px 16px; }
+    .blog-card{ padding: 14px 14px; }
     .blog-card h2{ font-size: 1.08rem; }
-    .gallery-feature{
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: repeat(2, 80px);
-    }
-    .gallery-feature .img-tile:nth-child(1){
-      grid-row: 1;
-      grid-column: 1;
-    }
+    .gallery-feature{ grid-template-rows: 58px; gap:4px; }
+    .gallery-strip .img-tile{ width:58px; height:58px; }
     .feed-action-row .write-btn{
       display: none; /* FAB 사용 */
     }
@@ -1033,7 +1052,7 @@
   </div>
 
   <!-- 서약 서명 확인 뱃지 (심리적 넛지) -->
-  <div id="drawerPledgeCard" style="margin: 0 16px 14px; background: #ecfdf5; border: 1.5px solid #86efac; border-radius: 12px; padding: 9px 12px;">
+  <div id="drawerPledgeCard" class="pledge-status-card" style="margin: 0 16px 14px;">
     <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
       <span style="font-size: .78rem; font-weight: 800; color: #064e3b; display:flex; align-items:center; gap:5px;">
         <span>🛡️</span> 클린 안심 서약 완료
@@ -1059,7 +1078,7 @@
       </div>
     </a>
 
-    <a class="menu-card growth" href="board.html?cat=growth">
+    <a class="menu-card growth community-menu-card" href="board.html?cat=growth">
       <div class="menu-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="14" height="14" rx="2"/><circle cx="8" cy="9" r="1.5"/><path d="M4 15l4-4 3 3 3-4 3 4"/><rect x="7" y="7" width="14" height="14" rx="2"/></svg>
       </div>
@@ -1069,7 +1088,7 @@
       </div>
     </a>
 
-    <a class="menu-card edu" href="board.html?cat=edu">
+    <a class="menu-card edu community-menu-card" href="board.html?cat=edu">
       <div class="menu-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="8" height="8" rx="1.5"/><rect x="13" y="4" width="8" height="8" rx="1.5"/><path d="M7 8h0M17 8h0"/><path d="M3 16h18"/></svg>
       </div>
@@ -1079,7 +1098,7 @@
       </div>
     </a>
 
-    <a class="menu-card expert" href="board.html?cat=expert">
+    <a class="menu-card expert community-menu-card" href="board.html?cat=expert">
       <div class="menu-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.3 9a2.7 2.7 0 1 1 3.6 2.5c-.8.35-1.4 1-1.4 1.9v.3"/><circle cx="12" cy="16.8" r=".6" fill="currentColor" stroke="none"/></svg>
       </div>
@@ -1089,7 +1108,7 @@
       </div>
     </a>
 
-    <a class="menu-card share" href="board.html?cat=share">
+    <a class="menu-card share community-menu-card" href="board.html?cat=share">
       <div class="menu-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
       </div>
@@ -1130,7 +1149,7 @@
   <!-- Desktop Sidebar (데스크톱 화면용 좌측 메뉴) -->
   <aside class="desktop-sidebar">
     <!-- 로그인 회원용 클린 서약 서명 확인 카드 (심리적 넛지) -->
-    <div id="sidebarPledgeCard" style="background: linear-gradient(135deg, #f0fdf4, #ecfdf5); border: 1.5px solid #86efac; border-radius: var(--radius-md); padding: 10px 12px; margin-bottom: 8px; box-shadow: 0 2px 8px rgba(16,185,129,0.08);">
+    <div id="sidebarPledgeCard" class="pledge-status-card">
       <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
         <span style="font-size: .78rem; font-weight: 800; color: #065f46; display:flex; align-items:center; gap:5px;">
           <span>🛡️</span> 클린 안심 서약 완료
@@ -1155,14 +1174,14 @@
       <span>카페 글쓰기</span>
     </a>
 
-    <div class="sidebar-section-title" style="color:var(--text-sub); font-weight:700;">안심 서비스 &amp; 안내</div>
+    <div class="sidebar-section-title service-section-title" style="color:var(--text-sub); font-weight:700;">더 둘러보기</div>
 
-    <a class="menu-card" href="recap-album-demo.html" style="border-color:#bbf7d0; background:#f0fdf4;">
-      <div class="menu-icon" style="background:#dcfce7;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+    <a class="menu-card tool-menu sidebar-utility-card" href="recap-album-demo.html">
+      <div class="menu-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
       </div>
       <div class="menu-text">
-        <strong style="color:#166534;">학부모 리캡 &amp; 앨범</strong>
+        <strong>학부모 리캡 &amp; 앨범</strong>
         <span>9월 리캡 &amp; 24p 실물 책자 프리뷰</span>
       </div>
     </a>
@@ -1181,9 +1200,9 @@
       </a>
     </div>
 
-    <div class="sidebar-section-title" style="margin-top:8px;">커뮤니티 메뉴</div>
+    <div class="sidebar-section-title community-section-title" style="margin-top:8px;">커뮤니티 메뉴</div>
 
-    <a class="menu-card guide" href="board.html?cat=guide">
+    <a class="menu-card guide community-menu-card" href="board.html?cat=guide">
       <div class="menu-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a2 2 0 0 0 2 2h1l2 5h2l-1.5-5H10l9 4V6l-9 4H6a2 2 0 0 0-2 2z"/><path d="M13 10v6"/></svg>
       </div>
@@ -1193,7 +1212,7 @@
       </div>
     </a>
 
-    <a class="menu-card growth" href="board.html?cat=growth">
+    <a class="menu-card growth community-menu-card" href="board.html?cat=growth">
       <div class="menu-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="14" height="14" rx="2"/><circle cx="8" cy="9" r="1.5"/><path d="M4 15l4-4 3 3 3-4 3 4"/><rect x="7" y="7" width="14" height="14" rx="2"/></svg>
       </div>
@@ -1203,7 +1222,7 @@
       </div>
     </a>
 
-    <a class="menu-card edu" href="board.html?cat=edu">
+    <a class="menu-card edu community-menu-card" href="board.html?cat=edu">
       <div class="menu-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="8" height="8" rx="1.5"/><rect x="13" y="4" width="8" height="8" rx="1.5"/><path d="M7 8h0M17 8h0"/><path d="M3 16h18"/></svg>
       </div>
@@ -1213,7 +1232,7 @@
       </div>
     </a>
 
-    <a class="menu-card expert" href="board.html?cat=expert">
+    <a class="menu-card expert community-menu-card" href="board.html?cat=expert">
       <div class="menu-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.3 9a2.7 2.7 0 1 1 3.6 2.5c-.8.35-1.4 1-1.4 1.9v.3"/><circle cx="12" cy="16.8" r=".6" fill="currentColor" stroke="none"/></svg>
       </div>
@@ -1223,7 +1242,7 @@
       </div>
     </a>
 
-    <a class="menu-card share" href="board.html?cat=share">
+    <a class="menu-card share community-menu-card" href="board.html?cat=share">
       <div class="menu-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
       </div>
@@ -1253,17 +1272,12 @@
     <section class="blog-hero">
       <div class="blog-hero-content">
         <div class="blog-hero-text">
-          <div class="blog-hero-badge">
-            <span>🌱</span>
-            <span>자람새 육아 철학 &amp; 안심 약속</span>
-          </div>
           <h1>
-            서로를 비교하지 않고,<br>
-            <span class="highlight">아이의 속도를 존중하는 따뜻한 공간</span>
+            아이마다 다른 속도로,<br>
+            <span class="highlight">함께 자라는 육아 커뮤니티</span>
           </h1>
           <p>
-            모든 아이는 저마다 피어나는 고유한 계절이 있습니다.<br>
-            자람새는 타인과의 조급한 비교와 경쟁 대신, 우리 아이만의 소중한 걸음마와 발달 과정을 있는 그대로 따뜻하게 기록하고 이웃과 함께 응원합니다.
+            아이의 성장과 육아 고민을 기록하고, 따뜻한 이웃과 나눠요.
           </p>
           <!-- 검색창 -->
           <div class="feed-search-bar" style="margin-top:10px;">
@@ -1271,16 +1285,12 @@
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input type="text" id="feedSearchInput" placeholder="이웃들의 육아 이야기와 성장 고민을 검색해보세요..." autocomplete="off">
+            <input type="text" id="feedSearchInput" placeholder="육아 이야기와 고민 검색하기" autocomplete="off">
           </div>
         </div>
 
         <div class="blog-hero-visual">
           <img src="jaramsae_motto_hero.jpg" alt="서로를 비교하지 않고 아이의 속도를 존중하는 따뜻한 육아 공간 자람새" loading="eager">
-          <div class="hero-img-caption">
-            <span>🌸 아이마다 피어나는 꽃의 시기가 다릅니다</span>
-            <span style="color:#059669; font-size:.7rem;">자람새 안심 라운지</span>
-          </div>
         </div>
       </div>
 
