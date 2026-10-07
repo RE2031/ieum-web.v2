@@ -588,49 +588,44 @@
     background: transparent;
   }
 
-  /* 카테고리 탭 네비게이션 */
-  .category-nav-wrap{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    min-width:0;
+  /* 접힌 카테고리 선택기 */
+  .category-picker{
+    position:relative;
+    margin: 0 0 8px;
   }
-  .category-nav{
-    display:flex;
-    align-items:center;
-    gap: 8px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    padding: 4px 2px 8px;
-    scrollbar-width: none;
-    scroll-behavior:smooth;
-    min-width:0;
-    flex:1 1 auto;
-  }
-  .category-nav::-webkit-scrollbar{ display: none; }
-  .category-nav-arrow{
+  .category-picker-toggle{
     display:inline-flex;
     align-items:center;
-    justify-content:center;
-    flex:0 0 34px;
-    width:34px;
-    height:34px;
-    margin-bottom:4px;
+    gap:8px;
     border:1px solid var(--border);
-    border-radius:50%;
+    border-radius:18px;
     background:#fff;
     color:#5b6275;
-    box-shadow:var(--shadow-sm);
+    padding:7px 12px;
+    font:inherit;
+    font-size:.84rem;
+    font-weight:700;
     cursor:pointer;
-    transition:background .15s ease, color .15s ease, transform .15s ease;
+    box-shadow:var(--shadow-sm);
   }
-  .category-nav-arrow:hover{background:#f8faff;color:var(--blue);transform:translateY(-1px);}
-  .category-nav-arrow:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
-  .category-nav-arrow svg{width:18px;height:18px;}
-  @media (prefers-reduced-motion: reduce){
-    .category-nav{scroll-behavior:auto;}
-    .category-nav-arrow{transition:none;}
+  .category-picker-toggle:hover{background:#f8faff;color:var(--blue);border-color:#ccd8f8;}
+  .category-picker-toggle:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+  .category-picker-triangle{display:inline-block;transition:transform .18s ease;}
+  .category-picker-toggle[aria-expanded="true"] .category-picker-triangle{transform:rotate(180deg);}
+  .category-nav-panel{
+    display:none;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:8px;
+    padding:10px;
+    margin-top:6px;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:14px;
+    box-shadow:var(--shadow-md);
   }
+  .category-picker.is-open .category-nav-panel{display:flex;}
+  @media (prefers-reduced-motion: reduce){.category-picker-triangle{transition:none;}}
 
   .cat-tab-btn{
     flex: 0 0 auto;
@@ -1292,11 +1287,12 @@
     </section>
 
     <!-- 카테고리 필터 탭 (일반 블로그처럼 카테고리별 전환) -->
-    <div class="category-nav-wrap" aria-label="게시글 카테고리">
-      <button class="category-nav-arrow" id="categoryNavPrev" type="button" aria-label="이전 카테고리" aria-controls="categoryNav" hidden>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+    <div class="category-picker" id="categoryPicker">
+      <button class="category-picker-toggle" id="categoryPickerToggle" type="button" aria-expanded="false" aria-controls="categoryNavPanel">
+        <span class="category-picker-triangle" aria-hidden="true">🔻</span>
+        <span id="categoryPickerLabel">전체 글</span>
       </button>
-      <nav class="category-nav" id="categoryNav" aria-label="게시글 카테고리">
+      <nav class="category-nav-panel" id="categoryNavPanel" aria-label="게시글 카테고리" hidden>
       <button class="cat-tab-btn active" data-cat="all">
         <span>전체 글</span>
         <span class="tab-count" id="count-all">0</span>
@@ -1326,9 +1322,6 @@
         <span class="tab-count" id="count-guide">0</span>
       </button>
       </nav>
-      <button class="category-nav-arrow" id="categoryNavNext" type="button" aria-label="다음 카테고리" aria-controls="categoryNav" hidden>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-      </button>
     </div>
 
     <!-- 글 목록 상단 헤더 -->
@@ -1572,40 +1565,30 @@
     }).join('');
   }
 
-  // 4. 가로로 넘기는 카테고리 탐색 화살표
-  const categoryNav = document.getElementById('categoryNav');
-  const categoryNavPrev = document.getElementById('categoryNavPrev');
-  const categoryNavNext = document.getElementById('categoryNavNext');
-  let categoryNavUpdateQueued = false;
+  // 4. 세모 버튼으로 카테고리 메뉴 열기/닫기
+  const categoryPicker = document.getElementById('categoryPicker');
+  const categoryPickerToggle = document.getElementById('categoryPickerToggle');
+  const categoryPickerLabel = document.getElementById('categoryPickerLabel');
+  const categoryNavPanel = document.getElementById('categoryNavPanel');
 
-  function updateCategoryNavArrows() {
-    const maxScroll = categoryNav.scrollWidth - categoryNav.clientWidth;
-    categoryNavPrev.hidden = maxScroll <= 1 || categoryNav.scrollLeft <= 1;
-    categoryNavNext.hidden = maxScroll <= 1 || categoryNav.scrollLeft >= maxScroll - 1;
+  function setCategoryPickerOpen(open) {
+    categoryPicker.classList.toggle('is-open', open);
+    categoryPickerToggle.setAttribute('aria-expanded', String(open));
+    categoryNavPanel.hidden = !open;
   }
 
-  function queueCategoryNavArrowUpdate() {
-    if (categoryNavUpdateQueued) return;
-    categoryNavUpdateQueued = true;
-    requestAnimationFrame(() => {
-      categoryNavUpdateQueued = false;
-      updateCategoryNavArrows();
-    });
-  }
-
-  categoryNavPrev.addEventListener('click', () => {
-    categoryNav.scrollBy({ left: -categoryNav.clientWidth * 0.75, behavior: 'smooth' });
+  categoryPickerToggle.addEventListener('click', () => {
+    setCategoryPickerOpen(categoryPickerToggle.getAttribute('aria-expanded') !== 'true');
   });
-  categoryNavNext.addEventListener('click', () => {
-    categoryNav.scrollBy({ left: categoryNav.clientWidth * 0.75, behavior: 'smooth' });
+  document.addEventListener('click', (event) => {
+    if (!categoryPicker.contains(event.target)) setCategoryPickerOpen(false);
   });
-  categoryNav.addEventListener('scroll', queueCategoryNavArrowUpdate, { passive: true });
-  if ('ResizeObserver' in window) {
-    new ResizeObserver(queueCategoryNavArrowUpdate).observe(categoryNav);
-  } else {
-    window.addEventListener('resize', queueCategoryNavArrowUpdate);
-  }
-  updateCategoryNavArrows();
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && categoryPickerToggle.getAttribute('aria-expanded') === 'true') {
+      setCategoryPickerOpen(false);
+      categoryPickerToggle.focus();
+    }
+  });
 
   // 5. 탭 클릭 이벤트 바인딩
   const tabButtons = document.querySelectorAll('.cat-tab-btn');
@@ -1614,6 +1597,8 @@
       tabButtons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       currentCategory = btn.dataset.cat;
+      categoryPickerLabel.textContent = btn.querySelector('span').textContent;
+      setCategoryPickerOpen(false);
       renderFeed();
     });
   });
