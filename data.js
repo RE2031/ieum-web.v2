@@ -366,7 +366,7 @@ function reportPost(id, userId, reason) {
   ensureSeeded();
   const posts = loadPosts();
   const post = posts.find((p) => p.id === id);
-  if (!post) return null;
+  if (!post || !userId || post.author === userId || post.violationConfirmed) return null;
   if (!post.reports) post.reports = [];
   if (post.reports.some((r) => r.by === userId)) return post; // 중복 신고 무시
   post.reports.push({ by: userId, reason, date: new Date().toISOString() });

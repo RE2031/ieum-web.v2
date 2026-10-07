@@ -140,6 +140,8 @@
   .report-btn:hover{ color:#e0556c; border-color:#ffc9d1; background:#fff5f6; }
   .report-btn:hover svg{ stroke:#e0556c; }
   .report-btn:disabled{ cursor:default; opacity:.6; }
+  .report-btn:focus-visible, .report-reasons button:focus-visible{ outline:2px solid #6c8ef5; outline-offset:2px; }
+  .report-btn:disabled:hover{ color:var(--text-sub); border-color:var(--border); background:none; }
   .report-panel{
     margin-top:14px;
     padding-top:14px;
@@ -522,11 +524,27 @@
     const commentWriteArea = document.getElementById('commentWriteArea');
     const reportBtn = document.getElementById('reportBtn');
     const reportPanel = document.getElementById('reportPanel');
-    const REPORT_REASONS = ['비교·경쟁 조장', '비전문가 낙인성 진단', '특정 교사·기관 비방', '광고·스팸', '기타'];
+    const REPORT_REASONS = ['욕설·혐오·괴롭힘', '개인정보 노출', '허위 정보·사기', '비교·경쟁 조장', '비전문가 낙인성 진단', '특정 교사·기관 비방', '광고·스팸', '불법·유해 콘텐츠', '기타'];
 
     function renderReportUI() {
       const reports = post.reports || [];
       const alreadyReported = auth && reports.some((r) => r.by === auth.id);
+      const isAuthor = auth && post.author === auth.id;
+
+      if (!auth) {
+        reportBtn.title = '신고하려면 로그인해주세요.';
+        reportBtn.addEventListener('click', () => {
+          reportPanel.innerHTML = `<div class="report-panel"><p>신고하려면 <a href="login.html">먼저 로그인</a>해주세요.</p></div>`;
+        });
+        return;
+      }
+
+      if (isAuthor) {
+        reportBtn.textContent = '내 게시글';
+        reportBtn.disabled = true;
+        reportBtn.title = '본인이 작성한 게시글은 신고할 수 없어요.';
+        return;
+      }
 
       if (alreadyReported) {
         reportBtn.textContent = '신고 접수됨';
@@ -536,15 +554,14 @@
       }
 
       reportBtn.addEventListener('click', () => {
-        if (!auth) return;
         if (!isPhoneVerified(auth.id)) {
           reportPanel.innerHTML = `<div class="report-panel"><p>신고하려면 먼저 본인 인증이 필요해요. 댓글 작성 시 인증할 수 있어요.</p></div>`;
           return;
         }
         reportPanel.innerHTML = `
           <div class="report-panel">
-            <p>어떤 부분이 문제였나요?</p>
-            <div class="report-reasons">
+            <p id="reportPrompt">어떤 부분이 문제였나요?</p>
+            <div class="report-reasons" role="group" aria-labelledby="reportPrompt">
               ${REPORT_REASONS.map((r) => `<button type="button" data-reason="${r}">${r}</button>`).join('')}
             </div>
           </div>
@@ -552,16 +569,20 @@
         reportPanel.querySelectorAll('.report-reasons button').forEach((btn) => {
           btn.addEventListener('click', () => {
             post = reportPost(post.id, auth.id, btn.dataset.reason);
+            if (!post) {
+              reportPanel.innerHTML = `<div class="report-panel"><p>신고 처리 중 문제가 발생했어요. 다시 시도해주세요.</p></div>`;
+              return;
+            }
             if (post.hidden) {
               location.reload();
               return;
             }
-            reportPanel.innerHTML = `<div class="report-panel"><p>신고가 접수됐어요. 다른 이웃 신고가 더해지면 운영팀 확인 전에도 자동으로 검토 대기 상태가 돼요.</p></div>`;
+            reportPanel.innerHTML = `<div class="report-panel" role="status"><p>신고가 접수됐어요. 같은 계정으로는 중복 신고할 수 없으며, 다른 이웃 신고가 더해지면 운영팀 검토 대기 상태가 돼요.</p></div>`;
             reportBtn.textContent = '신고 접수됨';
             reportBtn.disabled = true;
           });
         });
-      }, { once: true });
+      });
     }
 
     let pendingExpertPhone = null;
