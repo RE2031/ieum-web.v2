@@ -6,17 +6,17 @@
 <title>회원가입 &amp; 클린 안심 서약 · 자람새</title>
 <style>
   :root{
-    --bg: #f4f6fc;
+    --bg: #f7f1e6;
     --card: #ffffff;
-    --blue: #5e81f4;
-    --blue-dark: #476be2;
-    --blue-light: #eef3ff;
+    --blue: #3f6d4e;
+    --blue-dark: #2e553c;
+    --blue-light: #e9efe0;
     --teal: #10b981;
-    --teal-dark: #059669;
-    --teal-light: #ecfdf5;
-    --text: #1b212f;
-    --text-sub: #7b8395;
-    --border: #e6eaf3;
+    --teal-dark: #3f6d4e;
+    --teal-light: #e9efe0;
+    --text: #2f2a22;
+    --text-sub: #8b8071;
+    --border: #e5d9c5;
   }
   *{ box-sizing: border-box; }
   body{
@@ -98,12 +98,12 @@
     border: 1.5px solid transparent;
   }
   .step-item.active{
-    background: #eef3ff;
+    background: #e9efe0;
     border-color: var(--blue);
   }
   .step-item.completed{
-    background: #ecfdf5;
-    border-color: #a7f3d0;
+    background: #e9efe0;
+    border-color: #c7dcc0;
   }
   .step-num{
     display: block;
@@ -263,7 +263,7 @@
   /* 3단계: 클린 서약 박스 */
   .pledge-box{
     background: #f8fafc;
-    border: 1.5px solid #a7f3d0;
+    border: 1.5px solid #c7dcc0;
     border-radius: 14px;
     padding: 18px 20px;
     margin-top: 8px;
@@ -285,13 +285,13 @@
     gap: 8px;
     font-weight: 800;
     font-size: .88rem;
-    color: #047857;
+    color: #3f6d4e;
     cursor:pointer;
     margin-bottom: 14px;
     padding: 10px 12px;
-    background: #ecfdf5;
+    background: #e9efe0;
     border-radius: 8px;
-    border: 1px solid #a7f3d0;
+    border: 1px solid #c7dcc0;
     user-select: none;
   }
   .all-check-label input{ width: 17px; height: 17px; cursor: pointer; }
@@ -367,10 +367,10 @@
     padding: 2px 8px;
     border-radius: 4px;
     background: #f1f5f9;
-    color: #64748b;
+    color: #8b8071;
   }
   .sig-status-badge.ok{
-    background: #dcfce7;
+    background: #e9efe0;
     color: #166534;
   }
   .clear-btn{
@@ -380,7 +380,7 @@
     border-radius: 6px;
     font-size: .74rem;
     font-weight: 700;
-    color: #64748b;
+    color: #8b8071;
     cursor: pointer;
   }
   .clear-btn:hover{ background: #e2e8f0; color: #334155; }
@@ -423,7 +423,7 @@
   .btn-submit{
     flex: 1;
     padding: 14px;
-    background: #059669;
+    background: #3f6d4e;
     color: #fff;
     font-size: 1rem;
     font-weight: 800;
@@ -433,7 +433,7 @@
     transition: all .15s ease;
     box-shadow: 0 4px 14px rgba(5,150,105,0.3);
   }
-  .btn-submit:hover{ background: #047857; transform: translateY(-1px); }
+  .btn-submit:hover{ background: #3f6d4e; transform: translateY(-1px); }
 
   .error-box{
     background: #fef2f2;
@@ -456,6 +456,7 @@
   .login-link-row a{ color: var(--blue); font-weight: 700; text-decoration: none; }
   .login-link-row a:hover{ text-decoration: underline; }
 </style>
+  <link rel="stylesheet" href="theme.css">
 </head>
 <body>
 
@@ -466,9 +467,9 @@
 
 <div class="signup-card">
   <a class="brand" href="index.html">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#6c8ef5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#3f6d4e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <path d="M20 8c0 3-2.5 4-5 4l-1 6h-3l-1-4c-3 0-6-2-6-6 0-1 .3-2 1-3 .5 1 1.5 1.5 2.5 1.5C8 4 10 3 12 3c1 0 2 .3 2.8.9C15.5 3.3 16.7 3 18 3c0 1.2-.4 2.2-1.2 3 1.4.5 2.2 1.2 3.2 2z"/>
-      <circle cx="16.5" cy="7.5" r=".6" fill="#6c8ef5"/>
+      <circle cx="16.5" cy="7.5" r=".6" fill="#3f6d4e"/>
     </svg>
     <span>자람새</span>
   </a>
@@ -520,7 +521,7 @@
           <div class="role-card-info">
             <div class="role-card-title">
               <span>보육·교육 교사 (인증 회원)</span>
-              <span class="role-badge-tag" style="background:#fef3c7; color:#b45309;">교사용 서재 전용</span>
+              <span class="role-badge-tag" style="background:#f2e8d2; color:#a5563a;">교사용 서재 전용</span>
             </div>
             <div class="role-card-desc">
               AI 관찰기록 보조, 아동 발달 리포트 생성, CARE ONTOLOGY 기반 맞춤형 추천 놀이 계획서 활용
@@ -534,7 +535,7 @@
           <div class="role-card-info">
             <div class="role-card-title">
               <span>소상공인 / 광고 파트너</span>
-              <span class="role-badge-tag" style="background:#dcfce7; color:#15803d;">안심 반론권 보장</span>
+              <span class="role-badge-tag" style="background:#e9efe0; color:#15803d;">안심 반론권 보장</span>
             </div>
             <div class="role-card-desc">
               지역 육아 교구·체험·학원 공식 홍보, 악의적 비방 방지 및 게시글 하단 공식 해명·반론권 보장
@@ -588,15 +589,15 @@
       <h2 class="step-heading">3단계. 클린 안심 서약 및 전자서명 (필수)</h2>
       <p class="step-desc">모두가 안심할 수 있는 문화를 위해 법적 준수 협약에 서명해 주세요.</p>
 
-      <div class="role-summary-banner" style="background:#ecfdf5; border-color:#a7f3d0; color:#065f46;">
+      <div class="role-summary-banner" style="background:#e9efe0; border-color:#c7dcc0; color:#065f46;">
         <span id="accountSummaryText">서약자: 김민준 엄마 (minjun_mom)</span>
-        <button type="button" onclick="goToStep(2)" style="color:#047857;">정보 수정</button>
+        <button type="button" onclick="goToStep(2)" style="color:#3f6d4e;">정보 수정</button>
       </div>
 
       <div class="pledge-box">
         <div class="pledge-title">
           <span>🛡️ 자람새 클린 안심 이용 협약</span>
-          <span style="font-size:.75rem; color:#047857;">전자서명법 제3조 준수</span>
+          <span style="font-size:.75rem; color:#3f6d4e;">전자서명법 제3조 준수</span>
         </div>
 
         <label class="all-check-label">

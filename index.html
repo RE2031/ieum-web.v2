@@ -6,15 +6,15 @@
 <title>자람새 - 따뜻한 육아 블로그 커뮤니티</title>
 <style>
   :root{
-    --bg: #f4f6fc;
+    --bg: #f7f1e6;
     --card: #ffffff;
-    --blue: #5e81f4;
-    --blue-dark: #476be2;
-    --blue-light: #eef3ff;
-    --text: #1b212f;
-    --text-sub: #7b8395;
-    --border: #e6eaf3;
-    --img-bg: #e9ecf6;
+    --blue: #3f6d4e;
+    --blue-dark: #2e553c;
+    --blue-light: #e9efe0;
+    --text: #2f2a22;
+    --text-sub: #8b8071;
+    --border: #e5d9c5;
+    --img-bg: #ece3d0;
     --radius-lg: 18px;
     --radius-md: 12px;
     --radius-sm: 8px;
@@ -145,7 +145,7 @@
     width:36px;
     height:36px;
     border-radius:50%;
-    background: linear-gradient(135deg, #cfd8f6, #a9b8ea);
+    background: linear-gradient(135deg, #d9e2c8, #b9c8a3);
     flex: 0 0 auto;
     border: 2px solid #fff;
     box-shadow: 0 1px 3px rgba(0,0,0,.08);
@@ -283,16 +283,41 @@
   .menu-text span{ display:block; font-size: .77rem; color: var(--text-sub); }
 
   /* 카테고리별 테마 */
-  .menu-card.guide .menu-icon{ background:#eaf2ff; }
-  .menu-card.guide .menu-icon svg{ stroke:#3b72f5; }
-  .menu-card.growth .menu-icon{ background:#e8f7ee; }
-  .menu-card.growth .menu-icon svg{ stroke:#2ea65a; }
-  .menu-card.edu .menu-icon{ background:#fff3e6; }
-  .menu-card.edu .menu-icon svg{ stroke:#ea7a1f; }
-  .menu-card.expert .menu-icon{ background:#f1ecff; }
-  .menu-card.expert .menu-icon svg{ stroke:#784eed; }
-  .menu-card.share .menu-icon{ background:#e8f7f7; }
-  .menu-card.share .menu-icon svg{ stroke:#1b9b9b; }
+  .menu-card .menu-icon{ background:#f2e8d2; }
+  .menu-card .menu-icon svg{ stroke:#3f6d4e; }
+  .menu-card.story .menu-icon{ background:#f6e7dc; }
+  .menu-card.story .menu-icon svg{ stroke:#a5563a; }
+  .menu-card.guide .menu-icon{ background:#e9efe0; }
+  .menu-card.guide .menu-icon svg{ stroke:#2e553c; }
+
+  /* 게시판 하위 메뉴 (예: 집으로 이어지는 배움 > 밥/놀이 도구) */
+  .desktop-sidebar .menu-sublinks{ order: 4; }
+  .menu-sublinks{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    margin: -4px 0 10px 22px;
+    padding-left: 12px;
+    border-left: 2px solid var(--border);
+  }
+  .menu-sublinks a{
+    font-size:.82rem;
+    font-weight:600;
+    color:var(--text-sub);
+    text-decoration:none;
+    padding:5px 8px;
+    border-radius:8px;
+    transition: background .15s ease, color .15s ease;
+  }
+  .menu-sublinks a:hover{ background:#fff; color:var(--brand-dark); }
+  .menu-card.growth .menu-icon{ background:#f2e8d2; }
+  .menu-card.growth .menu-icon svg{ stroke:#8a6a3a; }
+  .menu-card.edu .menu-icon{ background:#f6e7dc; }
+  .menu-card.edu .menu-icon svg{ stroke:#a5563a; }
+  .menu-card.expert .menu-icon{ background:#e9efe0; }
+  .menu-card.expert .menu-icon svg{ stroke:#3f6d4e; }
+  .menu-card.share .menu-icon{ background:#efe3d3; }
+  .menu-card.share .menu-icon svg{ stroke:#9c7a52; }
 
   /* 추천 도구 카드 */
   .menu-card.tool-menu{
@@ -308,18 +333,18 @@
     background: linear-gradient(135deg, #fffaf0, #ffffff);
     border: 1px solid #ffe4b0;
   }
-  .menu-card.teacher-card .menu-icon{ background: #fff1d6; }
-  .menu-card.teacher-card .menu-icon svg{ stroke: #d99a1f; }
+  .menu-card.teacher-card .menu-icon{ background: #f2e8d2; }
+  .menu-card.teacher-card .menu-icon svg{ stroke: #8a6a3a; }
   .menu-card.admin-card{
     background: linear-gradient(135deg, #fff0f2, #ffffff);
     border: 1px solid #ffc9d1;
   }
-  .menu-card.admin-card .menu-icon{ background: #ffe1e5; }
-  .menu-card.admin-card .menu-icon svg{ stroke: #e0556c; }
+  .menu-card.admin-card .menu-icon{ background: #f6e7dc; }
+  .menu-card.admin-card .menu-icon svg{ stroke: #a5563a; }
 
   .private-tag{
     font-size: .62rem;
-    background: #e0556c;
+    background: #a5563a;
     color: #fff;
     padding: 1px 5px;
     border-radius: 4px;
@@ -333,7 +358,7 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    background: linear-gradient(135deg, #5b7ef5, #4263eb);
+    background: linear-gradient(135deg, #4a7a58, #365f44);
     color: #ffffff;
     font-size: .95rem;
     font-weight: 800;
@@ -347,7 +372,7 @@
   .sidebar-write-action-btn:hover{
     transform: translateY(-2px);
     box-shadow: 0 6px 18px rgba(66, 99, 235, 0.38);
-    background: linear-gradient(135deg, #4b6ee8, #3553d9);
+    background: linear-gradient(135deg, #416c4f, #2e553c);
     color: #ffffff;
   }
   .sidebar-write-action-btn svg{
@@ -426,7 +451,7 @@
 
   .drawer-user{
     padding: 18px 20px;
-    background: linear-gradient(135deg, #f7f9ff, #edf2fc);
+    background: linear-gradient(135deg, #f7f1e6, #ece3d0);
     border-bottom: 1px solid var(--border);
     display:flex;
     align-items:center;
@@ -477,7 +502,7 @@
 
   /* 자람새 히어로 배너 (모토 & 감성 비주얼 UI) */
   .blog-hero{
-    background: #fff;
+    background: var(--card);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     padding: 28px 32px;
@@ -510,9 +535,9 @@
   .blog-hero-badge{
     font-size: .78rem;
     font-weight: 800;
-    color: #b45309;
-    background: #fef3c7;
-    border: 1px solid #fde68a;
+    color: #a5563a;
+    background: #f2e8d2;
+    border: 1px solid #e3c3ae;
     padding: 4px 12px;
     border-radius: 20px;
     width: fit-content;
@@ -523,21 +548,21 @@
   .blog-hero h1{
     margin: 0;
     font-size: 1.58rem;
-    font-weight: 850;
+    font-weight: 700;
     letter-spacing: -0.03em;
-    color: #1c1917;
+    color: var(--text);
     line-height: 1.38;
   }
   .blog-hero h1 .highlight{
-    color: #2563eb;
-    background: linear-gradient(120deg, rgba(37,99,235,0.1) 0%, rgba(37,99,235,0) 100%);
+    color: var(--accent);
+    background: linear-gradient(120deg, rgba(194,106,69,0.14) 0%, rgba(194,106,69,0) 100%);
     padding: 0 4px;
     border-radius: 4px;
   }
   .blog-hero p{
     margin: 0;
     font-size: .92rem;
-    color: #57534e;
+    color: #6b6155;
     line-height: 1.68;
     word-break: keep-all;
   }
@@ -555,30 +580,49 @@
     background: #f5f5f4;
     color: #78716c;
   }
-  .hero-pill.green{ background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
-  .hero-pill.amber{ background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
-  .hero-pill.blue{ background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+  .hero-pill.green{ background: #e9efe0; color: #3f6d4e; border: 1px solid #c7dcc0; }
+  .hero-pill.amber{ background: #f7edd9; color: #a5563a; border: 1px solid #e3c3ae; }
+  .hero-pill.blue{ background: #e9efe0; color: #2e553c; border: 1px solid #c2d4bd; }
 
-  /* 히어로 비주얼 이미지 프레임 */
+  /* 히어로 비주얼: 실사진 프레임 (photos/hero.jpg 가 들어갈 자리) */
   .blog-hero-visual{
     position: relative;
-    width: min(100%, 360px);
+    width: min(100%, 380px);
     justify-self: end;
+  }
+  .hero-photo-frame{
+    position: relative;
     border-radius: 14px;
     overflow: hidden;
+    aspect-ratio: 16 / 10;
+    max-height: 240px;
+    border: 1px solid var(--border);
     box-shadow: var(--shadow-md);
-    aspect-ratio: 16 / 9;
-    max-height: 200px;
+    background: var(--accent-soft);
   }
-  .blog-hero-visual img{
+  .hero-photo-frame .hero-photo-fallback{
+    position: absolute;
+    inset: 0;
+    border: 0;
+    border-radius: 0;
+  }
+  .hero-photo-frame img{
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
     transition: transform .35s ease;
   }
-  .blog-hero-visual:hover img{
+  .hero-photo-frame:hover img{
     transform: scale(1.02);
+  }
+  .hero-photo-caption{
+    margin: 10px 4px 0;
+    text-align: right;
+    font-size: 1.15rem;
+    color: var(--accent);
   }
   @media (max-width: 900px){
     .blog-hero-visual{ justify-self: center; }
@@ -611,44 +655,32 @@
     background: transparent;
   }
 
-  /* 접힌 카테고리 선택기 */
-  .category-picker{
-    position:relative;
-    margin: 0 0 8px;
+  /* 카테고리 탭 스트립: 사이트 유일의 카테고리 내비게이션 */
+  .filter-label{
+    font-size:.82rem;
+    color:var(--text-sub);
+    margin: 0 0 6px 2px;
   }
-  .category-picker-toggle{
-    display:inline-flex;
+  .filter-label .hand-note{
+    font-size:.95rem;
+    color:var(--accent);
+  }
+  .category-tabs-wrap{
+    margin: 0 0 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .category-tabs-wrap::-webkit-scrollbar{ display: none; }
+  .category-tabs{
+    display:flex;
+    flex-wrap:nowrap;
     align-items:center;
     gap:8px;
-    border:1px solid var(--border);
-    border-radius:18px;
-    background:#fff;
-    color:#5b6275;
-    padding:7px 12px;
-    font:inherit;
-    font-size:.84rem;
-    font-weight:700;
-    cursor:pointer;
-    box-shadow:var(--shadow-sm);
+    width: max-content;
+    min-width: 100%;
+    padding: 2px;
   }
-  .category-picker-toggle:hover{background:#f8faff;color:var(--blue);border-color:#ccd8f8;}
-  .category-picker-toggle:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
-  .category-picker-triangle{display:inline-block;transition:transform .18s ease;}
-  .category-picker-toggle[aria-expanded="true"] .category-picker-triangle{transform:rotate(180deg);}
-  .category-nav-panel{
-    display:none;
-    flex-wrap:wrap;
-    align-items:center;
-    gap:8px;
-    padding:10px;
-    margin-top:6px;
-    background:#fff;
-    border:1px solid var(--border);
-    border-radius:14px;
-    box-shadow:var(--shadow-md);
-  }
-  .category-picker.is-open .category-nav-panel{display:flex;}
-  @media (prefers-reduced-motion: reduce){.category-picker-triangle{transition:none;}}
 
   .cat-tab-btn{
     flex: 0 0 auto;
@@ -666,15 +698,15 @@
     gap: 6px;
   }
   .cat-tab-btn:hover{
-    background: #f8faff;
-    color: var(--blue);
-    border-color: #ccd8f8;
+    background: var(--brand-soft);
+    color: var(--brand-dark);
+    border-color: #c7dcc0;
   }
   .cat-tab-btn.active{
-    background: var(--blue);
+    background: var(--brand);
     color: #fff;
-    border-color: var(--blue);
-    box-shadow: 0 2px 8px rgba(94,129,244,0.3);
+    border-color: var(--brand-dark);
+    box-shadow: 0 2px 6px rgba(63,109,78,0.25);
   }
   .cat-tab-btn .tab-count{
     font-size: .72rem;
@@ -737,7 +769,7 @@
   .blog-card:hover{
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
-    border-color: #d8e3fc;
+    border-color: #d4c5a5;
   }
 
   .blog-card-meta{
@@ -759,12 +791,12 @@
     padding: 3px 9px;
     border-radius: 6px;
   }
-  .blog-cat-badge.story{ background:#eaf0ff; color:#4a73e6; }
-  .blog-cat-badge.growth{ background:#e5f7ed; color:#279651; }
-  .blog-cat-badge.edu{ background:#fff1e3; color:#df7218; }
-  .blog-cat-badge.expert{ background:#f1ecff; color:#784eed; }
-  .blog-cat-badge.share{ background:#e6f8f8; color:#189696; }
-  .blog-cat-badge.guide{ background:#f0f2f7; color:#5b657e; }
+  .blog-cat-badge.story{ background:#f6e7dc; color:#a5563a; }
+  .blog-cat-badge.growth{ background:#e9efe0; color:#3f6d4e; }
+  .blog-cat-badge.edu{ background:#f2e8d2; color:#8a6a3a; }
+  .blog-cat-badge.expert{ background:#dde7d3; color:#2e553c; }
+  .blog-cat-badge.share{ background:#efe3d3; color:#9c7a52; }
+  .blog-cat-badge.guide{ background:#ece3d0; color:#6b6155; }
 
   .blog-card-date{
     font-size: .78rem;
@@ -783,7 +815,7 @@
     margin: 0 0 16px;
     font-size: .92rem;
     line-height: 1.65;
-    color: #454c5e;
+    color: #6b6155;
     display:-webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -805,7 +837,7 @@
   .img-tile .more-count{
     position:absolute;
     inset:0;
-    background: rgba(20,25,45,.5);
+    background: rgba(47,42,34,.55);
     color:#fff;
     font-weight:700;
     font-size: 1.1rem;
@@ -851,7 +883,7 @@
     width: 26px;
     height: 26px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #cfd8f6, #a9b8ea);
+    background: linear-gradient(135deg, #d9e2c8, #b9c8a3);
     flex: 0 0 auto;
   }
   .blog-author-name{
@@ -953,6 +985,7 @@
     }
   }
 </style>
+  <link rel="stylesheet" href="theme.css">
 </head>
 <body>
 
@@ -969,9 +1002,9 @@
     </button>
 
     <a class="logo" href="index.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#6c8ef5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#3f6d4e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <path d="M20 8c0 3-2.5 4-5 4l-1 6h-3l-1-4c-3 0-6-2-6-6 0-1 .3-2 1-3 .5 1 1.5 1.5 2.5 1.5C8 4 10 3 12 3c1 0 2 .3 2.8.9C15.5 3.3 16.7 3 18 3c0 1.2-.4 2.2-1.2 3 1.4.5 2.2 1.2 3.2 2z"/>
-        <circle cx="16.5" cy="7.5" r=".6" fill="#6c8ef5"/>
+        <circle cx="16.5" cy="7.5" r=".6" fill="#3f6d4e"/>
       </svg>
       <span>자람새</span>
     </a>
@@ -981,11 +1014,11 @@
     <!-- 데스크톱 상단 메뉴 -->
     <nav class="desktop-nav">
       <!-- 교사용 서재 (교사 로그인 시 표시) -->
-      <a class="nav-item teacher-nav-item" id="topNavTeacherLibrary" href="teacher-library.html" hidden style="color:#364fc7; font-weight:800; background:#edf2ff; border:1px solid #c5d7fe; border-radius:8px;">
+      <a class="nav-item teacher-nav-item" id="topNavTeacherLibrary" href="teacher-library.html" hidden style="color:#2e553c; font-weight:800; background:#e9efe0; border:1px solid #c7dcc0; border-radius:8px;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-        <span>교사용 서재 <span style="font-size:10px; background:#364fc7; color:#fff; padding:1px 5px; border-radius:4px; margin-left:2px;">PRIVATE</span></span>
+        <span>교사용 서재 <span style="font-size:10px; background:#2e553c; color:#fff; padding:1px 5px; border-radius:4px; margin-left:2px;">PRIVATE</span></span>
       </a>
-      <a class="nav-item" href="director-guide.html" style="color:#d97706; font-weight:700;">
+      <a class="nav-item" href="director-guide.html" style="color:#a5563a; font-weight:700;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         <span>원장님 가이드</span>
       </a>
@@ -1022,9 +1055,9 @@
 <aside class="mobile-drawer" id="mobileDrawer" aria-label="전체 메뉴">
   <div class="drawer-header">
     <div class="drawer-title">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5e81f4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#3f6d4e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M20 8c0 3-2.5 4-5 4l-1 6h-3l-1-4c-3 0-6-2-6-6 0-1 .3-2 1-3 .5 1 1.5 1.5 2.5 1.5C8 4 10 3 12 3c1 0 2 .3 2.8.9C15.5 3.3 16.7 3 18 3c0 1.2-.4 2.2-1.2 3 1.4.5 2.2 1.2 3.2 2z"/>
-        <circle cx="16.5" cy="7.5" r=".6" fill="#5e81f4"/>
+        <circle cx="16.5" cy="7.5" r=".6" fill="#3f6d4e"/>
       </svg>
       <span>자람새 전체 메뉴</span>
     </div>
@@ -1057,16 +1090,26 @@
       <span style="font-size: .78rem; font-weight: 800; color: #064e3b; display:flex; align-items:center; gap:5px;">
         <span>🛡️</span> 클린 안심 서약 완료
       </span>
-      <span style="font-size: .68rem; color: #059669; font-weight:600;" id="drawerPledgeDate">2026.09.29 서명</span>
+      <span style="font-size: .68rem; color: #3f6d4e; font-weight:600;" id="drawerPledgeDate">2026.09.29 서명</span>
     </div>
     <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:5px; font-size: .7rem;">
-      <a href="signup.html" style="color: #047857; font-weight: 700; text-decoration:underline;">새로 서약/가입</a>
-      <a href="compliance-signature.html" style="color: #047857; font-weight: 700; text-decoration:none;">인증서 확인 →</a>
+      <a href="signup.html" style="color: #3f6d4e; font-weight: 700; text-decoration:underline;">새로 서약/가입</a>
+      <a href="compliance-signature.html" style="color: #3f6d4e; font-weight: 700; text-decoration:none;">인증서 확인 →</a>
     </div>
   </div>
 
   <div class="drawer-content">
-    <div class="sidebar-section-title">커뮤니티 게시판</div>
+    <div class="sidebar-section-title">게시판</div>
+
+    <a class="menu-card story community-menu-card" href="board.html?cat=story">
+      <div class="menu-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L3 20l1.1-5A8 8 0 1 1 21 12z"/></svg>
+      </div>
+      <div class="menu-text">
+        <strong>육아 이야기</strong>
+        <span>이웃 부모들의 오늘 이야기</span>
+      </div>
+    </a>
 
     <a class="menu-card guide" href="board.html?cat=guide">
       <div class="menu-icon">
@@ -1097,6 +1140,11 @@
         <span>육아 교육 및 추천 교구</span>
       </div>
     </a>
+
+    <div class="menu-sublinks">
+      <a href="dinner-menu.html">🍚 오늘 밥 뭐먹을지</a>
+      <a href="play-recommend.html">🎨 놀이 뭐할지</a>
+    </div>
 
     <a class="menu-card expert community-menu-card" href="board.html?cat=expert">
       <div class="menu-icon">
@@ -1154,14 +1202,14 @@
         <span style="font-size: .78rem; font-weight: 800; color: #065f46; display:flex; align-items:center; gap:5px;">
           <span>🛡️</span> 클린 안심 서약 완료
         </span>
-        <span id="sidebarPledgeDate" style="font-size:.68rem; color:#059669; font-weight:600;">2026.09.29 서명</span>
+        <span id="sidebarPledgeDate" style="font-size:.68rem; color:#3f6d4e; font-weight:600;">2026.09.29 서명</span>
       </div>
-      <div style="font-size:.7rem; color:#047857; line-height:1.4; margin-top:3px;">
+      <div style="font-size:.7rem; color:#3f6d4e; line-height:1.4; margin-top:3px;">
         형법 제314·350조 및 표시광고법 준수
       </div>
       <div style="display:flex; justify-content:flex-end; gap:8px; font-size:.7rem; margin-top:5px;">
-        <a href="signup.html" style="color:#047857; font-weight:700; text-decoration:underline;">새로 서약/가입</a>
-        <a href="compliance-signature.html" style="color:#047857; font-weight:700; text-decoration:none;">인증서 확인 →</a>
+        <a href="signup.html" style="color:#3f6d4e; font-weight:700; text-decoration:underline;">새로 서약/가입</a>
+        <a href="compliance-signature.html" style="color:#3f6d4e; font-weight:700; text-decoration:none;">인증서 확인 →</a>
       </div>
     </div>
 
@@ -1188,19 +1236,29 @@
 
     <!-- 교사 전용 메뉴 (교사 로그인 시 표시) -->
     <div id="teacherSidebarSection" hidden>
-      <div class="sidebar-section-title" style="color:#364fc7; font-weight:800; margin-top:10px;">교사 전용 메뉴</div>
-      <a class="menu-card teacher-card" href="teacher-library.html" id="teacherMenuCard" style="border-color:#c7d2fe; background:#f8faff;">
+      <div class="sidebar-section-title" style="color:#2e553c; font-weight:800; margin-top:10px;">교사 전용 메뉴</div>
+      <a class="menu-card teacher-card" href="teacher-library.html" id="teacherMenuCard" style="border-color:#c7d2fe; background:#f7f1e6;">
         <div class="menu-icon" style="background:#e0e7ff;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#364fc7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="#2e553c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
         </div>
         <div class="menu-text">
-          <strong style="color:#1e40af;">교사용 서재 <span class="private-tag" style="background:#364fc7; color:#fff; font-size:10px; padding:2px 6px; border-radius:4px;">PRIVATE</span></strong>
+          <strong style="color:#1e40af;">교사용 서재 <span class="private-tag" style="background:#2e553c; color:#fff; font-size:10px; padding:2px 6px; border-radius:4px;">PRIVATE</span></strong>
           <span style="color:#475569;">AI 일지 작성 &amp; 우리 반 서재</span>
         </div>
       </a>
     </div>
 
-    <div class="sidebar-section-title community-section-title" style="margin-top:8px;">커뮤니티 메뉴</div>
+    <div class="sidebar-section-title community-section-title" style="margin-top:8px;">게시판</div>
+
+    <a class="menu-card story community-menu-card" href="board.html?cat=story">
+      <div class="menu-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L3 20l1.1-5A8 8 0 1 1 21 12z"/></svg>
+      </div>
+      <div class="menu-text">
+        <strong>육아 이야기</strong>
+        <span>이웃 부모들의 오늘 이야기</span>
+      </div>
+    </a>
 
     <a class="menu-card guide community-menu-card" href="board.html?cat=guide">
       <div class="menu-icon">
@@ -1231,6 +1289,11 @@
         <span>육아 교육 및 추천 교구</span>
       </div>
     </a>
+
+    <div class="menu-sublinks">
+      <a href="dinner-menu.html">🍚 오늘 밥 뭐먹을지</a>
+      <a href="play-recommend.html">🎨 놀이 뭐할지</a>
+    </div>
 
     <a class="menu-card expert community-menu-card" href="board.html?cat=expert">
       <div class="menu-icon">
@@ -1290,19 +1353,23 @@
         </div>
 
         <div class="blog-hero-visual">
-          <img src="jaramsae_motto_hero.jpg" alt="서로를 비교하지 않고 아이의 속도를 존중하는 따뜻한 육아 공간 자람새" loading="eager">
+          <div class="hero-photo-frame">
+            <div class="photo-slot hero-photo-fallback">
+              <span class="hand-note">오늘의 한 장</span>
+              <span class="slot-hint">photos/hero.jpg 자리 — 우리 가족·이웃 사진으로 채워져요</span>
+            </div>
+            <img src="photos/hero.jpg" alt="자람새 이웃들의 오늘 한 장" loading="eager" onerror="this.style.display='none'">
+          </div>
+          <p class="hero-photo-caption hand-note">서로 비교하지 않는, 아이의 속도로</p>
         </div>
       </div>
 
     </section>
 
-    <!-- 카테고리 필터 탭 (일반 블로그처럼 카테고리별 전환) -->
-    <div class="category-picker" id="categoryPicker">
-      <button class="category-picker-toggle" id="categoryPickerToggle" type="button" aria-expanded="false" aria-controls="categoryNavPanel">
-        <span class="category-picker-triangle" aria-hidden="true">🔻</span>
-        <span id="categoryPickerLabel">전체 글</span>
-      </button>
-      <nav class="category-nav-panel" id="categoryNavPanel" aria-label="게시글 카테고리" hidden>
+    <!-- 카테고리 탭: 피드 보기 전환 (게시판 이동은 왼쪽 메뉴) -->
+    <div class="category-tabs-wrap">
+      <div class="filter-label">이 피드에서 보기 <span class="hand-note">— 게시판 이동은 왼쪽 메뉴</span></div>
+      <nav class="category-tabs" id="categoryTabs" aria-label="게시글 카테고리">
       <button class="cat-tab-btn active" data-cat="all">
         <span>전체 글</span>
         <span class="tab-count" id="count-all">0</span>
@@ -1312,11 +1379,11 @@
         <span class="tab-count" id="count-story">0</span>
       </button>
       <button class="cat-tab-btn" data-cat="growth">
-        <span>성장 기록</span>
+        <span>성장 기록 연구소</span>
         <span class="tab-count" id="count-growth">0</span>
       </button>
       <button class="cat-tab-btn" data-cat="edu">
-        <span>배움·놀이</span>
+        <span>집으로 이어지는 배움</span>
         <span class="tab-count" id="count-edu">0</span>
       </button>
       <button class="cat-tab-btn" data-cat="expert">
@@ -1324,11 +1391,11 @@
         <span class="tab-count" id="count-expert">0</span>
       </button>
       <button class="cat-tab-btn" data-cat="share">
-        <span>지역 나눔</span>
+        <span>지역별 나눔</span>
         <span class="tab-count" id="count-share">0</span>
       </button>
       <button class="cat-tab-btn" data-cat="guide">
-        <span>공지·안내</span>
+        <span>자람새 안내</span>
         <span class="tab-count" id="count-guide">0</span>
       </button>
       </nav>
@@ -1360,16 +1427,16 @@
     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; border-bottom:1px solid #edf2f7; padding-bottom:16px;">
       <div style="display:flex; align-items:center; gap:10px; font-weight:800; font-size:1.05rem;">
         <span>자람새 (JaramSae)</span>
-        <span style="font-size:.72rem; color:#059669; background:#ecfdf5; padding:2px 8px; border-radius:6px; font-weight:700;">클린 커뮤니티 인증</span>
+        <span style="font-size:.72rem; color:#3f6d4e; background:#e9efe0; padding:2px 8px; border-radius:6px; font-weight:700;">클린 커뮤니티 인증</span>
       </div>
       <div style="display:flex; gap:16px; font-size:.82rem; font-weight:700;">
-        <a href="compliance-signature.html" style="color:#059669; text-decoration:none;">🛡️ 클린 안심 서약 &amp; 전자서명</a>
+        <a href="compliance-signature.html" style="color:#3f6d4e; text-decoration:none;">🛡️ 클린 안심 서약 &amp; 전자서명</a>
         <a href="board.html?cat=guide" style="color:var(--text-sub); text-decoration:none;">이용 가이드</a>
         <a href="director-guide.html" style="color:var(--text-sub); text-decoration:none;">원장님 안심 가이드</a>
       </div>
     </div>
     
-    <div style="font-size:.78rem; color:#64748b; line-height:1.6;">
+    <div style="font-size:.78rem; color:#8b8071; line-height:1.6;">
       <p style="margin:0 0 6px;">
         <strong>[전자상거래법 제20조에 따른 통신판매중개자 법적 고지]</strong><br>
         자람새 커뮤니티(운영사: (주)이음)는 통신판매중개자로서 회원 상호 간 또는 광고주·제휴 파트너와의 거래 당사자가 아니며, 입점 파트너 및 광고주가 등록한 상품, 서비스 정보 및 거래에 대해 일체의 책임을 지지 않습니다. 모든 거래의 의무와 법적 책임은 해당 광고주 및 판매 당사자에게 있습니다.
@@ -1392,7 +1459,9 @@
   <span>글쓰기</span>
 </a>
 
+<script src="config.js"></script>
 <script src="data.js"></script>
+<script src="store.js"></script>
 <script src="auth.js"></script>
 <script>
   // 1. 인증 확인 및 상단 UI 채우기
@@ -1448,16 +1517,17 @@
   });
 
   // 3. 블로그 데이터 렌더링 및 카테고리 필터
-  const HEART_ICON = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#e0556c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.35-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 5c-2.5 4.65-9.5 9-9.5 9z"/></svg>';
-  const COMMENT_ICON = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#7b8395" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L3 20l1.1-5A8 8 0 1 1 21 12z"/></svg>';
+  const HEART_ICON = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#a5563a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.35-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 5c-2.5 4.65-9.5 9-9.5 9z"/></svg>';
+  const COMMENT_ICON = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#8b8071" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L3 20l1.1-5A8 8 0 1 1 21 12z"/></svg>';
 
+  // 카테고리 이름은 사이드바 게시판과 동일하게 통일 (혼선 방지)
   const CAT_MAP = {
     story: { label: '육아 이야기', class: 'story', link: 'post.html?cat=story&id=' },
-    growth: { label: '성장 기록', class: 'growth', link: 'post.html?cat=growth&id=' },
-    edu: { label: '배움·놀이', class: 'edu', link: 'post.html?cat=edu&id=' },
+    growth: { label: '성장 기록 연구소', class: 'growth', link: 'post.html?cat=growth&id=' },
+    edu: { label: '집으로 이어지는 배움', class: 'edu', link: 'post.html?cat=edu&id=' },
     expert: { label: '전문가 Q&A', class: 'expert', link: 'post.html?cat=expert&id=' },
-    share: { label: '지역 나눔', class: 'share', link: 'post.html?cat=share&id=' },
-    guide: { label: '공지·안내', class: 'guide', link: 'post.html?cat=guide&id=' }
+    share: { label: '지역별 나눔', class: 'share', link: 'post.html?cat=share&id=' },
+    guide: { label: '자람새 안내', class: 'guide', link: 'post.html?cat=guide&id=' }
   };
 
   let allPosts = getAllPosts();
@@ -1525,7 +1595,7 @@
     if (filtered.length === 0) {
       listEl.innerHTML = `
         <div class="empty-feed">
-          <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#a0a8ba" stroke-width="1.6" style="margin-bottom:12px;">
+          <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#b3a68c" stroke-width="1.6" style="margin-bottom:12px;">
             <circle cx="12" cy="12" r="10"></circle>
             <line x1="12" y1="8" x2="12" y2="12"></line>
             <line x1="12" y1="16" x2="12.01" y2="16"></line>
@@ -1540,7 +1610,7 @@
     listEl.innerHTML = filtered.map(p => {
       const catInfo = CAT_MAP[p.category] || { label: '이야기', class: 'story', link: 'post.html?cat=story&id=' };
       const postUrl = `post.html?cat=${p.category}&id=${p.id}`;
-      const hasExpertAnswer = p.expertAnswer ? `<span style="font-size:.72rem; background:#efe9fc; color:#784eed; font-weight:700; padding:2px 8px; border-radius:6px; margin-left:4px;">답변완료</span>` : '';
+      const hasExpertAnswer = p.expertAnswer ? `<span style="font-size:.72rem; background:#e9efe0; color:#3f6d4e; font-weight:700; padding:2px 8px; border-radius:6px; margin-left:4px;">답변완료</span>` : '';
 
       return `
         <article class="blog-card" onclick="location.href='${postUrl}'" style="cursor:pointer;">
@@ -1548,7 +1618,7 @@
             <div class="blog-card-tags">
               <span class="blog-cat-badge ${catInfo.class}">${catInfo.label}</span>
               ${hasExpertAnswer}
-              ${p.isAd ? `<span style="font-size:.72rem; background:#ffedd5; color:#c2410c; font-weight:800; padding:2px 8px; border-radius:6px; margin-left:4px; border:1px solid #fed7aa;">📢 안심광고</span>` : ''}
+              ${p.isAd ? `<span style="font-size:.72rem; background:#f6e7dc; color:#a5563a; font-weight:800; padding:2px 8px; border-radius:6px; margin-left:4px; border:1px solid #e3c3ae;">📢 안심광고</span>` : ''}
             </div>
             <span class="blog-card-date">${formatDate(p.date)}</span>
           </div>
@@ -1575,40 +1645,15 @@
     }).join('');
   }
 
-  // 4. 세모 버튼으로 카테고리 메뉴 열기/닫기
-  const categoryPicker = document.getElementById('categoryPicker');
-  const categoryPickerToggle = document.getElementById('categoryPickerToggle');
-  const categoryPickerLabel = document.getElementById('categoryPickerLabel');
-  const categoryNavPanel = document.getElementById('categoryNavPanel');
-
-  function setCategoryPickerOpen(open) {
-    categoryPicker.classList.toggle('is-open', open);
-    categoryPickerToggle.setAttribute('aria-expanded', String(open));
-    categoryNavPanel.hidden = !open;
-  }
-
-  categoryPickerToggle.addEventListener('click', () => {
-    setCategoryPickerOpen(categoryPickerToggle.getAttribute('aria-expanded') !== 'true');
-  });
-  document.addEventListener('click', (event) => {
-    if (!categoryPicker.contains(event.target)) setCategoryPickerOpen(false);
-  });
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && categoryPickerToggle.getAttribute('aria-expanded') === 'true') {
-      setCategoryPickerOpen(false);
-      categoryPickerToggle.focus();
-    }
-  });
-
-  // 5. 탭 클릭 이벤트 바인딩
+  // 4. 카테고리 탭 클릭 이벤트 바인딩 (유일한 카테고리 내비게이션)
   const tabButtons = document.querySelectorAll('.cat-tab-btn');
   tabButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       tabButtons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       currentCategory = btn.dataset.cat;
-      categoryPickerLabel.textContent = btn.querySelector('span').textContent;
-      setCategoryPickerOpen(false);
+      // 선택한 탭이 모바일에서 화면 밖이면 스크롤해 보여준다
+      btn.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
       renderFeed();
     });
   });
@@ -1621,6 +1666,13 @@
       renderFeed();
     });
   }
+
+  // 서버(store.js) 동기화가 끝나면 피드를 다시 그린다 — 데모 모드에서는 호출되지 않음
+  window.onStoreRefresh = function () {
+    allPosts = getAllPosts();
+    updateCategoryCounts();
+    renderFeed();
+  };
 
   // 초기 렌더링
   updateCategoryCounts();

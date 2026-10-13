@@ -2,7 +2,7 @@
 const POSTS_KEY = 'jaramsae_posts_v1';
 
 const CATEGORIES = {
-  story: { label: '최신 육아 이야기', desc: '이웃 부모들과 나누는 오늘의 육아 이야기', board: 'index.html' },
+  story: { label: '육아 이야기', desc: '이웃 부모들과 나누는 오늘의 육아 이야기', board: 'index.html' },
   guide: { label: '자람새 안내', desc: '공지사항 및 이용 가이드', board: 'board.html?cat=guide' },
   growth: { label: '성장 기록 연구소', desc: '아이의 소중한 순간 기록', board: 'board.html?cat=growth' },
   edu: { label: '집으로 이어지는 배움', desc: '육아 교육 및 추천 교구', board: 'board.html?cat=edu' },
@@ -29,40 +29,48 @@ function findRegisteredExpert(phone) {
 // 컬러 일러스트 타일을 보여준다. 게시글에 photos 배열이 없으면 DEFAULT_CYCLE을 순환해서 사용.
 const PHOTO_TYPES = {
   steps: {
-    bg: 'linear-gradient(135deg,#ffe4d6,#ffd3bd)', color: '#e8815a',
+    bg: 'linear-gradient(135deg,#f2e3d0,#e6cdb2)', color: '#b06f43',
     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="8" cy="14" rx="3.2" ry="5.2" transform="rotate(-12 8 14)"/><ellipse cx="16" cy="10" rx="3.2" ry="5.2" transform="rotate(12 16 10)"/></svg>',
   },
   cry: {
-    bg: 'linear-gradient(135deg,#e9e4fb,#d9d0f7)', color: '#8a6fd6',
+    bg: 'linear-gradient(135deg,#efe3d3,#e3d2ba)', color: '#9c7a52',
     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="9" cy="10" r=".8" fill="currentColor" stroke="none"/><circle cx="15" cy="10" r=".8" fill="currentColor" stroke="none"/><path d="M8 16.5c1.5-1.5 6.5-1.5 8 0"/><path d="M9 12c-.4 1.4-.4 2.8-1.3 3.8"/></svg>',
   },
   dogpaw: {
-    bg: 'linear-gradient(135deg,#f3e4d0,#e7cfae)', color: '#b9793a',
+    bg: 'linear-gradient(135deg,#efe0c8,#e0c9a6)', color: '#a97b46',
     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="16" rx="4.2" ry="3.2"/><circle cx="7.3" cy="9.3" r="1.6"/><circle cx="12" cy="7.3" r="1.7"/><circle cx="16.7" cy="9.3" r="1.6"/></svg>',
   },
   teether: {
-    bg: 'linear-gradient(135deg,#dcebff,#c3ddff)', color: '#4f83d6',
+    bg: 'linear-gradient(135deg,#dce6da,#c2d4bd)', color: '#5c7f63',
     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.6"/></svg>',
   },
   bone: {
-    bg: 'linear-gradient(135deg,#dff5ec,#c6ecdd)', color: '#3fa384',
+    bg: 'linear-gradient(135deg,#e2ecdc,#c7dcc0)', color: '#4f7a55',
     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="7.5" r="2"/><circle cx="7.5" cy="5.5" r="2"/><circle cx="16.5" cy="18.5" r="2"/><circle cx="18.5" cy="16.5" r="2"/><line x1="7.5" y1="7.5" x2="16.5" y2="16.5"/></svg>',
   },
   generic: {
-    bg: 'linear-gradient(135deg,#e9ecf6,#dde1ef)', color: '#b7bdd4',
+    bg: 'linear-gradient(135deg,#ece3d0,#ded2ba)', color: '#b7bdd4',
     icon: PHOTO_ICON_SVG,
   },
 };
 const DEFAULT_CYCLE = ['steps', 'dogpaw', 'teether', 'cry', 'bone', 'generic'];
 
 function tileType(photos, i) {
-  if (photos && photos.length) return PHOTO_TYPES[photos[i % photos.length]] || PHOTO_TYPES.generic;
+  if (photos && photos.length) {
+    const entry = photos[i % photos.length];
+    // 사진 파일 경로(예: 'photos/camp-1.jpg')면 실제 사진 타일로 표시
+    if (typeof entry === 'string' && /\.(jpe?g|png|webp)$/i.test(entry)) return { src: entry };
+    return PHOTO_TYPES[entry] || PHOTO_TYPES.generic;
+  }
   return PHOTO_TYPES[DEFAULT_CYCLE[i % DEFAULT_CYCLE.length]];
 }
 
 function tileHTML(type, extraCount, extraClass) {
   const cls = extraClass ? `img-tile ${extraClass}` : 'img-tile';
   const overlay = extraCount ? `<div class="more-count">+${extraCount}</div>` : '';
+  if (type && type.src) {
+    return `<div class="${cls}"><img src="${type.src}" alt="게시글 사진" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">${overlay}</div>`;
+  }
   return `<div class="${cls}" style="background:${type.bg};color:${type.color}">${type.icon}${overlay}</div>`;
 }
 
@@ -72,7 +80,7 @@ function seedPosts() {
   return [
     {
       id: 's1', category: 'story', author: '자람맘', date: days(0.2), images: 11,
-      photos: ['steps', 'cry', 'dogpaw', 'teether', 'bone'],
+      photos: ['photos/camp-1.jpg', 'photos/camp-2.jpg', 'photos/camp-3.jpg', 'photos/camp-4.jpg', 'photos/camp-1.jpg'],
       title: '오늘 드디어 첫 걸음마 뗐어요! 다들 언제쯤 걸었나요?',
       content:
         '아침에 아기 침대 붙잡고 서 있길래 그냥 지켜만 봤는데, 갑자기 손을 놓고 세 걸음이나 걸었어요. 너무 놀라서 소리 지르다가 오히려 아기가 놀라서 주저앉아 울어버렸네요.\n\n' +
@@ -86,7 +94,7 @@ function seedPosts() {
     },
     {
       id: 's2', category: 'story', author: '자람맘', date: days(0.5), images: 7,
-      photos: ['dogpaw', 'bone', 'cry', 'teether', 'dogpaw'],
+      photos: ['photos/camp-2.jpg', 'photos/camp-3.jpg', 'photos/camp-4.jpg', 'photos/camp-1.jpg', 'photos/camp-1.jpg'],
       title: '아랫집 강아지랑 첫 만남, 저희 아이가 낯가림 심한데 괜찮을까요?',
       content:
         '평소에 낯가림이 심해서 걱정했는데 강아지한테는 의외로 마음을 빨리 열더라고요. 처음엔 소파에 앉아서 눈치만 보다가, 강아지가 먼저 다가오니까 손을 뻗어서 만져봤어요.\n\n' +
@@ -212,7 +220,7 @@ function seedPosts() {
     },
     {
       id: 'gw1', category: 'growth', author: '토순이맘', date: days(0.4), images: 4,
-      photos: ['steps', 'teether', 'dogpaw', 'bone'],
+      photos: ['photos/camp-3.jpg', 'photos/camp-4.jpg', 'photos/camp-1.jpg', 'photos/camp-1.jpg', 'photos/camp-2.jpg'],
       title: '14개월 아기 돌 이후 첫 발걸음과 치아 8개 달성 기록!',
       content:
         '지난달만 해도 기어다니기만 하더니, 이제는 제법 혼자서 거실을 종횡무진 걸어 다녀요. 오늘 치과 영유아 검진 다녀왔는데 어금니도 예쁘게 나오고 있다고 하네요. 작은 발자국 하나하나가 너무 기특하고 소중해서 사진으로 남겨둡니다.',
@@ -223,7 +231,7 @@ function seedPosts() {
     },
     {
       id: 'ed1', category: 'edu', author: '행복한선생님', date: days(0.8), images: 3,
-      photos: ['teether', 'generic', 'bone'],
+      photos: ['photos/camp-4.jpg', 'photos/camp-1.jpg', 'photos/camp-1.jpg', 'photos/camp-2.jpg', 'photos/camp-3.jpg'],
       title: '집에서 오감 발달! 미역 촉감 놀이 & 물감 번지기 팁',
       content:
         '비 오는 날 집에서 아이와 무엇을 할지 고민이신 부모님들을 위해 준비했어요. 불린 미역을 욕조나 큰 김장 매트에 풀어놓고 조물조물 만지는 놀이는 촉각 자극과 소근육 발달에 최고랍니다. 미역 냄새가 부담된다면 쌀국수나 한천 젤리로 대체하셔도 좋아요.',
@@ -234,7 +242,7 @@ function seedPosts() {
     },
     {
       id: 'sh1', category: 'share', author: '나눔천사', date: days(1.1), images: 2,
-      photos: ['generic', 'bone'],
+      photos: ['photos/camp-1.jpg', 'photos/camp-2.jpg', 'photos/camp-3.jpg', 'photos/camp-4.jpg', 'photos/camp-1.jpg'],
       title: '[나눔] 원목 아기 식탁의자 & 그림책 세트 필요하신 분께 드려요',
       content:
         '아이가 훌쩍 자라서 이제 일반 의자에 앉게 되어, 깨끗하게 사용한 스토케 트립트랩 호환 원목 식탁의자와 보드북 10권을 나눔합니다. 직접 픽업 오실 수 있는 분이면 좋겠어요. 깨끗이 소독해 두었습니다.',
@@ -421,34 +429,74 @@ function submitExpertAnswer(id, { expert, title, content }) {
   return post;
 }
 
+// 사람이 쓰는 시간 표기: "방금 전", "3시간 전", "어제", "며칠 전", 오래되면 날짜.
 function formatDate(iso) {
   const d = new Date(iso);
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
+  const diffMin = Math.floor((Date.now() - d.getTime()) / 60000);
+  if (diffMin < 1) return '방금 전';
+  if (diffMin < 60) return `${diffMin}분 전`;
+  const diffHour = Math.floor(diffMin / 60);
+  if (diffHour < 24) return `${diffHour}시간 전`;
+  const diffDay = Math.floor(diffHour / 24);
+  if (diffDay === 1) return '어제';
+  if (diffDay < 7) return `${diffDay}일 전`;
+  return `${d.getMonth() + 1}월 ${d.getDate()}일`;
+}
+
+// 글 상세 등 절대 시각이 필요한 곳용: "2026년 10월 12일 오후 7:56"
+function formatDateFull(iso) {
+  const d = new Date(iso);
   let h = d.getHours();
   const min = String(d.getMinutes()).padStart(2, '0');
   const ampm = h < 12 ? '오전' : '오후';
   h = h % 12; if (h === 0) h = 12;
-  return `${y}. ${m}. ${day}, ${ampm} ${h}:${min}`;
+  return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일 ${ampm} ${h}:${min}`;
 }
 
-// 피드 카드용 미니 갤러리 HTML (5장까지 보여주고 나머지는 "+N")
+// 피드 카드용 갤러리: 첫 사진은 큼지막하게, 나머지는 작은 썸네일 줄
 function galleryHTML(imageCount, photos) {
   if (!imageCount) return '';
-  if (imageCount >= 5) {
-    const extra = imageCount - 5;
-    let tiles = '';
-    for (let i = 0; i < 5; i++) {
-      tiles += tileHTML(tileType(photos, i), i === 4 ? extra : 0);
+  const thumbs = [];
+  for (let i = 1; i < Math.min(imageCount, 5); i++) {
+    thumbs.push(tileHTML(tileType(photos, i), i === 4 && imageCount > 5 ? imageCount - 5 : 0));
+  }
+  const big = tileHTML(tileType(photos, 0), 0, 'img-tile-big');
+  const strip = thumbs.length ? `<div class="gallery-strip">${thumbs.join('')}</div>` : '';
+  return `<div class="gallery-editorial">${big}${strip}</div>`;
+}
+
+// 글 상세용 편집형 렌더링: 본문 단락 사이사이에 사진 배치
+// - 첫 단락 뒤에는 큰 사진(photo-large)
+// - 이후 두 단락마다 사진 한 장씩 (좌우 번갈아 나오는 medium, 가끔 2장 나란히)
+function contentWithPhotosHTML(content, photos, imageCount) {
+  const paras = String(content || '').split(/\n{2,}/).map((p) => p.trim()).filter(Boolean);
+  const total = Math.min(Number(imageCount) || (photos ? photos.length : 0), 5);
+  if (!total || !photos || !photos.length) {
+    return paras.map((p) => `<p>${escapeHTML(p)}</p>`).join('');
+  }
+  let idx = 0;
+  const figure = (cls) => {
+    const t = tileType(photos, idx++);
+    const inner = t.src
+      ? `<img src="${t.src}" alt="게시글 사진" loading="lazy">`
+      : `<div class="photo-fallback-tile" style="background:${t.bg};color:${t.color}">${t.icon}</div>`;
+    return `<figure class="inline-photo ${cls}">${inner}</figure>`;
+  };
+  const parts = [];
+  paras.forEach((p, i) => {
+    parts.push(`<p>${escapeHTML(p)}</p>`);
+    if (idx >= total) return;
+    if (i === 0) {
+      parts.push(figure('photo-large'));
+    } else if ((i + 1) % 2 === 0) {
+      if (idx + 1 < total && idx % 3 === 1) {
+        parts.push(`<div class="photo-pair">${figure('')}${figure('')}</div>`);
+      } else {
+        parts.push(figure('photo-medium'));
+      }
     }
-    return `<div class="gallery-feature">${tiles}</div>`;
-  }
-  let tiles = '';
-  for (let i = 0; i < imageCount; i++) {
-    tiles += tileHTML(tileType(photos, i));
-  }
-  return `<div class="gallery-strip" style="grid-template-columns:repeat(${imageCount},1fr)">${tiles}</div>`;
+  });
+  return parts.join('');
 }
 
 // 상세 페이지용 큰 갤러리 (있는 만큼 모두 표시)

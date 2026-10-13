@@ -8,16 +8,16 @@
   :root{
     --bg: #f4f6fa;
     --card: #ffffff;
-    --primary: #5578e0; /* 자람새 시그니처 블루 */
-    --primary-hover: #4263eb;
-    --blue: #5578e0;
-    --blue-dark: #4263eb;
+    --primary: #3f6d4e; /* 자람새 시그니처 블루 */
+    --primary-hover: #365f44;
+    --blue: #3f6d4e;
+    --blue-dark: #365f44;
     --blue-light: #eaf0ff;
     --text: #1f2430;
     --text-sub: #717684;
     --border: #e6e8ee;
     --border-light: #f0f2f6;
-    --danger: #e0556c;
+    --danger: #a5563a;
     --radius-sm: 8px;
     --radius-md: 12px;
   }
@@ -71,7 +71,7 @@
   }
   .cafe-home-link{
     font-size: .84rem;
-    color: #64748b;
+    color: #8b8071;
     text-decoration:none;
     margin-left: 8px;
     transition: color .15s ease;
@@ -144,8 +144,8 @@
   /* 임시저장 복원 안내 바 */
   .draft-restore-alert{
     display: none;
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
+    background: #e9efe0;
+    border: 1px solid #c2d4bd;
     border-radius: 12px;
     padding: 12px 18px;
     margin-bottom: 16px;
@@ -216,7 +216,7 @@
     transition: border-color .15s ease, box-shadow .15s ease;
   }
   .board-select:focus{
-    border-color: #5578e0;
+    border-color: #3f6d4e;
     box-shadow: 0 0 0 3px rgba(85, 120, 224, 0.15);
   }
   .board-hint{
@@ -232,7 +232,7 @@
     transition: border-color .15s ease;
   }
   .title-input-wrapper:focus-within{
-    border-bottom-color: #5578e0;
+    border-bottom-color: #3f6d4e;
   }
   .editor-title-input{
     width: 100%;
@@ -380,7 +380,7 @@
   }
   .photo-count-badge{
     font-size: .78rem;
-    color: #64748b;
+    color: #8b8071;
   }
 
   .photo-upload-tray{
@@ -428,9 +428,9 @@
     transition: all .15s ease;
   }
   .sample-photo-btn:hover{
-    background: #eff6ff;
-    border-color: #bfdbfe;
-    color: #1d4ed8;
+    background: #e9efe0;
+    border-color: #c2d4bd;
+    color: #2e553c;
   }
 
   /* 썸네일 미리보기 그리드 */
@@ -517,7 +517,7 @@
     align-items: center;
     gap: 7px;
     font-size: .8rem;
-    color: #059669;
+    color: #3f6d4e;
     font-weight: 600;
   }
   .bottom-actions{
@@ -629,7 +629,7 @@
   }
   .ad-choice-card:hover{
     border-color: #3b82f6;
-    background: #eff6ff;
+    background: #e9efe0;
     transform: translateY(-1px);
   }
   .ad-choice-card.promo:hover{
@@ -637,7 +637,7 @@
     background: #fff7ed;
   }
   .ad-notice-box{
-    background: #fff8eb; border: 1.5px solid #fed7aa; border-radius: 12px;
+    background: #fff8eb; border: 1.5px solid #e3c3ae; border-radius: 12px;
     padding: 14px 16px; margin: 12px 0; font-size: .83rem; color: #431407; line-height: 1.55;
   }
   .ad-notice-list{ margin: 0; padding-left: 18px; }
@@ -660,8 +660,8 @@
     border: none; border-radius: 10px; font-weight: 800; font-size: .88rem; cursor: pointer;
     box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25);
   }
-  .ad-btn-confirm:hover{ background: #c2410c; }
-  .ad-btn-confirm:disabled{ background: #cbd5e1; cursor: not-allowed; box-shadow: none; color: #64748b; }
+  .ad-btn-confirm:hover{ background: #a5563a; }
+  .ad-btn-confirm:disabled{ background: #cbd5e1; cursor: not-allowed; box-shadow: none; color: #8b8071; }
 
   @media (max-width: 768px){
     .editor-header{ padding: 10px 16px; }
@@ -672,6 +672,7 @@
     .bottom-actions{ justify-content: flex-end; }
   }
 </style>
+  <link rel="stylesheet" href="theme.css">
 </head>
 <body>
 
@@ -679,9 +680,9 @@
 <header class="editor-header">
   <div class="header-left">
     <a class="logo" href="index.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#5578e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#3f6d4e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M20 8c0 3-2.5 4-5 4l-1 6h-3l-1-4c-3 0-6-2-6-6 0-1 .3-2 1-3 .5 1 1.5 1.5 2.5 1.5C8 4 10 3 12 3c1 0 2 .3 2.8.9C15.5 3.3 16.7 3 18 3c0 1.2-.4 2.2-1.2 3 1.4.5 2.2 1.2 3.2 2z"/>
-        <circle cx="16.5" cy="7.5" r=".6" fill="#5578e0"/>
+        <circle cx="16.5" cy="7.5" r=".6" fill="#3f6d4e"/>
       </svg>
       <span>자람새</span>
     </a>
@@ -796,7 +797,7 @@
             <option value="">🎨 글자색</option>
             <option value="#0f172a">기본 (검정)</option>
             <option value="#0284c7">자람 블루</option>
-            <option value="#059669">새싹 그린</option>
+            <option value="#3f6d4e">새싹 그린</option>
             <option value="#ea580c">따뜻 오렌지</option>
             <option value="#dc2626">주의 레드</option>
           </select>
@@ -842,7 +843,7 @@
       <div class="photo-section">
         <div class="photo-section-title">
           <strong>
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#5578e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#3f6d4e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
               <circle cx="8.5" cy="8.5" r="1.5"/>
               <polyline points="21 15 16 10 5 21"/>
@@ -904,7 +905,7 @@
       <span style="font-size:1.6rem;">💡</span>
       <div>
         <h3 style="margin:0; font-size:1.15rem; font-weight:800; color:#1e293b;">홍보·광고 관련 단어가 감지되었습니다</h3>
-        <p style="margin:2px 0 0; font-size:.82rem; color:#64748b;">깨끗하고 투명한 커뮤니티 문화를 위해 글의 성격을 확인해 주세요.</p>
+        <p style="margin:2px 0 0; font-size:.82rem; color:#8b8071;">깨끗하고 투명한 커뮤니티 문화를 위해 글의 성격을 확인해 주세요.</p>
       </div>
     </div>
 
@@ -919,7 +920,7 @@
           <span style="font-size:1.2rem;">🌱</span>
           <strong style="color:#0f172a; font-size:.9rem;">순수 일상·의견 글입니다 (광고 아님)</strong>
         </div>
-        <p style="margin:4px 0 0 28px; font-size:.78rem; color:#64748b; line-height:1.45;">
+        <p style="margin:4px 0 0 28px; font-size:.78rem; color:#8b8071; line-height:1.45;">
           유튜브 광고에 대한 불만/의견, 일상 대화, 내돈내산 제품 솔직 후기 등 대가를 받지 않은 일반 글
         </p>
       </button>
@@ -928,7 +929,7 @@
       <button type="button" class="ad-choice-card promo" onclick="showAdAgreementSection()">
         <div style="display:flex; align-items:center; gap:8px;">
           <span style="font-size:1.2rem;">📢</span>
-          <strong style="color:#c2410c; font-size:.9rem;">네, 경제적 대가를 받은 홍보·협찬 글입니다</strong>
+          <strong style="color:#a5563a; font-size:.9rem;">네, 경제적 대가를 받은 홍보·협찬 글입니다</strong>
         </div>
         <p style="margin:4px 0 0 28px; font-size:.78rem; color:#9a3412; line-height:1.45;">
           원고료, 제품 무료 협찬, 서포터즈, 공동구매 등 제휴 홍보 글 (안심 광고 배지 및 준수 의무 부여)
@@ -966,7 +967,9 @@
   </div>
 </div>
 
+<script src="config.js"></script>
 <script src="data.js"></script>
+<script src="store.js"></script>
 <script src="auth.js"></script>
 <script>
   const auth = requireAuth();

@@ -1,0 +1,173 @@
+/* ============================================================
+   자람새 공통 테마 - "따뜻한 크래프트"
+   크림 종이 배경 + 딥 그린 + 테라코타, 제목은 세리프(Gowun Batang)
+   본문은 Pretendard, 손글씨 포인트는 Nanum Pen Script (아주 조금만)
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Pen+Script&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+
+:root{
+  /* 따뜻한 크래프트 팔레트 */
+  --bg: #f7f1e6;
+  --card: #fffdf8;
+  --text: #2f2a22;
+  --text-sub: #8b8071;
+  --border: #e5d9c5;
+  --brand: #3f6d4e;        /* 자람새 딥 그린 */
+  --brand-dark: #2e553c;
+  --brand-soft: #e9efe0;
+  --accent: #c26a45;       /* 테라코타 포인트 */
+  --accent-soft: #f6e7dc;
+  --blue: #3f6d4e;         /* 기존 --blue 별칭 (하위 호환) */
+  --blue-dark: #2e553c;
+  --blue-light: #e9efe0;
+  --primary: #3f6d4e;
+  --primary-hover: #2e553c;
+  --radius-lg: 14px;
+  --radius-md: 10px;
+  --radius-sm: 8px;
+  --shadow-sm: 0 1px 2px rgba(74, 60, 38, 0.06);
+  --shadow-md: 0 4px 14px rgba(74, 60, 38, 0.10);
+}
+
+body{
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif !important;
+  background: var(--bg) !important;
+  color: var(--text);
+}
+
+/* 제목 계열은 세리프로 — 사람이 만든 매거진 느낌 */
+h1, h2, h3,
+.blog-hero h1, .blog-card h2, .post-card h1,
+.logo, .board-title{
+  font-family: "Gowun Batang", "Pretendard", serif;
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+}
+
+/* 손글씨 포인트 (캡션·작은 덧붙임에만) */
+.hand-note{
+  font-family: "Nanum Pen Script", cursive;
+  letter-spacing: 0.01em;
+}
+
+/* 버튼: 그라데이션 제거, 따뜻한 단색 + 얇은 테두리 */
+.write-btn, .submit-btn, button[type="submit"],
+.login-btn, .signup-btn{
+  background: var(--brand) !important;
+  border: 1px solid var(--brand-dark) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 2px 0 var(--brand-dark) !important;
+  transition: transform .12s ease, background .15s ease;
+}
+.write-btn:hover, .submit-btn:hover, button[type="submit"]:hover,
+.login-btn:hover, .signup-btn:hover{
+  background: var(--brand-dark) !important;
+  transform: translateY(-1px);
+}
+
+/* 카드: 둥근 그라데이션 카드 대신 종이 카드 (얇은 테두리, 미세한 그림자) */
+.blog-card, .post-card, .side-card, .board-card{
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+/* 사진 슬롯: 실사진이 들어갈 자리 */
+.photo-slot{
+  background:
+    repeating-linear-gradient(45deg, rgba(63,109,78,0.04) 0 10px, rgba(63,109,78,0.07) 10px 20px),
+    var(--accent-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #a5563a;
+  text-align: center;
+}
+.photo-slot .hand-note{ font-size: 1.15rem; color: #a5563a; }
+.photo-slot .slot-hint{ font-size: .74rem; color: var(--text-sub); }
+
+/* ============================================================
+   편집형 사진 배치 (블로그처럼 본문 사이에 사진)
+   ============================================================ */
+.post-content p{
+  margin: 0 0 16px;
+  line-height: 1.9;
+  word-break: keep-all;
+}
+.inline-photo{
+  margin: 20px 0 22px;
+}
+.inline-photo img,
+.photo-fallback-tile{
+  width: 100%;
+  display: block;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.inline-photo img{
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+.photo-fallback-tile{
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* 큰 사진: 지면을 시원하게 채우는 한 컷 */
+.inline-photo.photo-large img,
+.inline-photo.photo-large .photo-fallback-tile{
+  aspect-ratio: 16 / 9;
+}
+/* 중간 사진: 82% 폭, 좌우 번갈아 배치 */
+.inline-photo.photo-medium{
+  width: 82%;
+}
+.inline-photo.photo-medium:nth-of-type(even){
+  margin-left: auto;
+}
+/* 사진 두 장 나란히 */
+.photo-pair{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 20px 0 22px;
+}
+.photo-pair .inline-photo{
+  margin: 0;
+}
+.photo-pair .inline-photo img,
+.photo-pair .photo-fallback-tile{
+  aspect-ratio: 1 / 1;
+}
+/* 피드 카드용: 큰 사진 + 썸네일 줄 */
+.gallery-editorial{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.gallery-editorial .img-tile-big{
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+}
+.gallery-editorial .gallery-strip{
+  display: flex;
+  gap: 6px;
+}
+.gallery-editorial .gallery-strip .img-tile{
+  flex: 1 1 0;
+  min-width: 0;
+  height: auto;
+  aspect-ratio: 4 / 3;
+}
+
+/* 링크 색 */
+a{ color: var(--brand-dark); }

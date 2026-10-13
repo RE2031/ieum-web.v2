@@ -9,8 +9,8 @@
     --bg: #f4f7fc;
     --card: #ffffff;
     --blue: #4c6ef5;
-    --blue-dark: #364fc7;
-    --blue-light: #edf2ff;
+    --blue-dark: #2e553c;
+    --blue-light: #e9efe0;
     --teal: #12b886;
     --teal-light: #e6fcf5;
     --amber: #f59f00;
@@ -85,7 +85,7 @@
   .profile-link{ display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit; }
   .user-area .avatar-sm{
     width:34px; height:34px; border-radius:50%;
-    background: linear-gradient(135deg, #cfd8f6, #a9b8ea);
+    background: linear-gradient(135deg, #d9e2c8, #b9c8a3);
     flex: 0 0 auto;
   }
   .user-area .user-info{ display:flex; flex-direction:column; line-height:1.3; }
@@ -95,7 +95,7 @@
     padding: 1px 7px;
     border-radius: 8px;
     background: #e0e7ff;
-    color: #364fc7;
+    color: #2e553c;
     font-weight:700;
     width: fit-content;
   }
@@ -288,7 +288,7 @@
     display:inline-flex; align-items:center; gap:8px; box-shadow: 0 2px 8px rgba(16,185,129,0.25);
     transition: all .15s ease;
   }
-  .copy-btn:hover{ background: #059669; }
+  .copy-btn:hover{ background: #3f6d4e; }
 
   /* 하단 학급 관리 서재 그리드 */
   .grid{
@@ -340,14 +340,15 @@
   .toast.show{ transform: translateX(-50%) translateY(0); opacity: 1; }
   .toast svg{ stroke: #34d399; width: 20px; height: 20px; }
 </style>
+  <link rel="stylesheet" href="theme.css">
 </head>
 <body>
 
 <header>
   <a class="logo" href="index.html">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#6c8ef5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#3f6d4e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <path d="M20 8c0 3-2.5 4-5 4l-1 6h-3l-1-4c-3 0-6-2-6-6 0-1 .3-2 1-3 .5 1 1.5 1.5 2.5 1.5C8 4 10 3 12 3c1 0 2 .3 2.8.9C15.5 3.3 16.7 3 18 3c0 1.2-.4 2.2-1.2 3 1.4.5 2.2 1.2 3.2 2z"/>
-      <circle cx="16.5" cy="7.5" r=".6" fill="#6c8ef5"/>
+      <circle cx="16.5" cy="7.5" r=".6" fill="#3f6d4e"/>
     </svg>
     <span>자람새</span>
     <span class="logo-badge">교사용 서재</span>
@@ -400,7 +401,7 @@
     <h2>
       <span>⚡</span>
       <span>AI 관찰일지 &amp; 알림장 작성 도우미</span>
-      <span style="font-size:.74rem; background:#e0e7ff; color:#364fc7; padding:2px 8px; border-radius:6px; font-weight:700;">키즈노트 1초 복사 연동</span>
+      <span style="font-size:.74rem; background:#e0e7ff; color:#2e553c; padding:2px 8px; border-radius:6px; font-weight:700;">키즈노트 1초 복사 연동</span>
     </h2>
     <span>작성 시간 30분 → 3분 단축</span>
   </div>
@@ -544,20 +545,20 @@
     </div>
 
     <div class="lib-card">
-      <div class="lib-icon" style="background:#fef3c7; color:#d97706;">📅</div>
+      <div class="lib-icon" style="background:#f2e8d2; color:#a5563a;">📅</div>
       <div class="lib-info">
         <h3>학부모 상담 예약 관리</h3>
         <p>학부모가 신청한 대면/전화 상담 요청 일정을 확인하고 상담 일지를 기록합니다.</p>
-        <span class="badge-tag" style="background:#fef3c7; color:#b45309;">대기 2건</span>
+        <span class="badge-tag" style="background:#f2e8d2; color:#a5563a;">대기 2건</span>
       </div>
     </div>
 
     <div class="lib-card">
-      <div class="lib-icon" style="background:#dcfce7; color:#15803d;">📑</div>
+      <div class="lib-icon" style="background:#e9efe0; color:#15803d;">📑</div>
       <div class="lib-info">
         <h3>수업 및 놀이 교육자료실</h3>
         <p>개정 누리과정 및 표준보육과정 기반 연령별 놀이 지도안과 유아 교육 자료를 공유합니다.</p>
-        <span class="badge-tag" style="background:#dcfce7; color:#15803d;">자료 48건</span>
+        <span class="badge-tag" style="background:#e9efe0; color:#15803d;">자료 48건</span>
       </div>
     </div>
 

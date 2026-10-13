@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>어린이집·유치원 원장님을 위한 도입 가이드 · 자람새</title>
+<style>
+  :root{
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --blue: #4c6ef5;
+    --blue-dark: #2e553c;
+    --blue-light: #e9efe0;
+    --amber: #f59f00;
+    --amber-light: #fffbeb;
+    --green: #10b981;
+    --text: #0f172a;
+    --text-sub: #8b8071;
+    --border: #e2e8f0;
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    --shadow-sm: 0 2px 8px rgba(15,23,42,0.05);
+    --shadow-md: 0 8px 24px rgba(15,23,42,0.08);
+  }
+  *{ box-sizing: border-box; }
+  body{
+    margin:0;
+    font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  header{
+    display:flex; align-items:center; justify-content:space-between;
+    background:#fff; padding: 0 28px; height: 64px;
+    border-bottom: 1px solid var(--border);
+    position: sticky; top:0; z-index: 50;
+  }
+  .logo-area{
+    display:flex; align-items:center; gap:10px;
+    text-decoration:none; color:inherit; font-weight:800; font-size:1.15rem;
+  }
+  .logo-tag{
+    font-size: .7rem; font-weight:700; background: var(--amber-light); color: #a5563a;
+    padding: 2px 8px; border-radius: 6px;
+  }
+  .header-nav{ display:flex; align-items:center; gap:16px; }
+  .header-nav a{
+    font-size:.86rem; color: var(--text-sub); text-decoration:none; font-weight:600;
+    padding: 6px 12px; border-radius: 8px; transition: all .15s ease;
+  }
+  .header-nav a:hover{ color: var(--blue); background: var(--blue-light); }
+  .header-nav a.active{ color: var(--blue); background: var(--blue-light); }
+
+  .wrap{ max-width: 960px; margin: 36px auto 90px; padding: 0 20px; }
+
+  .hero-box{
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    color:#fff; border-radius: var(--radius-lg); padding: 36px 38px;
+    margin-bottom: 32px; box-shadow: var(--shadow-md);
+  }
+  .hero-box h1{ margin:0 0 12px; font-size: 1.65rem; font-weight:800; }
+  .hero-box p{ margin:0; font-size:.95rem; color: #94a3b8; max-width: 720px; }
+
+  .grid-2{
+    display:grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 28px;
+  }
+  @media (max-width: 740px){
+    .grid-2{ grid-template-columns: 1fr; }
+  }
+
+  .value-card{
+    background:#fff; border-radius: var(--radius-md); border: 1px solid var(--border);
+    padding: 26px; box-shadow: var(--shadow-sm);
+  }
+  .value-icon{
+    width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+    font-size:1.3rem; margin-bottom: 14px;
+  }
+  .value-card h3{ margin:0 0 8px; font-size:1.1rem; font-weight:800; }
+  .value-card p{ margin:0; font-size:.88rem; color: var(--text-sub); }
+
+  .callout-box{
+    background: #eff6ff; border: 1px solid #bfdbfe; border-radius: var(--radius-md);
+    padding: 24px 28px; margin-bottom: 28px;
+  }
+  .callout-box h3{ margin:0 0 8px; font-size:1.05rem; font-weight:800; color: #1e40af; }
+  .callout-box p{ margin:0; font-size:.88rem; color: #1e3a8a; }
+
+  .faq-card{
+    background:#fff; border-radius: var(--radius-md); border: 1px solid var(--border);
+    padding: 24px 28px; margin-bottom: 20px;
+  }
+  .faq-card h4{ margin:0 0 8px; font-size:.98rem; font-weight:800; color: #1e293b; }
+  .faq-card p{ margin:0; font-size:.88rem; color: var(--text-sub); }
+
+  .cta-section{
+    text-align:center; background:#fff; border-radius: var(--radius-lg); border: 1px solid var(--border);
+    padding: 36px 24px; box-shadow: var(--shadow-sm);
+  }
+  .cta-btn{
+    background: var(--blue); color:#fff; border:none; padding: 14px 32px; border-radius: 12px;
+    font-size:1rem; font-weight:800; cursor:pointer; text-decoration:none; display:inline-block;
+    box-shadow: 0 4px 14px rgba(76,110,245,0.3); transition: all .15s ease;
+  }
+  .cta-btn:hover{ background: var(--blue-dark); transform: translateY(-1px); }
+</style>
+  <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+
+<header>
+  <a class="logo-area" href="index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#3f6d4e" stroke-width="1.8" width="28" height="28" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 8c0 3-2.5 4-5 4l-1 6h-3l-1-4c-3 0-6-2-6-6 0-1 .3-2 1-3 .5 1 1.5 1.5 2.5 1.5C8 4 10 3 12 3c1 0 2 .3 2.8.9C15.5 3.3 16.7 3 18 3c0 1.2-.4 2.2-1.2 3 1.4.5 2.2 1.2 3.2 2z"/>
+      <circle cx="16.5" cy="7.5" r=".6" fill="#3f6d4e"/>
+    </svg>
+    <span>자람새</span>
+    <span class="logo-tag">원장님 가이드</span>
+  </a>
+  <div class="header-nav">
+    <a href="index.html">← 메인 라운지</a>
+    <a href="recap-album-demo.html">학부모 리캡/앨범</a>
+    <a href="director-guide.html" class="active">원장님 가이드</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="hero-box">
+    <h1>원장님, 교사가 행복해야 아이들이 밝게 웃습니다</h1>
+    <p>
+      보육교사 전국 실태조사 결과 주당 근로시간 49시간 55분. 밤늦게까지 이어지는 일지와 알림장 작성 부담을 덜어주세요.<br>
+      이음(i-eum)은 기존 키즈노트를 바꾸지 않고도, 교사의 서류 시간을 90% 줄이고 학부모와의 신뢰를 단단하게 만들어줍니다.
+    </p>
+  </div>
+
+  <div class="grid-2">
+    <div class="value-card">
+      <div class="value-icon" style="background:#e9efe0; color:#4c6ef5;">⏱️</div>
+      <h3>교사 초과근무 단축 및 이직 방지</h3>
+      <p>
+        매일 30분~1시간씩 걸리던 보육일지와 알림장 작성에 AI가 맥락 질문을 건네어 3분 만에 마칩니다.
+        퇴근 후 일지를 쓰는 피로가 사라져 교사 이탈을 방지하고 보육에 전념할 수 있습니다.
+      </p>
+    </div>
+
+    <div class="value-card">
+      <div class="value-icon" style="background:#ecfdf5; color:#10b981;">🛡️</div>
+      <h3>학부모 오해와 악성 민원 예방</h3>
+      <p>
+        "선생님, 오늘 우리 아이 표정이 왜 안 좋아요?", "고기반찬이 적어요" 같은 맥락 없는 사진 오해를 차단합니다.
+        아이의 시도와 성장을 구체적인 맥락(CARE ONTOLOGY)으로 전달하여 원에 대한 신뢰가 급상승합니다.
+      </p>
+    </div>
+
+    <div class="value-card">
+      <div class="value-icon" style="background:#fffbeb; color:#f59f00;">🏆</div>
+      <h3>원아 모집을 돕는 '안심 보육 인증'</h3>
+      <p>
+        "이음을 사용하는 기관은 아이 한 명 한 명을 깊이 있게 관찰하고 기록하는 프리미엄 안심 어린이집입니다."
+        학부모 입소문과 월간 실물 앨범 발간을 통해 입학 대기자가 늘어나는 기관 브랜딩 효과를 누리세요.
+      </p>
+    </div>
+
+    <div class="value-card">
+      <div class="value-icon" style="background:#fce7f3; color:#ec4899;">🔄</div>
+      <h3>키즈노트와 100% 병행 가능</h3>
+      <p>
+        기존 시스템을 바꿀 필요가 전혀 없습니다.
+        이음에서 AI의 도움을 받아 완성한 문장을 **[키즈노트로 복사]** 버튼 하나로 바로 옮겨 쓸 수 있어,
+        시스템 전환 리스크나 학부모 혼란이 0%입니다.
+      </p>
+    </div>
+  </div>
+
+  <div class="callout-box">
+    <h3>💡 첫 무료 현장 실증(POC) 안내</h3>
+    <p>
+      이음은 현재 1개 기관(소수 학급)을 대상으로 무료 현장 실증을 진행하고 있습니다.<br>
+      기관 부담금 0원, 교사 및 학부모 이용료 전액 무료로 이음의 효과를 먼저 경험해 보세요.
+    </p>
+  </div>
+
+  <h2 style="font-size:1.3rem; font-weight:800; margin: 32px 0 16px;">자주 묻는 질문 (FAQ)</h2>
+
+  <div class="faq-card">
+    <h4>Q. 기존에 키즈노트를 잘 쓰고 있는데, 또 다른 앱을 쓰면 교사 일이 늘어나지 않나요?</h4>
+    <p>
+      절대 그렇지 않습니다. 이음은 새로운 입력을 강요하지 않습니다.
+      오히려 키즈노트 빈칸 앞에서 30분씩 고민하던 작문 시간을 3분으로 단축해 드리며,
+      완성된 글을 키즈노트에 바로 복사해서 붙여넣기만 하면 되므로 전체 근무시간이 획기적으로 줄어듭니다.
+    </p>
+  </div>
+
+  <div class="faq-card">
+    <h4>Q. AI가 거짓말을 하거나 없는 사실을 쓰면 학부모에게 큰 문제가 되지 않나요?</h4>
+    <p>
+      이음 AI는 챗GPT처럼 말을 마음대로 지어내지 않습니다.
+      반드시 교사가 선택한 사실(예: "오늘 버섯 한 입 먹음")에만 기반해 문장을 정리하며,
+      선생님이 직접 최종 확인 버튼을 누르기 전까지는 부모님에게 절대 공개되지 않습니다.
+    </p>
+  </div>
+
+  <div class="faq-card">
+    <h4>Q. 학부모 결제 여부에 따라 아이들 돌봄에 차별이 생기나요?</h4>
+    <p>
+      절대 아닙니다. 이음 마스터 사업계획서 1.5 원칙에 따라,
+      학부모의 유료 구독 여부는 교사 화면에 전혀 표시되지 않으며 모든 아이에게 동일하게 정성스러운 관찰과 돌봄이 제공됩니다.
+    </p>
+  </div>
+
+  <div class="cta-section">
+    <h3 style="margin:0 0 8px; font-size:1.3rem; font-weight:800;">이음과 함께 안심 보육의 새로운 기준을 만드세요</h3>
+    <p style="margin:0 0 20px; font-size:.92rem; color:var(--text-sub);">
+      담당 팀원(이재혁 기획자)이 직접 방문하여 데모를 시연해 드립니다.
+    </p>
+    <a class="cta-btn" href="teacher-library.html">
+      📚 교사용 서재 및 일지 작성 시스템 바로가기
+    </a>
+  </div>
+
+</div>
+
+</body>
+</html>
