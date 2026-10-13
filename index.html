@@ -505,15 +505,15 @@
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    padding: 28px 32px;
+    padding: 20px 26px;
     box-shadow: var(--shadow-sm);
     position: relative;
     overflow: hidden;
   }
   .blog-hero-content{
     display: grid;
-    grid-template-columns: 1.25fr 0.95fr;
-    gap: 28px;
+    grid-template-columns: 1.3fr 0.8fr;
+    gap: 22px;
     align-items: center;
   }
   @media (max-width: 900px){
@@ -587,15 +587,15 @@
   /* 히어로 비주얼: 실사진 프레임 (photos/hero.jpg 가 들어갈 자리) */
   .blog-hero-visual{
     position: relative;
-    width: min(100%, 380px);
+    width: min(100%, 280px);
     justify-self: end;
   }
   .hero-photo-frame{
     position: relative;
     border-radius: 14px;
     overflow: hidden;
-    aspect-ratio: 16 / 10;
-    max-height: 240px;
+    aspect-ratio: 16 / 9;
+    max-height: 158px;
     border: 1px solid var(--border);
     box-shadow: var(--shadow-md);
     background: var(--accent-soft);
@@ -619,7 +619,7 @@
     transform: scale(1.02);
   }
   .hero-photo-caption{
-    margin: 10px 4px 0;
+    margin: 6px 4px 0;
     text-align: right;
     font-size: 1.15rem;
     color: var(--accent);
@@ -756,16 +756,20 @@
 
   /* 블로그 포스트 카드 */
   .blog-card{
-    display:block;
+    display:grid;
+    grid-template-columns:minmax(0, 1fr) 150px;
+    grid-template-rows:auto auto 1fr auto;
+    column-gap:18px;
     background: var(--card);
     border-radius: var(--radius-lg);
-    padding: 18px 20px;
+    padding: 16px 18px;
     box-shadow: var(--shadow-sm);
     text-decoration:none;
     color: inherit;
-    border: 1px solid transparent;
+    border: 1px solid var(--border);
     transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
   }
+  .blog-card.no-thumb{grid-template-columns:minmax(0,1fr);}
   .blog-card:hover{
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
@@ -773,12 +777,14 @@
   }
 
   .blog-card-meta{
+    grid-column:1;
+    grid-row:1;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px;
   }
   .blog-card-tags{
     display:flex;
@@ -804,17 +810,22 @@
   }
 
   .blog-card h2{
-    margin: 0 0 10px;
-    font-size: 1.18rem;
+    grid-column:1;
+    grid-row:2;
+    margin: 0 0 6px;
+    font-size: 1.08rem;
     font-weight: 700;
-    line-height: 1.45;
+    line-height: 1.4;
     color: var(--text);
   }
 
-  .blog-card p{
-    margin: 0 0 16px;
-    font-size: .92rem;
-    line-height: 1.65;
+  .blog-card > p{
+    grid-column:1;
+    grid-row:3;
+    align-self:start;
+    margin: 0 0 10px;
+    font-size: .87rem;
+    line-height: 1.55;
     color: #6b6155;
     display:-webkit-box;
     -webkit-line-clamp: 2;
@@ -865,14 +876,42 @@
     flex:0 0 auto;
   }
 
+  /* 홈 카드 오른쪽 대표 사진 썸네일 */
+  .blog-card .feed-thumb{
+    grid-column:2;
+    grid-row:1 / span 4;
+    align-self:stretch;
+    min-height:112px;
+    position:relative;
+  }
+  .feed-thumb-tile{
+    width:100%;
+    height:100%;
+    min-height:112px;
+    border-radius:10px;
+  }
+  .feed-thumb-tile img{width:100%;height:100%;object-fit:cover;display:block;}
+  .blog-card .feed-thumb .more-count{
+    inset:auto 6px 6px auto;
+    width:auto;
+    min-width:24px;
+    height:24px;
+    padding:0 6px;
+    border-radius:12px;
+    background:rgba(47,42,34,.78);
+    font-size:.72rem;
+  }
+
   /* 블로그 카드 푸터 */
   .blog-card-footer{
+    grid-column:1;
+    grid-row:4;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding-top: 14px;
+    padding-top: 8px;
     border-top: 1px solid var(--border);
-    margin-top: 4px;
+    margin-top: 2px;
   }
   .blog-author-info{
     display:flex;
@@ -971,18 +1010,27 @@
     .blog-hero-content{ gap: 14px; }
     .blog-hero-visual{ display:none; }
   }
+  @media (max-width: 600px){
+    .blog-hero{ padding: 18px 20px; }
+    .blog-hero-content{ display:block; }
+    .blog-hero-text{ gap:8px; }
+    .blog-hero-visual{ display:none; }
+    .feed{ gap:12px; }
+  }
   @media (max-width: 480px){
     header{ height: 58px; padding: 0 12px; }
     .layout{ padding: 0 12px; }
-    .blog-hero{ padding: 18px 16px; }
+    .blog-hero{ padding: 16px 16px; }
     .blog-hero h1{ font-size: 1.25rem; }
-    .blog-card{ padding: 14px 14px; }
-    .blog-card h2{ font-size: 1.08rem; }
-    .gallery-feature{ grid-template-rows: 58px; gap:4px; }
-    .gallery-strip .img-tile{ width:58px; height:58px; }
-    .feed-action-row .write-btn{
-      display: none; /* FAB 사용 */
-    }
+    .blog-card{ grid-template-columns:minmax(0,1fr) 88px; column-gap:10px; padding:12px; }
+    .blog-card h2{ font-size: .98rem; }
+    .blog-card > p{ font-size:.82rem; -webkit-line-clamp:2; }
+    .blog-card .feed-thumb, .feed-thumb-tile{ min-height:88px; }
+    .blog-card-footer{ gap:6px; }
+    .blog-author-info{ min-width:0; }
+    .blog-author-name{ max-width:72px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .blog-card-stats{ gap:7px; font-size:.74rem; }
+    .feed-action-row .write-btn{ display:none; /* FAB 사용 */ }
   }
 </style>
   <link rel="stylesheet" href="theme.css">
@@ -1613,7 +1661,7 @@
       const hasExpertAnswer = p.expertAnswer ? `<span style="font-size:.72rem; background:#e9efe0; color:#3f6d4e; font-weight:700; padding:2px 8px; border-radius:6px; margin-left:4px;">답변완료</span>` : '';
 
       return `
-        <article class="blog-card" onclick="location.href='${postUrl}'" style="cursor:pointer;">
+        <article class="blog-card ${p.images ? 'has-thumb' : 'no-thumb'}" onclick="location.href='${postUrl}'" style="cursor:pointer;">
           <div class="blog-card-meta">
             <div class="blog-card-tags">
               <span class="blog-cat-badge ${catInfo.class}">${catInfo.label}</span>

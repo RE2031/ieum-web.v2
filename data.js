@@ -453,16 +453,18 @@ function formatDateFull(iso) {
   return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일 ${ampm} ${h}:${min}`;
 }
 
-// 피드 카드용 갤러리: 첫 사진은 큼지막하게, 나머지는 작은 썸네일 줄
+// 홈 피드용 우측 썸네일: 게시글 목록을 빠르게 훑을 수 있도록 사진 한 장만 표시
 function galleryHTML(imageCount, photos) {
   if (!imageCount) return '';
-  const thumbs = [];
-  for (let i = 1; i < Math.min(imageCount, 5); i++) {
-    thumbs.push(tileHTML(tileType(photos, i), i === 4 && imageCount > 5 ? imageCount - 5 : 0));
-  }
-  const big = tileHTML(tileType(photos, 0), 0, 'img-tile-big');
-  const strip = thumbs.length ? `<div class="gallery-strip">${thumbs.join('')}</div>` : '';
-  return `<div class="gallery-editorial">${big}${strip}</div>`;
+  const extra = Math.max(0, Number(imageCount) - 1);
+  return `<div class="feed-thumb" aria-label="사진 ${imageCount}장">${tileHTML(tileType(photos, 0), extra, 'feed-thumb-tile')}</div>`;
+}
+
+// 게시판 목록용 큰 대표 사진: 첫 사진을 크게, 나머지는 +N으로 표시
+function boardPhotoHTML(imageCount, photos) {
+  if (!imageCount) return '';
+  const extra = Math.max(0, Number(imageCount) - 1);
+  return `<div class="board-photo">${tileHTML(tileType(photos, 0), extra, 'board-photo-tile')}</div>`;
 }
 
 // 글 상세용 편집형 렌더링: 본문 단락 사이사이에 사진 배치

@@ -105,38 +105,50 @@
 
   .post-list{ display:flex; flex-direction:column; gap:14px; }
   .post-row{
-    display:block;
+    display:grid;
+    grid-template-columns:minmax(0, 1fr) 250px;
+    gap:18px;
+    align-items:stretch;
     background: var(--card);
+    border:1px solid var(--border);
     border-radius: 16px;
-    padding: 18px 20px;
+    padding: 16px;
     text-decoration:none;
     color: inherit;
     box-shadow: 0 1px 3px rgba(20,30,60,.04);
     transition: transform .15s ease, box-shadow .15s ease;
   }
   .post-row:hover{ transform: translateY(-1px); box-shadow: 0 4px 12px rgba(20,30,60,.08); }
+  .post-row.no-photo{grid-template-columns:minmax(0,1fr);}
+  .post-row .row-copy{display:flex;flex-direction:column;min-width:0;}
   .post-row .row-head{
-    display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:6px; flex-wrap:wrap;
+    display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:8px; flex-wrap:wrap;
   }
-  .post-row h3{ margin:0; font-size: 1rem; }
+  .post-row h3{ margin:0; font-size: 1.12rem; line-height:1.45; }
   .post-row .meta{ font-size: .76rem; color: var(--text-sub); white-space:nowrap; }
   .post-row .snippet{
     margin:0;
-    font-size: .86rem;
-    color:#5b6072;
-    line-height:1.5;
+    font-size: .9rem;
+    color:#6b6155;
+    line-height:1.7;
     display:-webkit-box;
-    -webkit-line-clamp:2;
+    -webkit-line-clamp:4;
     -webkit-box-orient:vertical;
     overflow:hidden;
+    white-space:pre-wrap;
   }
   .post-row .row-stats{
     display:flex;
     align-items:center;
     gap:10px;
-    margin-top:8px;
+    margin-top:auto;
+    padding-top:12px;
     flex-wrap:wrap;
   }
+  .board-photo{width:100%;min-width:0;aspect-ratio:4/3;}
+  .board-photo-tile{position:relative;width:100%;height:100%;min-height:0;border-radius:11px;overflow:hidden;}
+  .board-photo-tile img{width:100%;height:100%;min-height:0;display:block;object-fit:cover;}
+  .board-photo-tile .more-count{position:absolute;inset:auto 10px 10px auto;width:auto;min-width:34px;height:34px;padding:0 8px;border-radius:18px;display:flex;align-items:center;justify-content:center;background:rgba(47,42,34,.78);color:#fff;font-size:.88rem;font-weight:700;}
   .post-row .img-badge{
     display:inline-flex; align-items:center; gap:4px;
     font-size: .74rem;
@@ -193,8 +205,20 @@
   .feature-card strong{ display:block; font-size: .95rem; margin-bottom:2px; }
   .feature-card span{ display:block; font-size: .78rem; color: var(--text-sub); }
 
-  @media (max-width: 600px){
+  @media (max-width: 680px){
     .feature-row{ grid-template-columns: 1fr; }
+    .post-row{grid-template-columns:minmax(0,1fr) 180px;gap:12px;padding:12px;}
+    .post-row h3{font-size:1rem;}
+    .post-row .snippet{-webkit-line-clamp:3;font-size:.84rem;}
+  }
+  @media (max-width: 520px){
+    .post-row.has-photo{grid-template-columns:minmax(0,1fr);gap:10px;padding:12px;}
+    .post-row.has-photo .board-photo{grid-row:1;aspect-ratio:16/9;}
+    .post-row.has-photo .row-copy{grid-row:2;}
+    .post-row .row-head{gap:4px;}
+    .post-row .meta{white-space:normal;font-size:.7rem;}
+    .post-row .snippet{-webkit-line-clamp:3;font-size:.84rem;}
+    .post-row .row-stats{padding-top:8px;gap:7px;}
   }
 
   .empty-state{
@@ -313,19 +337,22 @@
       listEl.innerHTML = `<div class="empty-state">아직 등록된 글이 없어요. 첫 글을 남겨보세요!</div>`;
     } else {
       listEl.innerHTML = posts.map(p => `
-        <a class="post-row" href="post.html?cat=${cat}&id=${p.id}">
-          <div class="row-head">
-            <h3>${escapeHTML(p.title)}</h3>
-            <span class="meta">${escapeHTML(p.author)}${trustBadgeHTML(p.author)} · ${formatDate(p.date)}</span>
-          </div>
-          <p class="snippet">${escapeHTML(p.content)}</p>
-          <div class="row-stats">
-            ${cat === 'expert' ? (p.expertAnswer
-              ? `<span class="answer-badge answered">✓ ${escapeHTML(p.expertAnswer.expert)} 답변완료</span>`
-              : `<span class="answer-badge pending">답변 대기중</span>`) : ''}
-            ${p.images ? `<span class="img-badge">${PHOTO_ICON_SVG}사진 ${p.images}장</span>` : ''}
-            <span class="stat">${HEART_ICON_SM} ${(p.likes || []).length}</span>
-            <span class="stat">${COMMENT_ICON_SM} ${(p.comments || []).length}</span>
+        <a class="post-row ${p.images ? 'has-photo' : 'no-photo'}" href="post.html?cat=${cat}&id=${p.id}">
+          ${boardPhotoHTML(p.images, p.photos)}
+          <div class="row-copy">
+            <div class="row-head">
+              <h3>${escapeHTML(p.title)}</h3>
+              <span class="meta">${escapeHTML(p.author)}${trustBadgeHTML(p.author)} · ${formatDate(p.date)}</span>
+            </div>
+            <p class="snippet">${escapeHTML(p.content)}</p>
+            <div class="row-stats">
+              ${cat === 'expert' ? (p.expertAnswer
+                ? `<span class="answer-badge answered">✓ ${escapeHTML(p.expertAnswer.expert)} 답변완료</span>`
+                : `<span class="answer-badge pending">답변 대기중</span>`) : ''}
+              ${p.images ? `<span class="img-badge">${PHOTO_ICON_SVG}사진 ${p.images}장</span>` : ''}
+              <span class="stat">${HEART_ICON_SM} ${(p.likes || []).length}</span>
+              <span class="stat">${COMMENT_ICON_SM} ${(p.comments || []).length}</span>
+            </div>
           </div>
         </a>
       `).join('');
