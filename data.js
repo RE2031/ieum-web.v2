@@ -274,7 +274,13 @@ function ensureSeeded() {
   const seeds = seedPosts();
   const seedIds = new Set(seeds.map((p) => p.id));
   const userPosts = posts.filter((p) => !seedIds.has(p.id));
-  savePosts(seeds.concat(userPosts));
+  // 기본 글의 본문은 최신 정의로 갱신하되, 방문자가 남긴 좋아요·댓글·신고 기록은 유지한다
+  const refreshed = seeds.map((seed) => {
+    const saved = posts.find((p) => p.id === seed.id);
+    if (!saved) return seed;
+    return { ...seed, likes: saved.likes || [], comments: saved.comments || [], reports: saved.reports || [], hidden: saved.hidden || false };
+  });
+  savePosts(refreshed.concat(userPosts));
 }
 
 function getAllPosts() {

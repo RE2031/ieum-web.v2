@@ -8,21 +8,22 @@
 
 :root{
   /* 따뜻한 크래프트 팔레트 */
-  --bg: #f7f1e6;
-  --card: #fffdf8;
-  --text: #2f2a22;
-  --text-sub: #8b8071;
-  --border: #e5d9c5;
-  --brand: #3f6d4e;        /* 자람새 딥 그린 */
-  --brand-dark: #2e553c;
-  --brand-soft: #e9efe0;
-  --accent: #c26a45;       /* 테라코타 포인트 */
-  --accent-soft: #f6e7dc;
-  --blue: #3f6d4e;         /* 기존 --blue 별칭 (하위 호환) */
-  --blue-dark: #2e553c;
-  --blue-light: #e9efe0;
-  --primary: #3f6d4e;
-  --primary-hover: #2e553c;
+  /* 흰 배경 + 검정 텍스트 + 하늘색 포인트 */
+  --bg: #ffffff;
+  --card: #ffffff;
+  --text: #111111;
+  --text-sub: #6b7280;
+  --border: #e5e7eb;
+  --brand: #0284c7;        /* 자람새 하늘색 */
+  --brand-dark: #0369a1;
+  --brand-soft: #e0f2fe;
+  --accent: #0284c7;       /* 하늘색 포인트 */
+  --accent-soft: #e0f2fe;
+  --blue: #0284c7;         /* 기존 --blue 별칭 (하위 호환) */
+  --blue-dark: #0369a1;
+  --blue-light: #e0f2fe;
+  --primary: #0284c7;
+  --primary-hover: #0369a1;
   --radius-lg: 14px;
   --radius-md: 10px;
   --radius-sm: 8px;
@@ -77,7 +78,7 @@ h1, h2, h3,
 /* 사진 슬롯: 실사진이 들어갈 자리 */
 .photo-slot{
   background:
-    repeating-linear-gradient(45deg, rgba(63,109,78,0.04) 0 10px, rgba(63,109,78,0.07) 10px 20px),
+    repeating-linear-gradient(45deg, rgba(2,132,199,0.04) 0 10px, rgba(2,132,199,0.07) 10px 20px),
     var(--accent-soft);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -86,10 +87,10 @@ h1, h2, h3,
   align-items: center;
   justify-content: center;
   gap: 6px;
-  color: #a5563a;
+  color: #0369a1;
   text-align: center;
 }
-.photo-slot .hand-note{ font-size: 1.15rem; color: #a5563a; }
+.photo-slot .hand-note{ font-size: 1.15rem; color: #0369a1; }
 .photo-slot .slot-hint{ font-size: .74rem; color: var(--text-sub); }
 
 /* ============================================================

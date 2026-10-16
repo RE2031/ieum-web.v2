@@ -687,32 +687,47 @@
       const input = document.getElementById('commentInput');
       const text = input.value.trim();
       if (!text || !auth) return;
+      if (!isPhoneVerified(auth.id)) {
+        // 인증 전이면 글은 그대로 두고, 입력창 아래에 인증 단계만 펼친다
+        pendingDraft = input.value;
+        openVerifyBox();
+        return;
+      }
       addComment(post.id, { author: auth.id, content: text });
       post = getPostById(post.id);
       input.value = '';
+      pendingDraft = '';
       renderComments();
       renderActions();
     }
 
+    // 댓글 입력창은 항상 보이고, 인증은 등록 시점에 필요할 때만 펼친다
+    let pendingDraft = '';
+
     function renderCommentWriteArea() {
       if (!auth) { commentWriteArea.innerHTML = ''; return; }
 
-      if (isPhoneVerified(auth.id)) {
-        commentWriteArea.innerHTML = `
-          <div class="verify-done">${CHECK_ICON} 휴대폰 인증 완료 (${maskPhone(getVerifiedPhone(auth.id))})</div>
-          <form class="comment-form" id="commentForm">
-            <textarea id="commentInput" placeholder="댓글을 남겨보세요"></textarea>
-            <button type="submit">등록</button>
-          </form>
-        `;
-        document.getElementById('commentForm').addEventListener('submit', handleCommentSubmit);
-        return;
-      }
-
+      const verified = isPhoneVerified(auth.id);
       commentWriteArea.innerHTML = `
+        <form class="comment-form" id="commentForm">
+          <textarea id="commentInput" placeholder="댓글을 남겨보세요"></textarea>
+          <button type="submit">등록</button>
+        </form>
+        ${verified
+          ? `<div class="verify-done">${CHECK_ICON} 휴대폰 인증 완료 (${maskPhone(getVerifiedPhone(auth.id))})</div>`
+          : `<p class="verify-desc">댓글은 휴대폰 인증을 한 번 하면 이후 바로 등록돼요.</p><div id="verifyBox"></div>`}
+      `;
+      document.getElementById('commentInput').value = pendingDraft;
+      document.getElementById('commentForm').addEventListener('submit', handleCommentSubmit);
+    }
+
+    function openVerifyBox() {
+      const box = document.getElementById('verifyBox');
+      if (!box || box.dataset.open === '1') return;
+      box.dataset.open = '1';
+      box.innerHTML = `
         <div class="verify-card">
-          <div class="verify-head">${PHONE_ICON}<strong>댓글을 작성하려면 본인 인증이 필요해요</strong></div>
-          <p class="verify-desc">다른 이용자를 보호하기 위한 최소한의 절차예요. 휴대폰 번호로 간단히 인증해주세요.</p>
+          <div class="verify-head">${PHONE_ICON}<strong>휴대폰 본인 인증</strong></div>
           <div class="verify-row">
             <input type="tel" id="phoneInput" placeholder="휴대폰 번호 (- 없이 입력)" maxlength="11">
             <button type="button" id="sendCodeBtn">인증번호 받기</button>
@@ -751,6 +766,8 @@
           }
           setPhoneVerified(auth.id, pendingPhone);
           adjustTrustScore(auth.id, 5);
+          // 인증 완료 후 입력 중이던 댓글은 유지한 채 다시 그린다
+          pendingDraft = document.getElementById('commentInput').value;
           renderCommentWriteArea();
         });
       });

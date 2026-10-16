@@ -160,7 +160,7 @@ function growthStage(score) {
 function trustBadgeHTML(userId) {
   const b = trustBadge(getTrustScore(userId));
   if (!b) return '';
-  return ` <span style="display:inline-flex;align-items:center;gap:2px;font-size:.72rem;font-weight:600;color:#2f9e6e;background:#e3f7ee;padding:1px 7px;border-radius:8px;vertical-align:middle;">${b.emoji} ${b.label}</span>`;
+  return ` <span style="display:inline-flex;align-items:center;gap:2px;font-size:.72rem;font-weight:600;color:#0369a1;background:#e0f2fe;padding:1px 7px;border-radius:8px;vertical-align:middle;">${b.emoji} ${b.label}</span>`;
 }
 
 // 클린 안심 서약 관리
