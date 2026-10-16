@@ -103,6 +103,20 @@
     line-height:1.6;
   }
   .demo-hint strong{ color: var(--blue-dark); }
+  .demo-hint[hidden]{ display: none; }
+  .demo-toggle{
+    display: block;
+    margin: 18px auto 0;
+    padding: 6px 10px;
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: .78rem;
+    color: var(--text-sub, #8b8071);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .demo-toggle:hover{ color: var(--blue-dark); }
 </style>
   <link rel="stylesheet" href="theme.css">
 </head>
@@ -138,7 +152,8 @@
       </div>
     </form>
 
-    <div class="demo-hint">
+    <button type="button" class="demo-toggle" id="demoToggle" aria-expanded="false" aria-controls="demoHint">데모 계정 안내 보기</button>
+    <div class="demo-hint" id="demoHint" hidden>
       <strong>데모 안내</strong><br>
       서버 연동 전 화면 시안이라 아무 비밀번호나 입력해도 로그인돼요.<br>
       아이디가 <strong>teacher</strong>로 시작하면 교사 계정으로 인식되어
@@ -151,6 +166,15 @@
 
 <script src="auth.js"></script>
 <script>
+  const demoToggle = document.getElementById('demoToggle');
+  const demoHint = document.getElementById('demoHint');
+  demoToggle.addEventListener('click', function(){
+    const open = demoHint.hidden;
+    demoHint.hidden = !open;
+    demoToggle.setAttribute('aria-expanded', String(open));
+    demoToggle.textContent = open ? '데모 계정 안내 숨기기' : '데모 계정 안내 보기';
+  });
+
   document.getElementById('loginForm').addEventListener('submit', function(e){
     e.preventDefault();
     const id = document.getElementById('loginId').value.trim();
