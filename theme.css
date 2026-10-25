@@ -102,8 +102,8 @@ h1, h2, h3,
   word-break: keep-all;
 }
 .inline-photo{
-  margin: 10px auto 12px;
-  max-width: 160px;
+  margin: 12px auto 14px;
+  max-width: 240px;
 }
 .inline-photo img,
 .photo-fallback-tile{
@@ -135,9 +135,9 @@ h1, h2, h3,
 .photo-pair{
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 6px;
-  max-width: 220px;
-  margin: 10px auto 12px;
+  gap: 8px;
+  max-width: 320px;
+  margin: 12px auto 14px;
 }
 .photo-pair .inline-photo{
   margin: 0;
