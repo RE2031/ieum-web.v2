@@ -171,6 +171,14 @@
   </div>
 
   <div class="filter-group">
+    <div class="group-label">우리 아이 개월 수</div>
+    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+      <input type="number" id="childMonths" min="0" max="120" placeholder="예: 20" style="width:110px; padding:8px 10px; border:1px solid var(--border); border-radius:8px; font-size:.9rem;">
+      <button class="pick-btn" id="saveMonths" type="button" style="padding:8px 16px; font-size:.9rem;">저장</button>
+      <span id="monthsNote" style="font-size:.84rem; color:var(--text-sub);"></span>
+    </div>
+  </div>
+  <div class="filter-group">
     <div class="group-label">연령대</div>
     <div class="filter-row" id="ageRow"></div>
   </div>
@@ -204,6 +212,35 @@
   const AGES = ['전체', '0-12개월', '12-24개월', '24-36개월', '36개월 이상'];
   const PLACES = ['전체', '실내', '실외'];
   let activeAge = '전체';
+  const MONTHS_KEY = 'ieum-child-months';
+
+  function bandOf(m) {
+    if (m <= 12) return '0-12개월';
+    if (m <= 24) return '12-24개월';
+    if (m <= 36) return '24-36개월';
+    return '36개월 이상';
+  }
+
+  function applySavedMonths() {
+    const saved = localStorage.getItem(MONTHS_KEY);
+    if (saved === null) return;
+    const m = Number(saved);
+    document.getElementById('childMonths').value = m;
+    activeAge = bandOf(m);
+    document.getElementById('monthsNote').textContent = `${m}개월 기준 · ${activeAge} 놀이를 보여드려요`;
+  }
+
+  document.getElementById('saveMonths').addEventListener('click', () => {
+    const v = document.getElementById('childMonths').value;
+    if (v === '' || Number(v) < 0 || Number(v) > 120) {
+      document.getElementById('monthsNote').textContent = '0~120 사이 개월 수를 입력해 주세요.';
+      return;
+    }
+    localStorage.setItem(MONTHS_KEY, String(Number(v)));
+    applySavedMonths();
+    renderChips();
+    renderGrid();
+  });
   let activePlace = '전체';
 
   function renderChips() {
@@ -252,6 +289,7 @@
     document.getElementById('pickResult').classList.add('show');
   });
 
+  applySavedMonths();
   renderChips();
   renderGrid();
 </script>

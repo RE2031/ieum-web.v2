@@ -157,6 +157,11 @@
     </div>
   </div>
 
+  <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:12px;">
+    <button class="pick-btn" id="syncLunchBtn" type="button" style="padding:8px 16px; font-size:.9rem;">식단 연동</button>
+    <span id="syncStatus" style="font-size:.84rem; color:var(--text-sub);"></span>
+  </div>
+
   <div class="picker">
     <div class="picker-label">고민될 땐 그냥 뽑아보세요</div>
     <div class="pick-result" id="pickResult">
@@ -191,6 +196,38 @@
 
   const TAGS = ['전체', '이유식', '유아식', '온가족'];
   let activeTag = '전체';
+  let lunchMenus = null;
+
+  // 점심 식단 연동 지점: 유치원 연동 데이터가 들어오면 이 함수만 교체하면 됨.
+  // 반환값 예시: [{ name: '소고기뭇국', type: '국물' }, ...] (없으면 null)
+  function getTodayLunch() {
+    return lunchMenus;
+  }
+
+  // 점심과 같은 메뉴, 같은 종류(type)의 메뉴는 제외해 저녁이 겹치지 않게 추천
+  function dinnerPool() {
+    const base = activeTag === '전체' ? MENUS : MENUS.filter(m => m.tags.includes(activeTag));
+    const lunch = getTodayLunch();
+    if (!lunch || lunch.length === 0) return base;
+    const lunchNames = lunch.map(l => l.name);
+    const lunchTypes = lunch.map(l => l.type).filter(Boolean);
+    const filtered = base.filter(m =>
+      !lunchNames.includes(m.name) && !(m.type && lunchTypes.includes(m.type))
+    );
+    return filtered.length ? filtered : base.filter(m => !lunchNames.includes(m.name));
+  }
+
+  function renderLunchNote() {
+    const lunch = getTodayLunch();
+    const el = document.getElementById('syncStatus');
+    el.textContent = lunch && lunch.length
+      ? `점심에는 ${lunch.map(l => l.name).join(', ')}을(를) 먹었어요. 겹치지 않는 저녁을 골라봤어요.`
+      : '유치원 점심 식단 연동이 아직 준비되지 않았어요.';
+  }
+
+  document.getElementById('syncLunchBtn').addEventListener('click', () => {
+    renderLunchNote();
+  });
 
   function renderChips() {
     document.getElementById('filterRow').innerHTML = TAGS.map(t =>
@@ -217,7 +254,8 @@
   }
 
   document.getElementById('pickBtn').addEventListener('click', () => {
-    const pool = activeTag === '전체' ? MENUS : MENUS.filter(m => m.tags.includes(activeTag));
+    const pool = dinnerPool();
+    if (pool.length === 0) return;
     const pick = pool[Math.floor(Math.random() * pool.length)];
     document.getElementById('pickName').textContent = pick.name;
     document.getElementById('pickDesc').textContent = pick.desc;
@@ -226,6 +264,7 @@
 
   renderChips();
   renderGrid();
+  renderLunchNote();
 </script>
 
 </body>

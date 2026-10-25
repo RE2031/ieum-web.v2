@@ -102,7 +102,8 @@ h1, h2, h3,
   word-break: keep-all;
 }
 .inline-photo{
-  margin: 20px 0 22px;
+  margin: 16px auto 18px;
+  max-width: 360px;
 }
 .inline-photo img,
 .photo-fallback-tile{
@@ -124,14 +125,11 @@ h1, h2, h3,
 /* 큰 사진: 지면을 시원하게 채우는 한 컷 */
 .inline-photo.photo-large img,
 .inline-photo.photo-large .photo-fallback-tile{
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 4 / 3;
 }
 /* 중간 사진: 82% 폭, 좌우 번갈아 배치 */
 .inline-photo.photo-medium{
-  width: 82%;
-}
-.inline-photo.photo-medium:nth-of-type(even){
-  margin-left: auto;
+  width: 75%;
 }
 /* 사진 두 장 나란히 */
 .photo-pair{
