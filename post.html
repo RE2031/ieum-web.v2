@@ -391,6 +391,9 @@
     .post-card{ padding: 20px; }
     .gallery-detail{ grid-template-columns: repeat(2, 1fr); }
   }
+  /* 육아 이야기·성장 기록: 본문 사진을 작게 */
+  .small-photos .inline-photo{ max-width: 220px; margin: 12px auto 14px; }
+  .small-photos .photo-pair{ margin: 14px 0 16px; }
 </style>
   <link rel="stylesheet" href="theme.css">
 </head>
@@ -424,6 +427,7 @@
   const cat = params.get('cat');
   const id = params.get('id');
   const meta = CATEGORIES[cat];
+  if (cat === 'story' || cat === 'growth') document.body.classList.add('small-photos');
   const backHref = cat === 'story' ? 'index.html' : `board.html?cat=${cat}`;
   document.getElementById('backLink').href = backHref;
 
